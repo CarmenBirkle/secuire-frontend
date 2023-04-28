@@ -1,0 +1,11 @@
+{
+  "username": "Benutername",
+  "password": "Passwort",
+  "confirmPassword": "Passwort bestätigen",
+  "email": "E-mail",
+  "answer": "Antwort",
+  "information": "Hallo. Ich bin ein kleiner Blindtext. Und Zwar schon so lange ich denken kann. Es war nicht leicht zu verstehen, was es bedeutet, ein blinder Text zu sein: Man ergibt keinen Sinn. Wirklich keinen Sinn.",
+  "question": "Wähle eine Hinweisfrage",
+  "agb": "Ich akzeptiere die Allgemeinen Geschäftsbedingungen (AGBs)",
+  "passwordError": "Stelle sicher, dass die Passwörter übereinstimmen!"
+}

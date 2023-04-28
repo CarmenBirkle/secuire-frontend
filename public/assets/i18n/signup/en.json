@@ -1,0 +1,11 @@
+{
+  "username": "Username",
+  "password": "Password",
+  "confirmPassword": "Confirm Password",
+  "email": "E-mail",
+  "answer": "Answer",
+  "information": "Hello, I am a little blind text. And has been for as long as I can remember I can remember. It was not easy to understand what it means to be a blind text: You don't make sense. Really no sense.",
+  "question": "Choose Hint Question",
+  "agb": "I accept the terms and conditions (AGBs)",
+  "passwordError": "Make sure passwords match!"
+}
