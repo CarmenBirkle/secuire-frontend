@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
+import bcrypt from 'bcryptjs';
 
 const Signup = () => {
   const { t } = useTranslation(['common', 'signup']);
@@ -15,17 +16,18 @@ const Signup = () => {
       setError(true);
       return;
     }
+    const hashedPassword = bcrypt.hashSync(password, 10);
     console.log('username ', username);
     console.log('email: ', email);
     console.log('password: ', password);
     console.log('confirm password: ', confirmPassword);
+    console.log('hashed password: ', hashedPassword);
   };
 
   return (
     <>
       <h1>{t('common:signup')}</h1>
       <form onSubmit={handleSubmit}>
-        {/* TODO Wrap in form  */}
         <div>
           <label htmlFor="">{t('signup:username')}:</label>
           <input
