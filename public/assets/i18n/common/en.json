@@ -1,5 +1,10 @@
 {
   "signup": "Sign up",
   "title": "Seciure - English",
-  "signupLink": "Not a User? Sign up"
+  "signupLink": "Not a User? Sign up",
+  "imprint": "Imprint",
+  "legalnotice": "LegalNotice",
+  "placeholderfooter": "--- Dummy text - Footer area ---",
+  "errorpage": "Oops! it's A Dead End",
+  "errorbackhome": "Back Home"
 }
