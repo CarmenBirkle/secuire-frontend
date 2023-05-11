@@ -1,3 +1,72 @@
+/* poppins-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/poppins-v20-latin-regular.eot'); 
+  src: url('./fonts/poppins-v20-latin-regular.eot?#iefix') format('embedded-opentype'),
+       url('./fonts/poppins-v20-latin-regular.woff2') format('woff2'), 
+       url('./fonts/poppins-v20-latin-regular.woff') format('woff'), 
+       url('./fonts/poppins-v20-latin-regular.ttf') format('truetype'), 
+       url('./fonts/poppins-v20-latin-regular.svg#Poppins') format('svg'); 
+}
+
+/* poppins-700 - latin */
+@font-face {
+  font-display: swap; 
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./fonts/poppins-v20-latin-700.eot'); 
+  src: url('./fonts/poppins-v20-latin-700.eot?#iefix') format('embedded-opentype'),
+       url('./fonts/poppins-v20-latin-700.woff2') format('woff2'),
+       url('./fonts/poppins-v20-latin-700.woff') format('woff'),
+       url('./fonts/poppins-v20-latin-700.ttf') format('truetype'), 
+       url('./fonts/poppins-v20-latin-700.svg#Poppins') format('svg'); 
+}
+
+/* poppins-900 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 900;
+  src: url('./fonts/poppins-v20-latin-900.eot');
+  src: url('./fonts/poppins-v20-latin-900.eot?#iefix') format('embedded-opentype'),
+       url('./fonts/poppins-v20-latin-900.woff2') format('woff2'), 
+       url('./fonts/poppins-v20-latin-900.woff') format('woff'), 
+       url('./fonts/poppins-v20-latin-900.ttf') format('truetype'), 
+       url('./fonts/poppins-v20-latin-900.svg#Poppins') format('svg');
+}
+* {
+  padding: 0;
+  margin: 0;
+}
+body{
+  font-family: 'Poppins',Arial, sans-serif;
+  font-size: 16px;
+  line-height: 150%;
+  color: #000000;
+  background-color: #DDDDDD;
+}
+html, body {
+  scroll-behavior: smooth;
+}
+h1, h2, h3, h4 {
+  color: #2454C4;
+  font-weight: 700;
+  margin-bottom: 0.25em;
+}
+h1 {
+  font-size: 2em;
+}
+h2, h3 {
+  font-size: 1.5em;
+}
+h4 {
+  font-size: 1em;
+}
 img {
   width: 40px;
   height: 40px;
@@ -7,5 +76,9 @@ img {
 }
 
 .active {
-  color: blue;
+  color: #2454C4;
+}
+footer {
+  background-color: #000000;
+  color: #ffffff;
 }
