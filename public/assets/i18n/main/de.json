@@ -1,3 +1,15 @@
 {
-  "placeholder": "--- Dummytext Inhalt der Seite Main (DataEntrys) :-)  ---"
+  "placeholder": "--- Dummytext Inhalt der Seite Main (DataEntrys) :-)  ---",
+  "login": "Zugangsdaten",
+  "safenotes": "Sichere Notizen",
+  "paymentcards": "Bezahlkarten",
+  "favourite": "Favorit",
+  "subject": "Titel",
+  "username": "Benutzername/Email",
+  "password": "Passwort",
+  "url": "URL",
+  "comment": "Kommentar",
+  "note": "Notiz",
+  "submit": "Speichern",
+  "var": "Variables Feld"
 }

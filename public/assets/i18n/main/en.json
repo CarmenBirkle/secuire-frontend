@@ -1,3 +1,24 @@
 {
-  "placeholder": "--- dummy text content of page Main (DataEntrys) ---"
+  "placeholder": "--- dummy text content of page Main (DataEntrys) ---",
+  "login": "Login",
+  "safenotes": "Safe Notes",
+  "paymentcards": "Payment Cards",
+  "favourite": "Fovourite",
+  "subject": "Titel",
+  "username": "Username/Email",
+  "password": "Password",
+  "url": "URL",
+  "comment": "Comments",
+  "note": "Notes",
+  "owner": "Owner",
+  "cardnumber": "Cardnumber",
+  "cardtype": "Cardtype",
+  "expirationdate": "Valid until",
+  "cvv": "CVV",
+  "pin": "PIN",
+  "visa": "Visa Card",
+  "master": "Master Card",
+  "credit": "Credit Card",
+  "giro": "Giro Carte",
+  "submit": "Submit"
 }
