@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import CreateDataEntry from '../components/CreateDataEntry';
 
 const Main = () => {
   const { t } = useTranslation(['main']);
@@ -17,6 +18,7 @@ const Main = () => {
     <>
       <h2>{t('placeholder')}</h2>
       <h4> ### gewählte Filterung: {ENTRY_TYPE ? ENTRY_TYPE : 'keine'}</h4>
+      <CreateDataEntry />
     </>
   );
 };

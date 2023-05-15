@@ -3,6 +3,7 @@
 # testing
 /coverage
 setupTests.js
+/src/play
 # production
 /build
 # misc
