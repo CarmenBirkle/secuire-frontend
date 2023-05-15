@@ -20,5 +20,9 @@
   "master": "Master Card",
   "credit": "Credit Card",
   "giro": "Giro Carte",
-  "submit": "Submit"
+  "submit": "Submit",
+  "addField": "Add new Field",
+  "varTitle": "Title variable field",
+  "var": "Variable field",
+  "remove": "Remove"
 }

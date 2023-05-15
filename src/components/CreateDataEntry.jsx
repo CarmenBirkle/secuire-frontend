@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 const CreateDataEntry = () => {
   const { t } = useTranslation(['main']);
-  const [category, setCategory] = useState(null);
+  const [category, setCategory] = useState('login');
   const [favourite, setFavourite] = useState(false);
   const [subject, setSubject] = useState(null);
   const [username, setUsername] = useState(null);
@@ -18,7 +18,7 @@ const CreateDataEntry = () => {
   const [owner, setOwner] = useState(null);
   const [cvv, setCvv] = useState(null);
   const [cardtype, setCardtype] = useState(null);
-  const [numFields, setNumFields] = useState(0);
+  const [fields, setFields] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,40 +42,49 @@ const CreateDataEntry = () => {
   };
 
   const handleAddField = () => {
-    setNumFields(numFields + 1);
+    setFields([...fields, { fieldName: '', fieldValue: '' }]);
   };
 
-  const removeField = (i) => {
-    console.log(i);
+  const handleRemoveField = (index) => {
+    const updatedFields = [...fields];
+    updatedFields.splice(index, 1);
+    setFields(updatedFields);
+  };
+
+  const handleFieldChange = (index, fieldKey, value) => {
+    const updatedFields = [...fields];
+    updatedFields[index][fieldKey] = value;
+    setFields(updatedFields);
   };
 
   const renderFields = () => {
-    const fields = [];
-    for (let i = 0; i < numFields; i++) {
-      fields.push(
-        <>
-          <input
-            key={`title-${i}`}
-            type="text"
-            name={`title-${i}`}
-            placeholder={`title ${i}`}
-          />
+    return fields.map((field, index) => (
+      <div key={index}>
+        <input
+          type="text"
+          name={`fieldName-${index}`}
+          value={field.fieldName}
+          placeholder={`${t('varTitle')}${index + 1}`}
+          onChange={(e) =>
+            handleFieldChange(index, 'fieldName', e.target.value)
+          }
+        />
 
-          <input
-            key={i}
-            type="text"
-            name={`field-${i}`}
-            // value={[`field-${i}`] || ''}
-            placeholder={`Field ${i}`}
-          />
+        <input
+          type="text"
+          name={`fieldValue-${index}`}
+          value={field.fieldValue}
+          placeholder={`${t('var')}${index + 1}`}
+          onChange={(e) =>
+            handleFieldChange(index, 'fieldValue', e.target.value)
+          }
+        />
 
-          <button type="button" onClick={() => removeField(i)}>
-            Remove
-          </button>
-        </>
-      );
-    }
-    return fields;
+        <button type="button" onClick={() => handleRemoveField(index)}>
+          {t('remove')}
+        </button>
+      </div>
+    ));
   };
 
   return (
@@ -137,7 +146,7 @@ const CreateDataEntry = () => {
             />
             {renderFields()}
             <button type="button" onClick={handleAddField}>
-              Add Field
+              {t('addField')}
             </button>
 
             <input

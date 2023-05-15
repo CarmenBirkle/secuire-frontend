@@ -11,5 +11,8 @@
   "comment": "Kommentar",
   "note": "Notiz",
   "submit": "Speichern",
-  "var": "Variables Feld"
+  "addField": "Neues Feld erzeugen",
+  "varTitle": "Titel für Variables Feld ",
+  "var": "Variables Feld ",
+  "remove": "Entfernen"
 }
