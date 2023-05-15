@@ -23,7 +23,7 @@ const CreateDataEntry = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('submit');
-    console.log(
+    const data = {
       category,
       favourite,
       subject,
@@ -37,8 +37,14 @@ const CreateDataEntry = () => {
       expirationdate,
       owner,
       cvv,
-      cardtype
-    );
+      cardtype,
+      fields: fields.map((field) => ({
+        fieldName: field.fieldName,
+        fieldValue: field.fieldValue,
+      })),
+    };
+
+    console.log('submit', data);
   };
 
   const handleAddField = () => {
@@ -238,6 +244,7 @@ const CreateDataEntry = () => {
             />
             <input
               type="number"
+              inputMode="numeric"
               id="number"
               name="number"
               required
@@ -245,7 +252,7 @@ const CreateDataEntry = () => {
               onChange={(e) => setCardnumber(e.target.value)}
             />
             <input
-              type="date"
+              type="month"
               id="expirationdate"
               name="expirationdate"
               placeholder={t('expirationdate')}
