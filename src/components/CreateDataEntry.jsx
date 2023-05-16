@@ -1,76 +1,303 @@
-// aktuell noch zum spielen und funktionen testen rund um die verschlüsselung
-import CryptoJS from 'crypto-js';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const CreateDataEntry = () => {
-  const [text, setText] = useState(null);
-  const [data, setData] = useState('encrypt');
-  // encryptedData is the encrypted data that will be stored in the database
-  // decryptedData is the decrypted data that will be shown to the user
-
-  const [encrptedData, setEncrptedData] = useState('');
-  const [decrptedData, setDecrptedData] = useState('');
-  // TODO  currently hardcoded, discuss which secretPass to use. PW of the user in clear text ?
-  const secretPass = 'XkhZG4fW2t2W';
-  const cryptetPW = 'U2FsdGVkX1+w61vCiMZ2XT8aDXNcsJcoSlVchfzuAew='; // 123456
+  const { t } = useTranslation(['main']);
+  const [category, setCategory] = useState('login');
+  const [favourite, setFavourite] = useState(false);
+  const [subject, setSubject] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [url, setUrl] = useState(null);
+  const [comment, setComment] = useState(null);
+  const [note, setNote] = useState(null);
+  const [pin, setPin] = useState(null);
+  const [cardnumber, setCardnumber] = useState(null);
+  const [expirationdate, setExpirationdate] = useState(null);
+  const [owner, setOwner] = useState(null);
+  const [cvv, setCvv] = useState(null);
+  const [cardtype, setCardtype] = useState(null);
+  const [customTopics, setCustomTopics] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const encryptValue = encryptData();
-    console.log('eingabe:', text);
+    console.log('submit');
+    const data = {
+      category,
+      favourite,
+      subject,
+      username,
+      password,
+      url,
+      comment,
+      note,
+      pin,
+      cardnumber,
+      expirationdate,
+      owner,
+      cvv,
+      cardtype,
+      customTopics: customTopics.map((field) => ({
+        fieldName: field.fieldName,
+        fieldValue: field.fieldValue,
+      })),
+    };
+
+    // TODO delete in production
+    console.log('submit', data);
   };
 
-  const handleSubmitDeCrypt = (e) => {
-    e.preventDefault();
-    const decryptValue = decryptData();
+  /**
+   * Resets the customTopics array only when the category changes.
+   * @param {Array} dependencies - An array of dependencies which includes the category value.
+   * When the category value changes, the useEffect hook is triggered.
+   */
+  useEffect(() => {
+    setCustomTopics([]);
+  }, [category]);
+
+  const handleAddField = () => {
+    setCustomTopics([...customTopics, { fieldName: '', fieldValue: '' }]);
   };
 
-  //   verschlüsselt Daten
-  const encryptData = () => {
-    const data = CryptoJS.AES.encrypt(
-      JSON.stringify(text),
-      secretPass
-    ).toString();
-
-    setEncrptedData(data);
-    //TODO console.log delete after testing
-    console.log('verschlüsselt:', data);
+  const handleRemoveField = (index) => {
+    const updatedFields = [...customTopics];
+    updatedFields.splice(index, 1);
+    setCustomTopics(updatedFields);
   };
 
-  // entschlüsselt Daten
-  const decryptData = () => {
-    const bytes = CryptoJS.AES.decrypt(cryptetPW, secretPass);
-    const data = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-    setDecrptedData(data);
-    //TODO console.log delete after testing
-    console.log('entschlüsselt:', data);
+  const handleFieldChange = (index, fieldKey, value) => {
+    const updatedFields = [...customTopics];
+    updatedFields[index][fieldKey] = value;
+    setCustomTopics(updatedFields);
+  };
+
+  const renderFields = () => {
+    return customTopics.map((field, index) => (
+      <div key={index}>
+        <input
+          type="text"
+          name={`fieldName-${index}`}
+          value={field.fieldName}
+          placeholder={`${t('varTitle')}${index + 1}`}
+          onChange={(e) =>
+            handleFieldChange(index, 'fieldName', e.target.value)
+          }
+        />
+
+        <input
+          type="text"
+          name={`fieldValue-${index}`}
+          value={field.fieldValue}
+          placeholder={`${t('var')}${index + 1}`}
+          onChange={(e) =>
+            handleFieldChange(index, 'fieldValue', e.target.value)
+          }
+        />
+
+        <button type="button" onClick={() => handleRemoveField(index)}>
+          {t('remove')}
+        </button>
+      </div>
+    ));
   };
 
   return (
     <>
-      <h6>Minimalbeispiel verschlüsselung </h6>
+      <select
+        name="category"
+        id="category"
+        onChange={(e) => setCategory(e.target.value)}
+      >
+        <option value="login">{t('login')}</option>
+        <option value="safenote">{t('safenotes')}</option>
+        <option value="paymentcard">{t('paymentcards')} </option>
+      </select>
+
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          id="text"
-          name="password"
-          required
-          placeholder="Password"
-          onChange={(e) => setData(e.target.value)}
-        />
-        <button type="submit"> Submit</button>
-      </form>
-      <h6>Minimalbeispiel entschlüsselung</h6>
-      <form onSubmit={handleSubmitDeCrypt}>
-        <input
-          type="text"
-          id="data"
-          name="password"
-          required
-          placeholder="Password"
-          onChange={(e) => setData(e.target.value)}
-        />
-        <button type="submit"> Submit</button>
+        {/* form-elements for login */}
+        {category === 'login' && (
+          <fieldset>
+            <label htmlFor="favourite">{t('favourite')}</label>
+            <input
+              type="checkbox"
+              id="favourite"
+              name="favourite"
+              value={favourite}
+              placeholder={t('favourite')}
+              onChange={(e) => setFavourite(e.target.value)}
+            />
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              required
+              placeholder={t('subject')}
+              onChange={(e) => setSubject(e.target.value)}
+            />
+
+            <input
+              type="text"
+              id="username"
+              name="username"
+              required
+              placeholder={t('username')}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              placeholder={t('password')}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <input
+              type="url"
+              id="url"
+              name="url"
+              placeholder={t('url')}
+              onChange={(e) => setUrl(e.target.value)}
+            />
+            <input
+              type="text"
+              id="comment"
+              name="comment"
+              placeholder={t('comment')}
+              onChange={(e) => setComment(e.target.value)}
+            />
+            {renderFields()}
+            <button type="button" onClick={handleAddField}>
+              {t('addField')}
+            </button>
+          </fieldset>
+        )}
+
+        {/* form-elements for safenotes */}
+        {category === 'safenote' && (
+          <fieldset>
+            <label htmlFor="favourite">{t('favourite')}</label>
+            <input
+              type="checkbox"
+              id="favourite"
+              name="favourite"
+              value={favourite}
+              placeholder={t('favourite')}
+              onChange={(e) => setFavourite(e.target.value)}
+            />
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              required
+              placeholder={t('subject')}
+              onChange={(e) => setSubject(e.target.value)}
+            />
+
+            <input
+              type="note"
+              id="note"
+              name="note"
+              placeholder={t('note')}
+              onChange={(e) => setNote(e.target.value)}
+            />
+
+            <input
+              type="text"
+              id="comment"
+              name="comment"
+              placeholder={t('comment')}
+              onChange={(e) => setComment(e.target.value)}
+            />
+            {renderFields()}
+            <button type="button" onClick={handleAddField}>
+              {t('addField')}
+            </button>
+          </fieldset>
+        )}
+        {category === 'paymentcard' && (
+          <fieldset>
+            <label htmlFor="favourite">{t('favourite')}</label>
+            <input
+              type="checkbox"
+              id="favourite"
+              name="favourite"
+              value={favourite}
+              placeholder={t('favourite')}
+              onChange={(e) => setFavourite(e.target.value)}
+            />
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              required
+              placeholder={t('subject')}
+              onChange={(e) => setSubject(e.target.value)}
+            />
+            <select
+              name="cardtype"
+              id="cardtype"
+              onChange={(e) => setCardtype(e.target.value)}
+            >
+              <option value="visa">{t('visa')}</option>
+              <option value="master">{t('master')}</option>
+              <option value="credit">{t('credit')} </option>
+              <option value="giro">{t('giro')} </option>
+            </select>
+            <input
+              type="text"
+              id="owner"
+              name="owner"
+              required
+              placeholder={t('owner')}
+              onChange={(e) => setOwner(e.target.value)}
+            />
+            {/* pattern="(http(s)?:\/\/)?(www\.)?[^ ]+" */}
+            <input
+              type="number"
+              inputMode="numeric"
+              id="number"
+              name="number"
+              required
+              placeholder={t('cardnumber')}
+              onChange={(e) => setCardnumber(e.target.value)}
+            />
+            <input
+              type="month"
+              id="expirationdate"
+              name="expirationdate"
+              placeholder={t('expirationdate')}
+              onChange={(e) => setExpirationdate(e.target.value)}
+            />
+            <input
+              type="password"
+              id="pin"
+              name="pin"
+              placeholder={t('pin')}
+              onChange={(e) => setPin(e.target.value)}
+            />
+            <input
+              type="password"
+              id="cvv"
+              name="cvv"
+              placeholder={t('cvv')}
+              onChange={(e) => setCvv(e.target.value)}
+            />
+            <input
+              type="text"
+              id="comment"
+              name="comment"
+              placeholder={t('comment')}
+              onChange={(e) => setComment(e.target.value)}
+            />
+            {renderFields()}
+            <button type="button" onClick={handleAddField}>
+              {t('addField')}
+            </button>
+          </fieldset>
+        )}
+
+        <button type="submit"> {t('submit')}</button>
       </form>
     </>
   );
