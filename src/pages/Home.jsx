@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import axios from 'axios';
 
-const url = 'https://c85ca89b-d4d6-47d1-a82a-94aad282f0cf.mock.pstmn.io/user';
+const url = process.env.REACT_APP_URL_POSTMAN;
 
 const Home = () => {
   const { t } = useTranslation(['common', 'home']);
@@ -12,7 +12,7 @@ const Home = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(url);
-      console.log(response);
+      console.log('fetch:', response);
     } catch (error) {
       console.log(error.response);
     }
@@ -24,7 +24,7 @@ const Home = () => {
         username: 'test',
         password: 'test',
       });
-      console.log(response);
+      console.log('push', response);
     } catch (error) {
       console.log(error.response);
     }

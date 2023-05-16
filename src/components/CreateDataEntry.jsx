@@ -222,7 +222,6 @@ const CreateDataEntry = () => {
               placeholder={t('subject')}
               onChange={(e) => setSubject(e.target.value)}
             />
-
             <select
               name="cardtype"
               id="cardtype"
@@ -233,15 +232,15 @@ const CreateDataEntry = () => {
               <option value="credit">{t('credit')} </option>
               <option value="giro">{t('giro')} </option>
             </select>
-
             <input
               type="text"
               id="owner"
               name="owner"
               required
               placeholder={t('owner')}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => setOwner(e.target.value)}
             />
+            {/* pattern="(http(s)?:\/\/)?(www\.)?[^ ]+" */}
             <input
               type="number"
               inputMode="numeric"
@@ -258,7 +257,6 @@ const CreateDataEntry = () => {
               placeholder={t('expirationdate')}
               onChange={(e) => setExpirationdate(e.target.value)}
             />
-
             <input
               type="password"
               id="pin"
