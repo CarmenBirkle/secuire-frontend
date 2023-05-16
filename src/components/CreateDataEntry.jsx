@@ -1,5 +1,4 @@
-// aktuell noch zum spielen und funktionen testen rund um die verschlüsselung
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const CreateDataEntry = () => {
@@ -18,7 +17,7 @@ const CreateDataEntry = () => {
   const [owner, setOwner] = useState(null);
   const [cvv, setCvv] = useState(null);
   const [cardtype, setCardtype] = useState(null);
-  const [fields, setFields] = useState([]);
+  const [customTopics, setCustomTopics] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,33 +37,43 @@ const CreateDataEntry = () => {
       owner,
       cvv,
       cardtype,
-      fields: fields.map((field) => ({
+      customTopics: customTopics.map((field) => ({
         fieldName: field.fieldName,
         fieldValue: field.fieldValue,
       })),
     };
 
+    // TODO delete in production
     console.log('submit', data);
   };
 
+  /**
+   * Resets the customTopics array only when the category changes.
+   * @param {Array} dependencies - An array of dependencies which includes the category value.
+   * When the category value changes, the useEffect hook is triggered.
+   */
+  useEffect(() => {
+    setCustomTopics([]);
+  }, [category]);
+
   const handleAddField = () => {
-    setFields([...fields, { fieldName: '', fieldValue: '' }]);
+    setCustomTopics([...customTopics, { fieldName: '', fieldValue: '' }]);
   };
 
   const handleRemoveField = (index) => {
-    const updatedFields = [...fields];
+    const updatedFields = [...customTopics];
     updatedFields.splice(index, 1);
-    setFields(updatedFields);
+    setCustomTopics(updatedFields);
   };
 
   const handleFieldChange = (index, fieldKey, value) => {
-    const updatedFields = [...fields];
+    const updatedFields = [...customTopics];
     updatedFields[index][fieldKey] = value;
-    setFields(updatedFields);
+    setCustomTopics(updatedFields);
   };
 
   const renderFields = () => {
-    return fields.map((field, index) => (
+    return customTopics.map((field, index) => (
       <div key={index}>
         <input
           type="text"
@@ -102,7 +111,7 @@ const CreateDataEntry = () => {
       >
         <option value="login">{t('login')}</option>
         <option value="safenote">{t('safenotes')}</option>
-        <option value="payment card">{t('paymentcards')} </option>
+        <option value="paymentcard">{t('paymentcards')} </option>
       </select>
 
       <form onSubmit={handleSubmit}>
@@ -150,11 +159,6 @@ const CreateDataEntry = () => {
               placeholder={t('url')}
               onChange={(e) => setUrl(e.target.value)}
             />
-            {renderFields()}
-            <button type="button" onClick={handleAddField}>
-              {t('addField')}
-            </button>
-
             <input
               type="text"
               id="comment"
@@ -162,6 +166,10 @@ const CreateDataEntry = () => {
               placeholder={t('comment')}
               onChange={(e) => setComment(e.target.value)}
             />
+            {renderFields()}
+            <button type="button" onClick={handleAddField}>
+              {t('addField')}
+            </button>
           </fieldset>
         )}
 
@@ -201,9 +209,13 @@ const CreateDataEntry = () => {
               placeholder={t('comment')}
               onChange={(e) => setComment(e.target.value)}
             />
+            {renderFields()}
+            <button type="button" onClick={handleAddField}>
+              {t('addField')}
+            </button>
           </fieldset>
         )}
-        {category === 'payment card' && (
+        {category === 'paymentcard' && (
           <fieldset>
             <label htmlFor="favourite">{t('favourite')}</label>
             <input
@@ -271,6 +283,17 @@ const CreateDataEntry = () => {
               placeholder={t('cvv')}
               onChange={(e) => setCvv(e.target.value)}
             />
+            <input
+              type="text"
+              id="comment"
+              name="comment"
+              placeholder={t('comment')}
+              onChange={(e) => setComment(e.target.value)}
+            />
+            {renderFields()}
+            <button type="button" onClick={handleAddField}>
+              {t('addField')}
+            </button>
           </fieldset>
         )}
 
