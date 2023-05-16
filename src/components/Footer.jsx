@@ -3,11 +3,16 @@ import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
   const { t } = useTranslation(['common']);
+
+  
+  
   return (
     <footer>
-      <h2>{t('placeholderfooter')}</h2>
-      <Link to="/imprint">{t('imprint')}</Link> <br></br>
-      <Link to="/legalnotice">{t('legalnotice')}</Link>
+      <div className="container flexbox">
+        <Link to="/imprint" className='link'>{t('imprint')}</Link>
+        <span></span>
+        <Link to="/legalnotice" className='link'>{t('legalnotice')}</Link>
+      </div>
     </footer>
   );
 };
