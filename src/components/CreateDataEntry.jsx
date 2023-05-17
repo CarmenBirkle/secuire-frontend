@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import Encrypt from './helperSites/Encrypt';
 
 const CreateDataEntry = () => {
   const { t } = useTranslation(['main']);
@@ -19,10 +20,97 @@ const CreateDataEntry = () => {
   const [cardtype, setCardtype] = useState(null);
   const [customTopics, setCustomTopics] = useState([]);
 
+  const secretPass = process.env.REACT_APP_SECRET_KEY;
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log('submit');
+  //   const data = {
+  //     category,
+  //     favourite,
+  //     subject,
+  //     username,
+  //     password,
+  //     url,
+  //     comment,
+  //     note,
+  //     pin,
+  //     cardnumber,
+  //     expirationdate,
+  //     owner,
+  //     cvv,
+  //     cardtype,
+  //     customTopics: customTopics.map((field) => ({
+  //       fieldName: field.fieldName,
+  //       fieldValue: field.fieldValue,
+  //     })),
+  //   };
+
+  // TODO delete in production
+  // console.log('submit', data);
+  // const encryptedData = Encrypt(data, process.env.REACT_APP_SECRET_KEY);
+  // console.log('encryptedData', encryptedData);
+
+  //   const encryptedData = {};
+  //   for (const key in data) {
+  //     if (data.hasOwnProperty(key)) {
+  //       encryptedData[key] = encryptData(
+  //         data[key],
+  //         process.env.REACT_APP_SECRET_KEY
+  //       );
+  //     }
+  //   }
+  // };
+
+  // bis hier alte Variante
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log('submit');
+  //   const inputData = {
+  //     category,
+  //     favourite,
+  //     subject,
+  //     username,
+  //     password,
+  //     url,
+  //     comment,
+  //     note,
+  //     pin,
+  //     cardnumber,
+  //     expirationdate,
+  //     owner,
+  //     cvv,
+  //     cardtype,
+  //     customTopics: customTopics.map((field) => ({
+  //       fieldName: field.fieldName,
+  //       fieldValue: field.fieldValue,
+  //     })),
+  //   };
+
+  //   // TODO delete in production
+  //   console.log('submit', inputData);
+
+  //   const encryptedData = {};
+  //   for (const key in inputData) {
+  //     if (inputData.hasOwnProperty(key)) {
+  //       encryptedData[key] = Encrypt(
+  //         inputData[key],
+  //         process.env.REACT_APP_SECRET_KEY
+  //       );
+  //     }
+  //   }
+
+  //   // Handle encrypted data
+  //   console.log('Encrypted data:', encryptedData);
+  // };
+
+  // bis hier funktionierende neue Variante
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('submit');
-    const data = {
+    const inputData = {
       category,
       favourite,
       subject,
@@ -44,7 +132,33 @@ const CreateDataEntry = () => {
     };
 
     // TODO delete in production
-    console.log('submit', data);
+    console.log('submit', inputData);
+
+    const encryptedData = {};
+    // for (const key in inputData) {
+    //   if (inputData.hasOwnProperty(key)) {
+    //     const value = inputData[key];
+    //     if (value !== null && value !== undefined) {
+    //       encryptedData[key] = Encrypt(value, process.env.REACT_APP_SECRET_KEY);
+    //     }
+    //   }
+    // }
+
+    for (const field in inputData) {
+      if (inputData.hasOwnProperty(field)) {
+        if (inputData[field] !== null) {
+          encryptedData[field] = Encrypt(
+            inputData[field],
+            process.env.REACT_APP_SECRET_KEY
+          );
+        } else {
+          encryptedData[field] = null;
+        }
+      }
+    }
+
+    // Handle encrypted data
+    console.log('Encrypted data:', encryptedData);
   };
 
   /**
