@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import CreateDataEntry from '../components/CreateDataEntry';
 import EditDataEntry from '../components/EditDataEntry';
 
-const Main = () => {
+const Main = ({user}) => {
   const { t } = useTranslation(['main']);
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -18,6 +18,7 @@ const Main = () => {
   return (
     <>
       <h2>{t('placeholder')}</h2>
+      <h3> ### eingeloggt als: {user?.email}</h3>         
       <h4> ### gewählte Filterung: {ENTRY_TYPE ? ENTRY_TYPE : 'keine'}</h4>
       <CreateDataEntry />
       <EditDataEntry />
