@@ -1,7 +1,8 @@
-import Decrypt from './helperSites/Encrypt';
-import CryptoJS from 'crypto-js';
+import Decrypt from './helperSites/Decrypt';
+// import CryptoJS from 'crypto-js';
 
 const EditDataEntry = () => {
+  //Beispielwerte für verschlüsselte Werte - kommen später über den Service
   const cryptedData = {
     category: 'U2FsdGVkX19PmVfObo0+PvplM/i6pWcNl4i3YVyDYzM=',
     favourite: 'U2FsdGVkX1+Ra7NjD+SsOLKfZSpyuy5XtFSHwGFFDh4=',
@@ -20,39 +21,12 @@ const EditDataEntry = () => {
     customTopics:
       'U2FsdGVkX18hVntxDChGIT22oocJ9B6+PPuP5tFwm0k4+wLo6ceE17i3WdfgC7RzixSq5YqmgtRVJfA0zKJr+PmnEl0jkNCQqiMt2ZntehGtk20vI3MMgDVMyj1burEWodPfWCnBvi3n7d6CF1S6xhCss70Q2jvA7HKt2QDfA6K6iUZz54fF4KWHUjYACK5oMs+gqfg32ch6SbvWyaORKBwcEiOaxNjIdhuy0X5SRyVQ1SJwx7666U6H7aN6D30R',
   };
-  
-  const decryptedData = {};
 
+ 
 
-for (const key in cryptedData) {
-  if (cryptedData.hasOwnProperty(key)) {
-    const encryptedValue = cryptedData[key];
-
-    // Überspringe Nullwerte
-    if (encryptedValue !== null) {
-      let decryptedValue = CryptoJS.AES.decrypt(
-        encryptedValue,
-        process.env.REACT_APP_SECRET
-      ).toString(CryptoJS.enc.Utf8);
-
-      // Versuche die entschlüsselten Werte zu parsen
-      try {
-        decryptedValue = JSON.parse(decryptedValue);
-      } catch (e) {
-        // Nichts tun, wenn der Wert nicht geparst werden kann
-      }
-
-      decryptedData[key] = decryptedValue;
-    } else {
-      decryptedData[key] = null;
-    }
-  }
-}
-
-
-
-  console.log('1. Variante',decryptedData);
-
+  const decryptedData = Decrypt(cryptedData, process.env.REACT_APP_SECRET);
+  //TODO  löschen - Daten werden später angezeigt
+  console.log('Entschlüsselt:', decryptedData);
 
   return <div>EditDataEntry</div>;
 };
