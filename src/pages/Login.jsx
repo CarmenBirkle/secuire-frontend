@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import {useState} from 'react';
-import { Link, Navigate, useNavigate} from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 
 const Login = ({setUser}) => {
   const { t } = useTranslation(['forgotpassword', 'login']);
@@ -12,6 +12,13 @@ const Login = ({setUser}) => {
   const navigate = useNavigate();
 
   //TODO: console.log entfernen
+  //TODO: wrongPassword erhöhen wenn falscher Nutzerdaten
+  //TODO: wrongPassword zurücksetzen wenn richtige Nutzerdaten
+  //TODO: Nutzerdaten in localStorage speichern wenn remember true
+  //TODO: Nutzerdaten aus localStorage laden wenn remember true
+  //TODO: Nutzerdaten aus localStorage löschen wenn remember false
+  //TODO: Nutzerdaten - speziell Passwort mit Backend abgleichen, verschlüsslt speichern
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Email: ', email, 'Password: ', password, 'Remember: ', remember, 'WrongPassword: ', wrongPassword);

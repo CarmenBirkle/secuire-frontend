@@ -17,7 +17,7 @@ const EditDataEntry = () => {
     expirationdate: null,
     owner: null,
     cvv: null,
-    cardtype: null,
+    cardtype: null,         
     customTopics:
       'U2FsdGVkX18hVntxDChGIT22oocJ9B6+PPuP5tFwm0k4+wLo6ceE17i3WdfgC7RzixSq5YqmgtRVJfA0zKJr+PmnEl0jkNCQqiMt2ZntehGtk20vI3MMgDVMyj1burEWodPfWCnBvi3n7d6CF1S6xhCss70Q2jvA7HKt2QDfA6K6iUZz54fF4KWHUjYACK5oMs+gqfg32ch6SbvWyaORKBwcEiOaxNjIdhuy0X5SRyVQ1SJwx7666U6H7aN6D30R',
   };
