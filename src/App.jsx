@@ -42,12 +42,38 @@ const App = () => {
         <Routes>
           <Route path="/" element={<SharedLayout />}>
             <Route index element={<Home />} />
-            {/* <ProtectedRoute user={user}> */}
-            <Route path="account" element={<AccountSettings user={user}/>} />
-            <Route path="main" element={<Main user={user} />} />
-            <Route path="main/:type" component={<Main user={user} />} />
-            <Route path="pwgenerator" element={<PwGenerator />} />
-            {/* </ProtectedRoute> */}
+
+            <Route
+              path="account"
+              element={
+                <ProtectedRoute user={user}>
+                  <AccountSettings user={user} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="main"
+              element={
+                <ProtectedRoute user={user}>
+                  <Main user={user} />
+                </ProtectedRoute>
+              }
+            />
+            <Route 
+              path="main/:type" 
+              component={
+              <ProtectedRoute user={user}>
+                <Main user={user} />
+                </ProtectedRoute>
+              } />
+            <Route 
+              path="pwgenerator" 
+              element={
+                <ProtectedRoute user={user}>
+                  <PwGenerator />
+                </ProtectedRoute>
+              } />
+
             <Route path="faq" element={<FAQ />} />
             <Route path="nice2know" element={<Nice2Know />} />
             <Route path="imprint" element={<Imprint />} />
