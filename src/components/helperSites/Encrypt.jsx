@@ -7,4 +7,5 @@ const Encrypt = (data, secretPass) => {
   ).toString();
   return encryptedData;
 };
+
 export default Encrypt;

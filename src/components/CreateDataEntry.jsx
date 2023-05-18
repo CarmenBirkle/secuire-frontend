@@ -20,8 +20,9 @@ const CreateDataEntry = () => {
   const [cardtype, setCardtype] = useState(null);
   const [customTopics, setCustomTopics] = useState([]);
 
-  const secretPass = process.env.REACT_APP_SECRET_KEY;
+  const secretPass = process.env.REACT_APP_SECRET;
 
+  // Version alle Daten als ein Objekt verschlüsselt
   // const handleSubmit = (e) => {
   //   e.preventDefault();
   //   console.log('submit');
@@ -62,7 +63,7 @@ const CreateDataEntry = () => {
   //   }
   // };
 
-  // bis hier alte Variante
+  // bis hier alte Variante nur Infos die auch verschlüsselt werden, ohne Null werte
 
   // const handleSubmit = (e) => {
   //   e.preventDefault();
@@ -105,7 +106,7 @@ const CreateDataEntry = () => {
   //   console.log('Encrypted data:', encryptedData);
   // };
 
-  // bis hier funktionierende neue Variante
+  // bis hier funktionierende neue Variante - wird alphabtisch sortiert
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -145,11 +146,12 @@ const CreateDataEntry = () => {
     // }
 
     for (const field in inputData) {
+      console.log('secret aus create', process.env.REACT_APP_SECRET_KEY);
       if (inputData.hasOwnProperty(field)) {
         if (inputData[field] !== null) {
           encryptedData[field] = Encrypt(
             inputData[field],
-            process.env.REACT_APP_SECRET_KEY
+            process.env.REACT_APP_SECRET
           );
         } else {
           encryptedData[field] = null;
