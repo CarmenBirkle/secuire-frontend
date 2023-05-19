@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
 
 // components
 import Home from './pages/Home';
@@ -16,6 +17,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import Login from './pages/Login';
 import Error from './pages/Error';
 import LegalNotice from './pages/LegalNotice';
+import ProtectedRoute from './components/helperSites/ProtectedRoute';
 import './fonts/poppins-v20-latin-700.eot';
 import './fonts/poppins-v20-latin-700.svg';
 import './fonts/poppins-v20-latin-700.ttf';
@@ -33,22 +35,51 @@ import './fonts/poppins-v20-latin-regular.woff';
 import './fonts/poppins-v20-latin-regular.woff2';
 
 const App = () => {
+  const [user, setUser]= useState(null);
   return (
     <Suspense fallback={null}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SharedLayout />}>
             <Route index element={<Home />} />
-            <Route path="account" element={<AccountSettings />} />
-            <Route path="main" element={<Main />} />
-            <Route path="main/:type" component={<Main />} />
-            <Route path="pwgenerator" element={<PwGenerator />} />
+
+            <Route
+              path="account"
+              element={
+                <ProtectedRoute user={user}>
+                  <AccountSettings user={user} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="main"
+              element={
+                <ProtectedRoute user={user}>
+                  <Main user={user} />
+                </ProtectedRoute>
+              }
+            />
+            <Route 
+              path="main/:type" 
+              component={
+              <ProtectedRoute user={user}>
+                <Main user={user} />
+                </ProtectedRoute>
+              } />
+            <Route 
+              path="pwgenerator" 
+              element={
+                <ProtectedRoute user={user}>
+                  <PwGenerator />
+                </ProtectedRoute>
+              } />
+
             <Route path="faq" element={<FAQ />} />
             <Route path="nice2know" element={<Nice2Know />} />
             <Route path="imprint" element={<Imprint />} />
             <Route path="legalnotice" element={<LegalNotice />} />
             <Route path="signup" element={<Signup />} />
-            <Route path="login" element={<Login />} />
+            <Route path="login" element={<Login setUser={setUser} />} />
             <Route path="forgotpassword" element={<ForgotPassword />} />
             <Route path="*" element={<Error />} />
           </Route>
