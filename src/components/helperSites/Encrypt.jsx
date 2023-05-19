@@ -1,17 +1,16 @@
 /**
- * Encrypts data using a secret password.
- *
- * This method encrypts the given data using the provided secret password.
- * It converts the data to a JSON string, encrypts it using the AES algorithm,
- * and returns the encrypted data as a Base64-encoded string.
+ * Provides encryption functionality using AES algorithm.
+ */
+import CryptoJS from 'crypto-js';
+
+/**
+ * Encrypts single data and returns the encrypted result as a string.
  *
  * @param data The data to be encrypted.
  * @param secretPass The secret password used for encryption.
- * @return The encrypted data as a Base64-encoded string.
- * @throws Exception If an error occurs during encryption.
- */import CryptoJS from 'crypto-js';
-
-const Encrypt = (data, secretPass) => {
+ * @return The encrypted data as a string.
+ */
+export const Encrypt = (data, secretPass) => {
   const encryptedData = CryptoJS.AES.encrypt(
     JSON.stringify(data),
     secretPass
@@ -19,4 +18,26 @@ const Encrypt = (data, secretPass) => {
   return encryptedData;
 };
 
-export default Encrypt;
+/**
+ * Encrypts the multiple fields of the given input data object and returns an object
+ *
+ * @param inputData The input data object containing the fields to be encrypted.
+ * @param secretPass The secret password used for encryption.
+ * @return A new object with the encrypted fields.
+ */
+export const encryptObject = (inputData, secretPass) => {
+  const encryptedData = {};
+
+  for (const field in inputData) {
+    console.log('Secret aus create', secretPass);
+    if (inputData.hasOwnProperty(field)) {
+      if (inputData[field] !== null) {
+        encryptedData[field] = Encrypt(inputData[field], secretPass);
+      } else {
+        encryptedData[field] = null;
+      }
+    }
+  }
+
+  return encryptedData;
+};
