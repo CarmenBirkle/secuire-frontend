@@ -52,7 +52,7 @@ const CreateDataEntry = () => {
     const encryptedData = encryptObject(inputData, process.env.REACT_APP_SECRET);
 
     //TODO delete in production
-    console.log('Encrypted data:', encryptedData);
+    console.log('Verschlüsselte Daten aus Submit:', encryptedData);
   };
 
   /**

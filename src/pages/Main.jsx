@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import CreateDataEntry from '../components/CreateDataEntry';
@@ -10,6 +10,7 @@ const Main = ({user}) => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const ENTRY_TYPE = params.get('type');
+  const [dataEntrys, setDataEntrys] = useState([]);
 
 // fetch all DataEntrys from Azure
   const baseUrl = process.env.REACT_APP_URL_AZURE;
@@ -18,7 +19,9 @@ const Main = ({user}) => {
   const fetchData = async () => {
     try {
       const responseDataEntrys = await axios.get(url);
+      setDataEntrys(responseDataEntrys.data);
       console.log('fetch from main side:', responseDataEntrys);
+      console.log('aktuelle Daten:', dataEntrys);
     } catch (error) {
       console.log(error.response);
     }
