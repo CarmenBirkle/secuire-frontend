@@ -13,6 +13,7 @@ const Main = ({user}) => {
   const params = new URLSearchParams(location.search);
   const ENTRY_TYPE = params.get('type');
   const [dataEntrys, setDataEntrys] = useState([]);
+  const [filteredDataEntries, setFilteredDataEntries] = useState([]);
   const [encryptedDataEntrys, setEncryptedDataEntrys] = useState([
     {
       id: 1,
@@ -52,6 +53,7 @@ const Main = ({user}) => {
       customTopics: 'U2FsdGVkX1+qCSFziUGkSTDcN41CrVr9t+z1N+jAhT8=',
     },
     {
+      id: 3,
       category: 'paymentcard',
       favourite: 'U2FsdGVkX1+glZg4fz2VKnw+gUUfmwHx4QmMZrhNx/0=',
       subject: 'U2FsdGVkX19lkWEQPOTicff+h8cdct+xuuTvnEYjVys=',
@@ -86,6 +88,31 @@ const Main = ({user}) => {
     );
     setDataEntrys(decryptedDataEntrys);
   }, [encryptedDataEntrys]);
+
+  //  let filteredDataEntries = dataEntrys;
+  //  if (ENTRY_TYPE) {
+  //    filteredDataEntries = dataEntrys.filter(
+  //      (dataEntry) => dataEntry.category === ENTRY_TYPE
+  //    );
+  //  }
+  useEffect(() => {
+    let updatedFilteredDataEntries = dataEntrys;
+    if (ENTRY_TYPE) {
+      updatedFilteredDataEntries = dataEntrys.filter(
+        (dataEntry) => dataEntry.category === ENTRY_TYPE
+      );
+    }
+    setFilteredDataEntries(updatedFilteredDataEntries);
+  }, [dataEntrys, ENTRY_TYPE]);
+
+// useEffect(() => {
+//   const filteredDataEntrys = dataEntrys.filter((dataEntry) => {
+//     return ENTRY_TYPE ? dataEntry.category === ENTRY_TYPE : true;
+//   });
+//   setDataEntrys(filteredDataEntrys);
+//    console.log(ENTRY_TYPE);
+// }, [dataEntrys, ENTRY_TYPE]);
+
 
   // fetch all DataEntrys from Azure 
   //TODO wieder aktivieren wenn Service ok
@@ -125,7 +152,11 @@ const Main = ({user}) => {
       <h2>{t('placeholder')}</h2>
       <h3> ### eingeloggt als: {user?.email}</h3>
       <h4> ### gewählte Filterung: {ENTRY_TYPE ? ENTRY_TYPE : 'keine'}</h4>
-      <DataEntry dataEntrys={dataEntrys} removeDataEntry={removeDataEntry} />
+      <DataEntry
+        filteredDataEntries={filteredDataEntries}
+        removeDataEntry={removeDataEntry}
+      />
+
       <CreateDataEntry />
       <EditDataEntry />
     </>

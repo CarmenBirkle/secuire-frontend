@@ -4,11 +4,12 @@
  * This function decrypts the given encrypted data using the provided secret password.
  * It iterates over the properties of the encrypted data object, decrypts each encrypted value,
  * and stores the decrypted values in a new object.
- * Ignore the category field, because it is not encrypted.
+ * Ignore the id and category field, because it is not encrypted.
  * @param {Object} encryptedData - The encrypted data object.
  * @param {string} secretPass - The secret password used for decryption.
  * @return {Object} The decrypted data object.
  */
+
 import CryptoJS from 'crypto-js';
 
 const Decrypt = (encryptedData, secretPass) => {
@@ -17,8 +18,8 @@ const Decrypt = (encryptedData, secretPass) => {
     if (encryptedData.hasOwnProperty(key)) {
       const encryptedValue = encryptedData[key];
 
-      if (key === 'category') {
-        decryptedData[key] = encryptedValue; // Das Feld "category" bleibt unverändert
+      if (key === 'category' || key === 'id') {
+        decryptedData[key] = encryptedValue;
       } else if (encryptedValue !== null) {
         let decryptedValue = CryptoJS.AES.decrypt(
           encryptedValue,
@@ -40,3 +41,4 @@ const Decrypt = (encryptedData, secretPass) => {
 };
 
 export default Decrypt;
+

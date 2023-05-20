@@ -19,7 +19,11 @@ const SingleDataEntry = ({ dataEntry, removeDataEntry }) => {
       case 'login':
         return (
           <>
-            <input type="checkbox" checked={dataEntry.favourite} readOnly />
+            <input
+              type="checkbox"
+              checked={dataEntry.favourite ? true : false}
+              readOnly
+            />
             <div>{dataEntry.subject}</div>
             <div>{dataEntry.username}</div>
             <div>{dataEntry.url}</div>
@@ -30,7 +34,11 @@ const SingleDataEntry = ({ dataEntry, removeDataEntry }) => {
       case 'safenote':
         return (
           <>
-            <input type="checkbox" checked={dataEntry.favourite} readOnly />
+            <input
+              type="checkbox"
+              checked={dataEntry.favourite ? true : false}
+              readOnly
+            />
             <div>{dataEntry.subject}</div>
             <div>{dataEntry.note}</div>
             <div>{dataEntry.comment}</div>
@@ -40,7 +48,11 @@ const SingleDataEntry = ({ dataEntry, removeDataEntry }) => {
       case 'paymentcard': 
         return (
           <>
-            <input type="checkbox" checked={dataEntry.favourite} readOnly />
+            <input
+              type="checkbox"
+              checked={dataEntry.favourite ? true : false}
+              readOnly
+            />
             <div>{dataEntry.subject}</div>
             <div>{dataEntry.cardtype}</div>
             <div>{dataEntry.owner}</div>

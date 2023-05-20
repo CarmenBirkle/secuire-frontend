@@ -32,21 +32,21 @@ const Navbar = () => {
       </NavLink>
       <br />
       <NavLink
-        to="/main?type=passwords"
+        to="/main?type=login"
         className={({ isActive }) => (isActive ? 'link active' : 'link')}
       >
         {t('passwords')}
       </NavLink>
       <br />
       <NavLink
-        to="/main?type=safenotes"
+        to="/main?type=safenote"
         className={({ isActive }) => (isActive ? 'link active' : 'link')}
       >
         {t('safeNotes')}
       </NavLink>
       <br />
       <NavLink
-        to="/main?type=paymentcards"
+        to="/main?type=paymentcard"
         className={({ isActive }) => (isActive ? 'link active' : 'link')}
       >
         {t('paymentCards')}
