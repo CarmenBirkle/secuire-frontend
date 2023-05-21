@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import Encrypt from './helperSites/Encrypt';
 import { encryptObject } from './helperSites/Encrypt';
 
-const CreateDataEntry = () => {
+const CreateDataEntry = ({ setShowCreateDataEntry }) => {
   const { t } = useTranslation(['main']);
   const [category, setCategory] = useState('login');
   const [favourite, setFavourite] = useState(false);
@@ -21,13 +21,12 @@ const CreateDataEntry = () => {
   const [cardtype, setCardtype] = useState(null);
   const [customTopics, setCustomTopics] = useState([]);
 
-   
-
   const handleSubmit = (e) => {
     e.preventDefault();
-     const inputData = {
+    setShowCreateDataEntry(false);
+    const inputData = {
       category,
-      favourite, 
+      favourite,
       subject,
       username,
       password,
@@ -49,7 +48,10 @@ const CreateDataEntry = () => {
     // TODO delete in production
     console.log('submit klartext eingabe', inputData);
 
-    const encryptedData = encryptObject(inputData, process.env.REACT_APP_SECRET);
+    const encryptedData = encryptObject(
+      inputData,
+      process.env.REACT_APP_SECRET
+    );
 
     //TODO delete in production
     console.log('Verschlüsselte Daten aus Submit:', encryptedData);

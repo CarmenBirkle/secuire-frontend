@@ -18,3 +18,5 @@ yarn-debug.log*
 yarn-error.log*
 manifest.json
 \.vs
+.vscode/
+.vscode/settings.json

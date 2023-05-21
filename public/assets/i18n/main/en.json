@@ -24,5 +24,6 @@
   "addField": "Add new Field",
   "varTitle": "Title variable field",
   "var": "Variable field",
-  "remove": "Remove"
+  "remove": "Remove",
+  "welcome": "Welcome"
 }
