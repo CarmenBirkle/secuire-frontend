@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import Encrypt from './helperSites/Encrypt';
 import { encryptObject } from './helperSites/Encrypt';
 
-const CreateDataEntry = () => {
+const CreateDataEntry = ({ setShowCreateDataEntry }) => {
   const { t } = useTranslation(['main']);
   const [category, setCategory] = useState('login');
   const [favourite, setFavourite] = useState(false);
@@ -21,13 +20,12 @@ const CreateDataEntry = () => {
   const [cardtype, setCardtype] = useState(null);
   const [customTopics, setCustomTopics] = useState([]);
 
-   
-
   const handleSubmit = (e) => {
     e.preventDefault();
-     const inputData = {
+    setShowCreateDataEntry(false);
+    const inputData = {
       category,
-      favourite, 
+      favourite,
       subject,
       username,
       password,
@@ -49,10 +47,28 @@ const CreateDataEntry = () => {
     // TODO delete in production
     console.log('submit klartext eingabe', inputData);
 
-    const encryptedData = encryptObject(inputData, process.env.REACT_APP_SECRET);
+    const encryptedData = encryptObject(
+      inputData,
+      process.env.REACT_APP_SECRET
+    );
 
     //TODO delete in production
-    console.log('Encrypted data:', encryptedData);
+    console.log('Verschlüsselte Daten aus Submit:', encryptedData);
+    setCategory('login');
+    setFavourite(false);
+    setSubject('');
+    setUsername('');
+    setPassword('');
+    setUrl('');
+    setComment('');
+    setNote('');
+    setPin('');
+    setCardnumber('');
+    setExpirationdate('');
+    setOwner('');
+    setCvv('');
+    setCardtype('');
+    setCustomTopics([]);
   };
 
   /**
@@ -161,10 +177,12 @@ const CreateDataEntry = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
             <input
-              type="url"
+              type="text"
               id="url"
               name="url"
               placeholder={t('url')}
+              pattern="^(http:\/\/|https:\/\/)?(www\.)?[a-zA-Z0-9-_\.]+\.[a-zA-Z]+(:\d+)?(\/[a-zA-Z\d\.\-_]*)*"
+              title="Gebe eine URL an: www.placeholder.de"
               onChange={(e) => setUrl(e.target.value)}
             />
             <input
@@ -260,7 +278,6 @@ const CreateDataEntry = () => {
               placeholder={t('owner')}
               onChange={(e) => setOwner(e.target.value)}
             />
-            {/* pattern="(http(s)?:\/\/)?(www\.)?[^ ]+" */}
             <input
               type="number"
               inputMode="numeric"
@@ -304,6 +321,9 @@ const CreateDataEntry = () => {
             </button>
           </fieldset>
         )}
+        <button type="button" onClick={() => setShowCreateDataEntry(false)}>
+          {t('cancel')}
+        </button>
 
         <button type="submit"> {t('submit')}</button>
       </form>

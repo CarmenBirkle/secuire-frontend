@@ -4,7 +4,7 @@ import Decrypt from './helperSites/Decrypt';
 const EditDataEntry = () => {
   //Beispielwerte für verschlüsselte Werte - kommen später über den Service
   const cryptedData = {
-    category: 'U2FsdGVkX19PmVfObo0+PvplM/i6pWcNl4i3YVyDYzM=',
+    category: 'safenote',
     favourite: 'U2FsdGVkX1+Ra7NjD+SsOLKfZSpyuy5XtFSHwGFFDh4=',
     subject: 'U2FsdGVkX19MImWb6DBsGfxCg7IDePjvosb6Q8RZyHyMFS9UPQJHcZNwk+Dio5rS',
     username: null,
