@@ -25,5 +25,6 @@
   "varTitle": "Title variable field",
   "var": "Variable field",
   "remove": "Remove",
-  "welcome": "Welcome"
+  "welcome": "Welcome",
+  "cancel": "Abbrechen"
 }

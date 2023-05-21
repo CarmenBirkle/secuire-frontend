@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import Encrypt from './helperSites/Encrypt';
 import { encryptObject } from './helperSites/Encrypt';
 
 const CreateDataEntry = ({ setShowCreateDataEntry }) => {
@@ -55,6 +54,21 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
 
     //TODO delete in production
     console.log('Verschlüsselte Daten aus Submit:', encryptedData);
+    setCategory('login');
+    setFavourite(false);
+    setSubject('');
+    setUsername('');
+    setPassword('');
+    setUrl('');
+    setComment('');
+    setNote('');
+    setPin('');
+    setCardnumber('');
+    setExpirationdate('');
+    setOwner('');
+    setCvv('');
+    setCardtype('');
+    setCustomTopics([]);
   };
 
   /**
@@ -163,10 +177,12 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               onChange={(e) => setPassword(e.target.value)}
             />
             <input
-              type="url"
+              type="text"
               id="url"
               name="url"
               placeholder={t('url')}
+              pattern="^(http:\/\/|https:\/\/)?(www\.)?[a-zA-Z0-9-_\.]+\.[a-zA-Z]+(:\d+)?(\/[a-zA-Z\d\.\-_]*)*"
+              title="Gebe eine URL an: www.placeholder.de"
               onChange={(e) => setUrl(e.target.value)}
             />
             <input
@@ -262,7 +278,6 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               placeholder={t('owner')}
               onChange={(e) => setOwner(e.target.value)}
             />
-            {/* pattern="(http(s)?:\/\/)?(www\.)?[^ ]+" */}
             <input
               type="number"
               inputMode="numeric"
@@ -306,6 +321,9 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
             </button>
           </fieldset>
         )}
+        <button type="button" onClick={() => setShowCreateDataEntry(false)}>
+          {t('cancel')}
+        </button>
 
         <button type="submit"> {t('submit')}</button>
       </form>

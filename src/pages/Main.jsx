@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import CreateDataEntry from '../components/CreateDataEntry';
@@ -7,7 +7,7 @@ import DataEntry from '../components/DataEntry';
 import Decrypt from '../components/helperSites/Decrypt';
 import SearchBar from '../components/SearchBar';
 import { encryptedDataEntrys, useFetchData } from '../components/helperSites/Axios';
-
+import { AppContext } from '../components/helperSites/AppContext';
 
 const Main = ({user}) => {
   const { t } = useTranslation(['main']);
@@ -17,7 +17,9 @@ const Main = ({user}) => {
   const IS_FAVOURITES = params.get('favourites');
   const [dataEntrys, setDataEntrys] = useState([]);
   const [filteredDataEntries, setFilteredDataEntries] = useState([]);
-  const [showCreateDataEntry, setShowCreateDataEntry] = useState(false);
+
+  const { showCreateDataEntry, setShowCreateDataEntry } =
+    useContext(AppContext); // showCreateDataEntry und setShowCreateDataEntry aus dem AppContext holen
 
   /**
    * to fetch all DataEntrys as encrypted data from the server.
@@ -40,7 +42,6 @@ const Main = ({user}) => {
     }
   }, [encryptedDataEntrys]);
 
-
   useEffect(() => {
     let updatedFilteredDataEntries = dataEntrys;
 
@@ -59,9 +60,8 @@ const Main = ({user}) => {
     setFilteredDataEntries(updatedFilteredDataEntries);
   }, [dataEntrys, ENTRY_TYPE, IS_FAVOURITES]);
 
-
   const removeDataEntry = (id) => {
-    //ggf. als async makieren / vorbereitete Funktion - später relevant, wird aber schon an die anderen components übergeben 
+    //ggf. als async makieren / vorbereitete Funktion - später relevant, wird aber schon an die anderen components übergeben
   };
 
   /**
@@ -84,10 +84,16 @@ const Main = ({user}) => {
         {t('welcome')} {user?.email},
       </h3>
       <h4> ### gewählte Filterung: {ENTRY_TYPE ? ENTRY_TYPE : 'keine'}</h4>
-      <DataEntry
+      {!showCreateDataEntry && (
+        <DataEntry
         filteredDataEntries={filteredDataEntries}
         removeDataEntry={removeDataEntry}
       />
+      )}
+      {/* <DataEntry
+        filteredDataEntries={filteredDataEntries}
+        removeDataEntry={removeDataEntry}
+      /> */}
 
       {showCreateDataEntry && (
         <CreateDataEntry setShowCreateDataEntry={setShowCreateDataEntry} />
