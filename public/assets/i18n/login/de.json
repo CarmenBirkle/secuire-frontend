@@ -1,3 +1,7 @@
 {
-  "placeholder": "--- Dummytext: Login Seite ---"
+  "login": "Log in",
+  "email": "E-Mail",
+  "password": "Passwort",
+  "remember": "Email merken",
+  "loginButton": "Login"
 }

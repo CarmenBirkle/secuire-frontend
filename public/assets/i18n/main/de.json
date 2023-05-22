@@ -14,5 +14,7 @@
   "addField": "Neues Feld erzeugen",
   "varTitle": "Titel für Variables Feld ",
   "var": "Variables Feld ",
-  "remove": "Entfernen"
+  "remove": "Entfernen",
+  "welcome": "Willkommen",
+  "cancel": "Abbrechen"
 }

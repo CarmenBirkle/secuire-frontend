@@ -4,7 +4,10 @@ import { Link } from 'react-router-dom';
 
 import axios from 'axios';
 
-const url = process.env.REACT_APP_URL_POSTMAN;
+const baseUrl = process.env.REACT_APP_URL_AZURE;
+const url = `${baseUrl}/DataEntry/all`;
+//TODO remove in production
+console.log('url', url);
 
 const Home = () => {
   const { t } = useTranslation(['common', 'home']);
