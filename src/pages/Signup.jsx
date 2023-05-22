@@ -28,7 +28,7 @@ const Signup = () => {
     <>
       <h1>{t('common:signup')}</h1>
       <form onSubmit={handleSubmit}>
-        <div>
+        <fieldset>
           <label htmlFor="">{t('signup:username')}:</label>
           <input
             type="text"
@@ -38,9 +38,9 @@ const Signup = () => {
             placeholder={t('signup:username')}
             onChange={(e) => setUsername(e.target.value)}
           />
-        </div>
-        <div>
-          <label htmlFor="">{t('signup:email')}:</label>
+        </fieldset>
+        <fieldset>
+          <label htmlFor="signup-email">{t('signup:email')}:</label>
           <input
             type="email"
             id="signup-email"
@@ -49,8 +49,8 @@ const Signup = () => {
             placeholder={t('signup:email')}
             onChange={(e) => setEmail(e.target.value)}
           />
-        </div>
-        <div>
+        </fieldset>
+        <fieldset>
           <label htmlFor="">{t('signup:password')}:</label>
           <input
             type="password"
@@ -60,8 +60,8 @@ const Signup = () => {
             placeholder={t('signup:Password')}
             onChange={(e) => setPassword(e.target.value)}
           />
-        </div>
-        <div>
+        </fieldset>
+        <fieldset>
           <label htmlFor="">{t('signup:confirmPassword')}:</label>
           <input
             type="password"
@@ -70,29 +70,34 @@ const Signup = () => {
             required
             placeholder={t('signup:confirmPassword')}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            className={error ? 'errorField' : ''}
           />
-        </div>
-        <br />
+          
+        </fieldset>
+        {error && <p className="errorMessage">{t('signup:passwordError')}</p>}
         <p>{t('signup:information')}</p>
-        <select>
-          {/* TODO what question to offer?, translation, maybe onchange function */}
-          <option value="1">Question1</option>
-          <option value="2">Question2</option>
-        </select>
-        <input
-          type="text"
-          name="signup-answer"
-          required
-          id="signup-answer"
-          placeholder={t('signup:answer')}
-        />
-        <div>
+       
+        <fieldset class="question">
+          <select>
+            {/* TODO what question to offer?, translation, maybe onchange function */}
+            <option value="1">Question1</option>
+            <option value="2">Question2</option>
+          </select>
+          <input
+            type="text"
+            name="signup-answer"
+            required
+            id="signup-answer"
+            placeholder={t('signup:answer')}
+          />
+        </fieldset>
+        <div id="agbCheck">
           <input type="checkbox" required name="agb" id="agb" />
-          <label htmlFor="">{t('signup:agb')}:</label>
+          <label htmlFor="agb">{t('signup:agb')}:</label>
           {/* TODO link to AGBs */}
         </div>
-        <input type="submit" value={t('common:signup')} />
-        {error && <p>{t('signup:passwordError')}</p>}
+        <input className="submitButton" type="submit" value={t('common:signup')} />
+        
       </form>
     </>
   );

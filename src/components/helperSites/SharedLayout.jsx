@@ -10,7 +10,9 @@ const SharedLayout = () => {
         <Header />
       </header>
       <main>
-        <Outlet />
+        <div className='container'>
+          <Outlet />
+        </div>
       </main>
       <footer>
         <Footer />

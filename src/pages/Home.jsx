@@ -37,11 +37,11 @@ const Home = () => {
 
   return (
     
-      <div className="container">
+      <>
         <h1> {t('home:home')}</h1>
         <Link to="/login">{t('home:login')}</Link> <br />
         <Link to="/signup">{t('common:signupLink')}</Link>
-      </div>
+      </>
   );
 };
 

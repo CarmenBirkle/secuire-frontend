@@ -10,7 +10,7 @@ const Footer = () => {
     <footer>
       <div className="container flexbox">
         <Link to="/imprint" className='link'>{t('imprint')}</Link>
-        <span></span>
+        <span>|</span>
         <Link to="/legalnotice" className='link'>{t('legalnotice')}</Link>
       </div>
     </footer>

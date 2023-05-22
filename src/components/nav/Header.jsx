@@ -13,9 +13,11 @@ const Header = () => {
   const i18n = useTranslation(['header']);
   const currentLang = localStorage.getItem('i18nextLng');
   const [toggleLang, setLangToggled] = useState(false);
-const mobilebutton = document.getElementById("mobile_button");
+
+  const mobilebutton = document.getElementById("mobile_button");
   const nav = document.getElementById("nav");
   const links = document.getElementsByClassName("link");
+
   useEffect(() => {
     if (localStorage.getItem('i18nextLng')?.length > 2 && !toggleLang) {
       i18next.changeLanguage('en');
@@ -34,9 +36,7 @@ const mobilebutton = document.getElementById("mobile_button");
     };
     setLangToggled(!toggleLang);
   }
-
   
-
   const menuButtonClick = event => {
     if(mobilebutton.classList.contains('open')) {
       mobilebutton.classList.replace('open', 'closed');
