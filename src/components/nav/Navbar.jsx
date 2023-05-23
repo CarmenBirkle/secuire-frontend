@@ -6,9 +6,9 @@ import { AppContext } from '../helperSites/AppContext';
 const Navbar = () => {
   const { t } = useTranslation(['sidebar']);
 
-  const mobilebutton = document.getElementById("mobile_button");
-  const nav = document.getElementById("nav");
-  const links = document.getElementsByClassName("link");
+  var mobilebutton = document.getElementById("mobile_button");
+  var nav = document.getElementById("nav");
+  var links = document.getElementsByClassName("link");
 
   const navClick = event => {
     Array.from(links).forEach((el) => {
