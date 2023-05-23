@@ -14,9 +14,9 @@ const Header = () => {
   const currentLang = localStorage.getItem('i18nextLng');
   const [toggleLang, setLangToggled] = useState(false);
 
-  const mobilebutton = document.getElementById("mobile_button");
-  const nav = document.getElementById("nav");
-  const links = document.getElementsByClassName("link");
+  var mobilebutton = document.getElementById("mobile_button");
+  var nav = document.getElementById("nav");
+  var links = document.getElementsByClassName("link");
 
   useEffect(() => {
     if (localStorage.getItem('i18nextLng')?.length > 2 && !toggleLang) {
@@ -56,9 +56,6 @@ const Header = () => {
   
   return (
     <>
-      {/* TODO placeholder - links to the home page (maybe change?) will be //
-      replaced by the logo */}
-
       <div className='container flexbox'>
 
         <div id="logo" onClick={homeButtonClick}>
