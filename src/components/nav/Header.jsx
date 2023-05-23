@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -9,14 +10,13 @@ import imgDE from '../../img/germany.png';
 import imgEN from '../../img/united-kingdom.png';
 
 const Header = () => {
-
   const i18n = useTranslation(['header']);
   const currentLang = localStorage.getItem('i18nextLng');
   const [toggleLang, setLangToggled] = useState(false);
 
-  var mobilebutton = document.getElementById("mobile_button");
-  var nav = document.getElementById("nav");
-  var links = document.getElementsByClassName("link");
+  const navbutton = React.useRef(document.getElementById("mobile_button"));
+  const navigation = React.useRef(document.getElementById("nav"));
+  const links = React.useRef(document.getElementsByClassName("link"));
 
   useEffect(() => {
     if (localStorage.getItem('i18nextLng')?.length > 2 && !toggleLang) {
@@ -38,17 +38,17 @@ const Header = () => {
   }
   
   const menuButtonClick = event => {
-    if(mobilebutton.classList.contains('open')) {
-      mobilebutton.classList.replace('open', 'closed');
-      nav.classList.remove('open');
+    if(navbutton.current.classList.contains('open')) {
+      navbutton.current.classList.replace('open', 'closed');
+      navigation.current.classList.remove('open');
     } else {
-      mobilebutton.classList.replace('closed', 'open');
-      nav.classList.add('open');
+      navbutton.current.classList.replace('closed', 'open');
+      navigation.current.classList.add('open');
     }
   }
   const homeButtonClick = event => {
-    mobilebutton.classList.replace('open', 'closed');
-    nav.classList.remove('open');
+    navbutton.current.classList.replace('open', 'closed');
+    navigation.current.classList.remove('open');
     Array.from(links).forEach((el) => {
       el.classList.remove('active');
     });
@@ -78,7 +78,7 @@ const Header = () => {
         </div>
 
        
-        <div id="mobile_button" className="closed" onClick={menuButtonClick} >
+        <div id="mobile_button" className="closed" onClick={menuButtonClick} ref={navbutton} >
           <span></span>
           <span></span>
           <span></span>
@@ -86,7 +86,7 @@ const Header = () => {
         
       </div>
 
-      <nav id="nav" className="nav">
+      <nav id="nav" className="nav" ref={navigation}>
         <Navbar />
       </nav>
     </>
