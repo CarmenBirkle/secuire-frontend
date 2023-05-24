@@ -77,6 +77,18 @@ export const useFetchData = (endpoint) => {
       throw error;
     }
   };
-
-  return { encryptedDataEntrys, fetchData };
+  
+  return { encryptedDataEntrys, fetchData, };
 };
+
+  export const loginUser = async (email, password) => {
+    try {
+      const response = await axios.post(`${BASEURL}/login`, {
+        email: email,
+        password: password,
+      });
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
