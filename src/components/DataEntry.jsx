@@ -1,7 +1,12 @@
 // List of all DataEntrys
 import SingleDataEntry from "./SingleDataEntry";
 
-const DataEntry = ({ filteredDataEntries, removeDataEntry }) => {
+const DataEntry = ({
+  filteredDataEntries,
+  removeDataEntry,
+  // selectedId,
+  // setSelectedId,
+}) => {
   //TODO remove in production
   console.log('dataEntrys in DataEntry:', filteredDataEntries);
   return (
