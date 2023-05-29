@@ -122,6 +122,13 @@ return (
     </h3>
     <h4>{t(ENTRY_TYPE ? ENTRY_TYPE : 'main')}</h4>
 
+    {searchTerm && (
+      <div>
+        <h4>Search Result</h4>
+        <span>{searchTerm}</span>
+      </div>
+    )}
+
     {showDetail ? (
       <SingleDataEntryDetail
         dataEntry={filteredDataEntries.find((entry) => entry.id === selectedId)}
