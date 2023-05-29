@@ -2,7 +2,7 @@ import Decrypt from './helperSites/Decrypt';
 // import CryptoJS from 'crypto-js';
 
 const EditDataEntry = () => {
-  //Beispielwerte für verschlüsselte Werte - kommen später über den Service
+  // TODO: entfernen - Beispielwerte für verschlüsselte Werte - kommen später über den Service
   const cryptedData = {
     category: 'safenote',
     favourite: 'U2FsdGVkX1+Ra7NjD+SsOLKfZSpyuy5XtFSHwGFFDh4=',

@@ -62,6 +62,24 @@ export const useFetchData = (endpoint) => {
        customTopics:
          'U2FsdGVkX1+R6iSZISqSX7nT8ejhBAvkAl5n/CT7Rx5IPSrhuh327gGazUUIaG5/jAXExjn7M3tC7GeJBssem3BQ54vqgpo8QIxGLscz3DkFd/W1GhZvCybn0R6KVsdf',
      },
+     {
+       category: 'paymentcard',
+       favourite: 'U2FsdGVkX1+Ev5Evucvk/2u0fvqyRoWGA9IcewcRrdo=',
+       subject: 'U2FsdGVkX18ZGzkRFKV9sJ7KzBe+6xkjLBVsHr/fce0=',
+       username: null,
+       password: null,
+       url: null,
+       comment:
+         'U2FsdGVkX1+e9ATgHx/cud80RYng386whPzC5tFzts2c/Cxp48dPGb7D7h1Cs5Qh',
+       note: null,
+       pin: 'U2FsdGVkX1+vVBYAKYvbGVhevsN30l5Q6hOKUifK/gc=',
+       cardnumber: 'U2FsdGVkX19VVs0c3Ac5OJzkW3x5XVfVIi0Do2GSZL4=',
+       expirationdate: 'U2FsdGVkX1+Yc0ao1IekYozHOGkEw1OXOHL9pCg6q6Q=',
+       owner: 'U2FsdGVkX19RpeYXdM5IOgsrRi2PGw/Ec1vGEfNWp7E=',
+       cvv: 'U2FsdGVkX1+VMpvo4mjzuv4ZhQOIC6DzAg2chmro0A0=',
+       cardtype: 'U2FsdGVkX18Zh8PRWWvGEwndkGIW8koF3pry+ZLyR5s=',
+       customTopics: 'U2FsdGVkX18CpCtZJlUkpGt7xo2McVqsseUy3Fn0v6k=',
+     },
    ]);
 
   const fetchData = async () => {
