@@ -8,18 +8,27 @@ import Decrypt from '../components/helperSites/Decrypt';
 import SearchBar from '../components/SearchBar';
 import { encryptedDataEntrys, useFetchData } from '../components/helperSites/Axios';
 import { AppContext } from '../components/helperSites/AppContext';
+import SingleDataEntryDetail from '../components/SingleDataEntryDetail';
+
+
 
 const Main = ({user}) => {
   const { t } = useTranslation(['main']);
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const ENTRY_TYPE = params.get('type');
-  const IS_FAVOURITES = params.get('favourites');
+  const IS_FAVOURITES = params.get('type') === 'favourites';
   const [dataEntrys, setDataEntrys] = useState([]);
   const [filteredDataEntries, setFilteredDataEntries] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedId, setSelectedId] = useState(null);
+  const [showDetail, setShowDetail] = useState(false);
 
+  /**
+   * showCreateDataEntry and setShowCreateDataEntry get from AppContext
+   */
   const { showCreateDataEntry, setShowCreateDataEntry } =
-    useContext(AppContext); // showCreateDataEntry und setShowCreateDataEntry aus dem AppContext holen
+    useContext(AppContext);
 
   /**
    * to fetch all DataEntrys as encrypted data from the server.
@@ -42,26 +51,38 @@ const Main = ({user}) => {
     }
   }, [encryptedDataEntrys]);
 
+  /**
+   * This useEffect hook updates the filtered list of data entries.
+   * It filters by `ENTRY_TYPE` and `searchTerm` (case-insensitive).
+   * It also handles the 'favourites' category specifically.
+   * The hook runs whenever `dataEntrys`, `ENTRY_TYPE`, `IS_FAVOURITES`, or `searchTerm` change.
+   */
   useEffect(() => {
     let updatedFilteredDataEntries = dataEntrys;
 
-    if (ENTRY_TYPE) {
+    if (ENTRY_TYPE && ENTRY_TYPE !== 'favourites') {
       updatedFilteredDataEntries = updatedFilteredDataEntries.filter(
         (dataEntry) => dataEntry.category === ENTRY_TYPE
       );
     }
 
-    if (IS_FAVOURITES) {
+    if (ENTRY_TYPE === 'favourites') {
       updatedFilteredDataEntries = updatedFilteredDataEntries.filter(
-        (dataEntry) => dataEntry.favourite !== false
+        (dataEntry) => dataEntry.favourite === true
       );
     }
-    console.log('gefiltert:', updatedFilteredDataEntries);
+
+    if (searchTerm) {
+      updatedFilteredDataEntries = updatedFilteredDataEntries.filter(
+        (dataEntry) =>
+          dataEntry.subject.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
     setFilteredDataEntries(updatedFilteredDataEntries);
-  }, [dataEntrys, ENTRY_TYPE, IS_FAVOURITES]);
+  }, [dataEntrys, ENTRY_TYPE, IS_FAVOURITES, searchTerm]);
 
   const removeDataEntry = (id) => {
-    //ggf. als async makieren / vorbereitete Funktion - später relevant, wird aber schon an die anderen components übergeben
+    //TODO ggf. als async makieren / vorbereitete Funktion - später relevant, wird aber schon an die anderen components übergeben
   };
 
   /**
@@ -71,39 +92,74 @@ const Main = ({user}) => {
     fetchData();
   }, []);
 
+  /**
+   * Is triggered when the user clicks on the + Icon.
+   * It sets the 'showCreateDataEntry' state variable to true,
+   * which will display the 'CreateDataEntry' component, and hide the 'DataEntry' component.
+   */
   const handleClick = () => {
     setShowCreateDataEntry(true);
   };
 
-  return (
-    <>
-      <h2>{t('placeholder')}</h2>
-      <SearchBar />
-      {/* TODO: Usernamen ausgeben, wenn später gefetcht */}
-      <h3>
-        {t('welcome')} {user?.email},
-      </h3>
-      <h4> ### gewählte Filterung: {ENTRY_TYPE ? ENTRY_TYPE : 'keine'}</h4>
-      {!showCreateDataEntry && (
-        <DataEntry
-        filteredDataEntries={filteredDataEntries}
-        removeDataEntry={removeDataEntry}
+  //<---- Search Functions ---->
+
+  /**
+   * Is triggered when the user types in the searchbar.
+   * and sets the searchTerm state variable. Will be used to filter the data entries in live time.
+   * @param {event} event - gets the value of the searchbar
+   */
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+return (
+  <>
+    {/* TODO Searchbar display fixed or dynamic ? */}
+    <SearchBar handleSearch={handleSearch} />
+    {/* TODO: Username (Begrüßung) ausgeben, wenn später gefetcht */}
+    <h3>
+      {t('welcome')} {user?.email},
+    </h3>
+    <h4>{t(ENTRY_TYPE ? ENTRY_TYPE : 'main')}</h4>
+
+    {searchTerm && (
+      <div>
+        <h4>Search Result</h4>
+        <span>{searchTerm}</span>
+      </div>
+    )}
+
+    {showDetail ? (
+      <SingleDataEntryDetail
+        dataEntry={filteredDataEntries.find((entry) => entry.id === selectedId)}
+        selectedId={selectedId}
+        setShowDetail={setShowDetail}
+        setSelectedId={setSelectedId}
       />
-      )}
-      {/* <DataEntry
-        filteredDataEntries={filteredDataEntries}
-        removeDataEntry={removeDataEntry}
-      /> */}
+    ) : (
+      <>
+        {!showCreateDataEntry && (
+          <DataEntry
+            filteredDataEntries={filteredDataEntries}
+            removeDataEntry={removeDataEntry}
+            selectedId={selectedId} // Zustand hier weitergeben
+            setSelectedId={setSelectedId} // Funktion hier weitergeben
+            setShowDetail={setShowDetail}
+          />
+        )}
 
-      {showCreateDataEntry && (
-        <CreateDataEntry setShowCreateDataEntry={setShowCreateDataEntry} />
-      )}
+        {showCreateDataEntry && (
+          <CreateDataEntry setShowCreateDataEntry={setShowCreateDataEntry} />
+        )}
 
-      {!showCreateDataEntry && (
-        <button onClick={handleClick}>Placeholder for Add Icon +</button>
-      )}
-    </>
-  );
+        {/* TODO + Icon */}
+        {!showCreateDataEntry && (
+          <button onClick={handleClick}>Placeholder for Add Icon +</button>
+        )}
+      </>
+    )}
+  </>
+);
 };
 
 export default Main;

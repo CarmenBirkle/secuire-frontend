@@ -1,6 +1,5 @@
-{
-  "placeholder": "--- dummy text content of page Main (DataEntrys) ---",
-  "login": "Login",
+{ 
+  "login": "Passwords / Logins",
   "safenotes": "Safe Notes",
   "paymentcards": "Payment Cards",
   "favourite": "Favourite",
@@ -11,6 +10,8 @@
   "comment": "Comments",
   "note": "Notes",
   "owner": "Owner",
+  "submit": "Submit",
+
   "cardnumber": "Cardnumber",
   "cardtype": "Cardtype",
   "expirationdate": "Valid until",
@@ -20,11 +21,17 @@
   "master": "Master Card",
   "credit": "Credit Card",
   "giro": "Giro Carte",
-  "submit": "Submit",
+
   "addField": "Add new Field",
   "varTitle": "Title variable field",
   "var": "Variable field",
   "remove": "Remove",
   "welcome": "Welcome",
-  "cancel": "Abbrechen"
+  "cancel": "Abbrechen",
+
+  "search": "search ...",
+  "favourites": "Your favourites",
+  "safenote": "Safe Notes",
+  "paymentcard": "Payment Cards",
+  "main": "Entire Data List "
 }

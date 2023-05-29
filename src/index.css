@@ -385,4 +385,10 @@ nav li.link.active a, nav li a:hover  {
     }
     
   }
+
+  /* nur beispielklasse - wieder entfernen */
+  .test{
+    border: 2px solid #2454C4;
+  } 
+
   

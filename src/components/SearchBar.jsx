@@ -1,11 +1,10 @@
-const SearchBar = () => {
+const SearchBar = ({ handleSearch }) => {
   return (
     <section>
       <form action="">
-        <input type="text" />
-        <button type="submit">Search</button>
+        <input type="text" placeholder="search..." onChange={handleSearch} />
       </form>
     </section>
   );
-}
+};
 export default SearchBar

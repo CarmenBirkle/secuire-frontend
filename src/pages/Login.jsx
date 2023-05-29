@@ -24,7 +24,7 @@ const Login = ({setUser}) => {
     console.log('Email: ', email, 'Password: ', password, 'Remember: ', remember, 'WrongPassword: ', wrongPassword);
     if(!email || !password) return;
     setUser ({email: email, password: password, remember: remember, wrongPassword: wrongPassword}); 
-    navigate('/main');
+    navigate('/main?type=favourites');
     }
   
 

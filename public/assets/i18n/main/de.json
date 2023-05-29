@@ -1,6 +1,5 @@
 {
-  "placeholder": "--- Dummytext Inhalt der Seite Main (DataEntrys) :-)  ---",
-  "login": "Zugangsdaten",
+  "login": "Passwörter / Zugangsdaten",
   "safenotes": "Sichere Notizen",
   "paymentcards": "Bezahlkarten",
   "favourite": "Favorit",
@@ -10,11 +9,29 @@
   "url": "URL",
   "comment": "Kommentar",
   "note": "Notiz",
+  "owner": "Inhaber",
   "submit": "Speichern",
+
+  "cardnumber": "Kartennummer",
+  "cardtype": "Kartentyp",
+  "expirationdate": "Gültig bis",
+  "cvv": "CVV",
+  "pin": "PIN",
+  "visa": "Visa Karte",
+  "master": "Master Karte",
+  "credit": "Kredit Karte",
+  "giro": "Giro Karte",
+
   "addField": "Neues Feld erzeugen",
   "varTitle": "Titel für Variables Feld ",
   "var": "Variables Feld ",
   "remove": "Entfernen",
   "welcome": "Willkommen",
-  "cancel": "Abbrechen"
+  "cancel": "Abbrechen",
+
+  "search": "suchen ...", 
+  "favourites": "Deine Favoriten",
+  "safenote": "Sichere Notizen",
+  "paymentcard": "Bezahlkarten",
+  "main": "Gesamte Datenliste"
 }
