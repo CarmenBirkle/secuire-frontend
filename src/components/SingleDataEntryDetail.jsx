@@ -2,7 +2,12 @@
  * Display Single DataEntry Overview component with Name
  * @returns for each DataEntry an Overview component
  */
-const SingleDataEntryDetail = ({ dataEntry, removeDataEntry }) => {
+const SingleDataEntryDetail = ({
+  dataEntry,
+  removeDataEntry,
+  setSelectedId,
+  setShowDetail,
+}) => {
   const renderCustomTopics = () => {
     if (dataEntry.customTopics.length !== 0) {
       return dataEntry.customTopics.map((topic, index) => (
@@ -13,11 +18,20 @@ const SingleDataEntryDetail = ({ dataEntry, removeDataEntry }) => {
     }
   };
 
+  /**
+   * Is triggered when the user clicks on the close button.
+   */
+  const handleCloseClick = () => {
+    setShowDetail(false);
+   setSelectedId(null);
+  };
+
   const renderDataEntryDetail = () => {
     switch (dataEntry.category) {
       case 'login':
         return (
           <>
+            <div onClick={handleCloseClick}>Placeholder Close Button</div>
             <input
               type="checkbox"
               checked={dataEntry.favourite ? true : false}
@@ -28,11 +42,13 @@ const SingleDataEntryDetail = ({ dataEntry, removeDataEntry }) => {
             <div>{dataEntry.url}</div>
             <div>{dataEntry.comment}</div>
             {renderCustomTopics()}
+            <div>Placeholder Edit Button</div>
           </>
         );
       case 'safenote':
         return (
           <>
+            <div onClick={handleCloseClick}>Placeholder Close Button</div>
             <input
               type="checkbox"
               checked={dataEntry.favourite ? true : false}
@@ -42,11 +58,13 @@ const SingleDataEntryDetail = ({ dataEntry, removeDataEntry }) => {
             <div>{dataEntry.note}</div>
             <div>{dataEntry.comment}</div>
             {renderCustomTopics()}
+            <div>Placeholder Edit Button</div>
           </>
         );
       case 'paymentcard':
         return (
           <>
+            <div onClick={handleCloseClick}>Placeholder Close Button</div>
             <input
               type="checkbox"
               checked={dataEntry.favourite ? true : false}
@@ -61,6 +79,7 @@ const SingleDataEntryDetail = ({ dataEntry, removeDataEntry }) => {
             <div>{dataEntry.cvv}</div>
             <div>{dataEntry.comment}</div>
             {renderCustomTopics()}
+            <div>Placeholder Edit Button</div>
           </>
         );
       default:

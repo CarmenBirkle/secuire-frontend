@@ -3,7 +3,12 @@ import { useTranslation } from 'react-i18next';
  * Display Single DataEntry Overview component with Name
  * @returns for each DataEntry an Overview component
  */
-const SingleDataEntry = ({ dataEntry, removeDataEntry }) => {
+const SingleDataEntry = ({
+  dataEntry,
+  removeDataEntry,
+  setSelectedId,
+  setShowDetail,
+}) => {
   const { t } = useTranslation(['main']);
 
   const renderCustomTopics = () => {
@@ -14,6 +19,11 @@ const SingleDataEntry = ({ dataEntry, removeDataEntry }) => {
         </div>
       ));
     }
+  };
+
+  const handleCardClick = () => {
+    setSelectedId(dataEntry.id);
+    setShowDetail(true);
   };
 
   const renderDataEntry = () => {
@@ -30,10 +40,6 @@ const SingleDataEntry = ({ dataEntry, removeDataEntry }) => {
             />
             <div>{t('subject')}:</div>
             <div>{dataEntry.subject}</div>
-            {/* <div>{dataEntry.username}</div>
-            <div>{dataEntry.url}</div>
-            <div>{dataEntry.comment}</div>
-            {renderCustomTopics()} */}
           </>
         );
       case 'safenote':
@@ -48,9 +54,6 @@ const SingleDataEntry = ({ dataEntry, removeDataEntry }) => {
             />
             <div>{t('subject')}:</div>
             <div>{dataEntry.subject}</div>
-            {/* <div>{dataEntry.note}</div>
-            <div>{dataEntry.comment}</div>
-            {renderCustomTopics()} */}
           </>
         );
       case 'paymentcard':
@@ -65,14 +68,6 @@ const SingleDataEntry = ({ dataEntry, removeDataEntry }) => {
             />
             <div>{t('subject')}:</div>
             <div>{dataEntry.subject}</div>
-            {/* <div>{dataEntry.cardtype}</div>
-            <div>{dataEntry.owner}</div>
-            <div>{dataEntry.cardnumber}</div>
-            <div>{dataEntry.expirationdate}</div>
-            <div>{dataEntry.pin}</div>
-            <div>{dataEntry.cvv}</div>
-            <div>{dataEntry.comment}</div>
-            {renderCustomTopics()} */}
           </>
         );
       default:
@@ -80,7 +75,11 @@ const SingleDataEntry = ({ dataEntry, removeDataEntry }) => {
     }
   };
 
-  return <>{renderDataEntry()}</>;
+  return (
+    <div class="test" onClick={handleCardClick}>
+      {renderDataEntry()}
+    </div>
+  );
 };
 
 export default SingleDataEntry;

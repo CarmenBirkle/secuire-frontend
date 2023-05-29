@@ -8,6 +8,7 @@ import Decrypt from '../components/helperSites/Decrypt';
 import SearchBar from '../components/SearchBar';
 import { encryptedDataEntrys, useFetchData } from '../components/helperSites/Axios';
 import { AppContext } from '../components/helperSites/AppContext';
+import SingleDataEntryDetail from '../components/SingleDataEntryDetail';
 
 
 
@@ -20,6 +21,8 @@ const Main = ({user}) => {
   const [dataEntrys, setDataEntrys] = useState([]);
   const [filteredDataEntries, setFilteredDataEntries] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedId, setSelectedId] = useState(null);
+  const [showDetail, setShowDetail] = useState(false);
 
   /**
    * showCreateDataEntry and setShowCreateDataEntry get from AppContext
@@ -109,32 +112,47 @@ const Main = ({user}) => {
     setSearchTerm(event.target.value);
   };
 
-  return (
-    <>
-      {/* TODO Searchbar display fixed or dynamic ? */}
-      <SearchBar handleSearch={handleSearch} />
-      {/* TODO: Username (Begrüßung) ausgeben, wenn später gefetcht */}
-      <h3>
-        {t('welcome')} {user?.email},
-      </h3>
-      <h4>{t(ENTRY_TYPE ? ENTRY_TYPE : 'main')}</h4>
+return (
+  <>
+    {/* TODO Searchbar display fixed or dynamic ? */}
+    <SearchBar handleSearch={handleSearch} />
+    {/* TODO: Username (Begrüßung) ausgeben, wenn später gefetcht */}
+    <h3>
+      {t('welcome')} {user?.email},
+    </h3>
+    <h4>{t(ENTRY_TYPE ? ENTRY_TYPE : 'main')}</h4>
 
-      {!showCreateDataEntry && (
-        <DataEntry
-          filteredDataEntries={filteredDataEntries}
-          removeDataEntry={removeDataEntry}
-        />
-      )}
+    {showDetail ? (
+      <SingleDataEntryDetail
+        dataEntry={filteredDataEntries.find((entry) => entry.id === selectedId)}
+        selectedId={selectedId}
+        setShowDetail={setShowDetail}
+        setSelectedId={setSelectedId}
+      />
+    ) : (
+      <>
+        {!showCreateDataEntry && (
+          <DataEntry
+            filteredDataEntries={filteredDataEntries}
+            removeDataEntry={removeDataEntry}
+            selectedId={selectedId} // Zustand hier weitergeben
+            setSelectedId={setSelectedId} // Funktion hier weitergeben
+            setShowDetail={setShowDetail}
+          />
+        )}
 
-      {showCreateDataEntry && (
-        <CreateDataEntry setShowCreateDataEntry={setShowCreateDataEntry} />
-      )}
-      {/* TODO + Icon */}
-      {!showCreateDataEntry && (
-        <button onClick={handleClick}>Placeholder for Add Icon +</button>
-      )}
-    </>
-  );
+        {showCreateDataEntry && (
+          <CreateDataEntry setShowCreateDataEntry={setShowCreateDataEntry} />
+        )}
+
+        {/* TODO + Icon */}
+        {!showCreateDataEntry && (
+          <button onClick={handleClick}>Placeholder for Add Icon +</button>
+        )}
+      </>
+    )}
+  </>
+);
 };
 
 export default Main;

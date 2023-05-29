@@ -1,26 +1,45 @@
 // List of all DataEntrys
 import SingleDataEntry from "./SingleDataEntry";
+import SingleDataEntryDetail from "./SingleDataEntryDetail";
 
 const DataEntry = ({
   filteredDataEntries,
   removeDataEntry,
-  // selectedId,
-  // setSelectedId,
+  selectedId,
+  setSelectedId,
+  setShowDetail,
 }) => {
+
+
   //TODO remove in production
-  console.log('dataEntrys in DataEntry:', filteredDataEntries);
+  // console.log('dataEntrys in DataEntry:', filteredDataEntries);
   return (
     <div>
       {filteredDataEntries.map((dataEntry) => {
-        return (
-          <SingleDataEntry
-            key={dataEntry.id}
-            dataEntry={dataEntry}
-            removeDataEntry={removeDataEntry}
-          />
-        );
+        if (selectedId === dataEntry.id) {
+          return (
+            <SingleDataEntryDetail
+              key={dataEntry.id}
+              dataEntry={dataEntry}
+              removeDataEntry={removeDataEntry}
+              setSelectedId={setSelectedId}
+              setShowDetail={setShowDetail} 
+            />
+          );
+        } else {
+           return (
+            <SingleDataEntry
+              key={dataEntry.id}
+              dataEntry={dataEntry}
+              removeDataEntry={removeDataEntry}
+              setSelectedId={setSelectedId}
+              setShowDetail={setShowDetail} 
+            />
+          );
+        }
       })}
     </div>
   );
 };
+
 export default DataEntry
