@@ -9,14 +9,24 @@ import SearchBar from '../components/SearchBar';
 import { encryptedDataEntrys, useFetchData } from '../components/helperSites/Axios';
 import { AppContext } from '../components/helperSites/AppContext';
 
+
+
 const Main = ({user}) => {
   const { t } = useTranslation(['main']);
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const ENTRY_TYPE = params.get('type');
-  const IS_FAVOURITES = params.get('favourites');
+  const IS_FAVOURITES = params.get('type') === 'favourites';
   const [dataEntrys, setDataEntrys] = useState([]);
   const [filteredDataEntries, setFilteredDataEntries] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  //filternt nur die Favoriten
+  // let trueFavourites = dataEntrys.filter(
+  //   (dataEntry) => dataEntry.favourite === true
+  // );
+  // console.log(trueFavourites);
+
 
   const { showCreateDataEntry, setShowCreateDataEntry } =
     useContext(AppContext); // showCreateDataEntry und setShowCreateDataEntry aus dem AppContext holen
@@ -42,23 +52,49 @@ const Main = ({user}) => {
     }
   }, [encryptedDataEntrys]);
 
+  // useEffect(() => {
+  //   let updatedFilteredDataEntries = [...dataEntrys];
+
+  //   if (ENTRY_TYPE === 'favourites') {
+  //     updatedFilteredDataEntries = updatedFilteredDataEntries.filter(
+  //       (dataEntry) => dataEntry.favourite === true
+  //     );
+  //   }
+
+  //   setFilteredDataEntries(updatedFilteredDataEntries);
+  // }, [dataEntrys, ENTRY_TYPE]);
+
+
   useEffect(() => {
     let updatedFilteredDataEntries = dataEntrys;
 
-    if (ENTRY_TYPE) {
+    if (ENTRY_TYPE && ENTRY_TYPE !== 'favourites') {
       updatedFilteredDataEntries = updatedFilteredDataEntries.filter(
         (dataEntry) => dataEntry.category === ENTRY_TYPE
       );
     }
 
-    if (IS_FAVOURITES) {
+    if (searchTerm) {
       updatedFilteredDataEntries = updatedFilteredDataEntries.filter(
-        (dataEntry) => dataEntry.favourite !== false
+        (dataEntry) =>
+          dataEntry.subject.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
+
+    if (ENTRY_TYPE === 'favourites') {
+      // updatedFilteredDataEntries = updatedFilteredDataEntries.filter(
+      //   (dataEntry) => dataEntry.favourite === true
+      // );
+       let trueFavourites = dataEntrys.filter(
+         (dataEntry) => dataEntry.favourite === true
+       );
+       console.log(trueFavourites);
+       updatedFilteredDataEntries = trueFavourites;
+    }
+
     console.log('gefiltert:', updatedFilteredDataEntries);
     setFilteredDataEntries(updatedFilteredDataEntries);
-  }, [dataEntrys, ENTRY_TYPE, IS_FAVOURITES]);
+  }, [dataEntrys, ENTRY_TYPE, IS_FAVOURITES, searchTerm]);
 
   const removeDataEntry = (id) => {
     //ggf. als async makieren / vorbereitete Funktion - später relevant, wird aber schon an die anderen components übergeben
@@ -74,21 +110,33 @@ const Main = ({user}) => {
   const handleClick = () => {
     setShowCreateDataEntry(true);
   };
+  //Search Funktions
+
+useEffect(() => {
+  console.log('searchTerm', searchTerm);
+}, [searchTerm]);
+
+const handleSearch = (event) => {
+  console.log('searchTerm', event.target.value);
+  setSearchTerm(event.target.value);
+};
+
+
 
   return (
     <>
       <h2>{t('placeholder')}</h2>
-      <SearchBar />
-      {/* TODO: Usernamen ausgeben, wenn später gefetcht */}
+      <SearchBar handleSearch={handleSearch} />
+      {/* TODO: Username (Begrüßung) ausgeben, wenn später gefetcht */}
       <h3>
         {t('welcome')} {user?.email},
       </h3>
       <h4> ### gewählte Filterung: {ENTRY_TYPE ? ENTRY_TYPE : 'keine'}</h4>
       {!showCreateDataEntry && (
         <DataEntry
-        filteredDataEntries={filteredDataEntries}
-        removeDataEntry={removeDataEntry}
-      />
+          filteredDataEntries={filteredDataEntries}
+          removeDataEntry={removeDataEntry}
+        />
       )}
       {/* <DataEntry
         filteredDataEntries={filteredDataEntries}
