@@ -8,6 +8,7 @@ export const useFetchData = (endpoint) => {
      {
        id: 1,
        category: 'safenote',
+       selectedIcon:"U2FsdGVkX19pMKUXFv/iF31YCf3tuctBmOOhVWKBaIk=",
        favourite: 'U2FsdGVkX18JeVi+/9NItFcbaE1s7VfCvF8AavldEpQ=',
        subject: 'U2FsdGVkX1/J8fhuDyrXdgeEM5EddFV3QWhIxcNvHIA=',
        username: null,
@@ -27,6 +28,7 @@ export const useFetchData = (endpoint) => {
      {
        id: 2,
        category: 'login',
+       selectedIcon:"U2FsdGVkX18LEq0N5JQw70dT2kG8c/KPbpEVpefJvTg=",
        favourite: 'U2FsdGVkX1+v/80qP63ofHNcmwQRBCjUlrNZGU4KeXg=',
        subject: 'U2FsdGVkX18xPwWQ8gcBVTfrNIqew3gleL6mXZ6j/vU=',
        username: 'U2FsdGVkX19EbnKkx7F5aJiIlekDH7/t9A/0jq17bWo=',
@@ -66,6 +68,7 @@ export const useFetchData = (endpoint) => {
        id: 4,
        category: 'paymentcard',
        favourite: 'U2FsdGVkX1+Ev5Evucvk/2u0fvqyRoWGA9IcewcRrdo=',
+       selectedIcon: null,
        subject: 'U2FsdGVkX18ZGzkRFKV9sJ7KzBe+6xkjLBVsHr/fce0=',
        username: null,
        password: null,

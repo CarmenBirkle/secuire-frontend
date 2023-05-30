@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { encryptObject } from './helperSites/Encrypt';
+import test1 from '../img/icons_DataEntrys/1.png';
+import test2 from '../img/icons_DataEntrys/2.png';
+import placeholder from '../img/icons_DataEntrys/dummy-icon.png';
 
 const CreateDataEntry = ({ setShowCreateDataEntry }) => {
   const { t } = useTranslation(['main']);
   const [category, setCategory] = useState('login');
   const [favourite, setFavourite] = useState(false);
+  const [selectedIcon, setSelectedIcon] = useState(null);
   const [subject, setSubject] = useState(null);
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
@@ -19,6 +23,25 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
   const [cvv, setCvv] = useState(null);
   const [cardtype, setCardtype] = useState(null);
   const [customTopics, setCustomTopics] = useState([]);
+  const [showIconSelection, setShowIconSelection] = useState(false);
+ const icons = [test1, test2];
+ const resetState = () => {
+   setFavourite(false);
+   setSubject('');
+   setSelectedIcon(null);
+   setUsername('');
+   setPassword('');
+   setUrl('');
+   setComment('');
+   setNote('');
+   setPin('');
+   setCardnumber('');
+   setExpirationdate('');
+   setOwner('');
+   setCvv('');
+   setCardtype('');
+   setCustomTopics([]);
+ };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,6 +49,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
     const inputData = {
       category,
       favourite,
+      selectedIcon,
       subject,
       username,
       password,
@@ -45,7 +69,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
     };
 
     // TODO delete in production
-    console.log('submit klartext eingabe', inputData);
+    console.log('Klartext: Eingabe Submit: ', inputData);
 
     const encryptedData = encryptObject(
       inputData,
@@ -53,22 +77,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
     );
 
     //TODO delete in production
-    console.log('Verschlüsselte Daten aus Submit:', encryptedData);
-    setCategory('login');
-    setFavourite(false);
-    setSubject('');
-    setUsername('');
-    setPassword('');
-    setUrl('');
-    setComment('');
-    setNote('');
-    setPin('');
-    setCardnumber('');
-    setExpirationdate('');
-    setOwner('');
-    setCvv('');
-    setCardtype('');
-    setCustomTopics([]);
+    console.log('Verschlüsselt: Eingabe aus Submit:', encryptedData);
   };
 
   /**
@@ -76,9 +85,11 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
    * @param {Array} dependencies - An array of dependencies which includes the category value.
    * When the category value changes, the useEffect hook is triggered.
    */
+
   useEffect(() => {
-    setCustomTopics([]);
+    resetState();
   }, [category]);
+
 
   const handleAddField = () => {
     setCustomTopics([...customTopics, { fieldName: '', fieldValue: '' }]);
@@ -95,6 +106,45 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
     updatedFields[index][fieldKey] = value;
     setCustomTopics(updatedFields);
   };
+
+
+
+//  icon selection
+
+     const handleIconSelect = (index) => {
+       setSelectedIcon(index);
+       setShowIconSelection(false);
+     };
+
+   const IconSelectionModal = () => {
+     return (
+       <div>
+         <h4>Wähle ein Icon:</h4>
+         <div>
+           {icons.map((icon, index) => (
+             <div
+               key={index}
+               onClick={() => handleIconSelect(index)}
+               style={{ cursor: 'pointer' }}
+             >
+               <img style={{ width: '30px' }} src={icon} alt={icon} />
+             </div>
+           ))}
+         </div>
+       </div>
+     );
+   };
+   // TODO Inline with wieder entfernen wenn classe definiert
+   const renderSelectedIcon = () => {
+     return (
+       <img
+         style={{ width: '30px' }}
+         src={selectedIcon !== null ? icons[selectedIcon] : placeholder}
+         alt={selectedIcon !== null ? `Icon ${selectedIcon}` : 'Choose Icon'}
+       />
+     );
+   };
+
 
   const renderFields = () => {
     return customTopics.map((field, index) => (
@@ -138,10 +188,16 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
         <option value="paymentcard">{t('paymentcards')} </option>
       </select>
 
+      {showIconSelection && (
+        <IconSelectionModal handleIconSelect={handleIconSelect} />
+      )}
       <form onSubmit={handleSubmit}>
         {/* form-elements for login */}
         {category === 'login' && (
           <fieldset>
+            <div onClick={() => setShowIconSelection(true)}>
+                {renderSelectedIcon()}
+            </div>
             <label htmlFor="favourite">{t('favourite')}</label>
             <input
               type="checkbox"
@@ -151,6 +207,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               placeholder={t('favourite')}
               onChange={(e) => setFavourite(e.target.value)}
             />
+        
             <input
               type="text"
               id="subject"
@@ -202,6 +259,9 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
         {/* form-elements for safenotes */}
         {category === 'safenote' && (
           <fieldset>
+            <div onClick={() => setShowIconSelection(true)}>
+                {renderSelectedIcon()}
+            </div>
             <label htmlFor="favourite">{t('favourite')}</label>
             <input
               type="checkbox"
@@ -211,6 +271,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               placeholder={t('favourite')}
               onChange={(e) => setFavourite(e.target.value)}
             />
+
             <input
               type="text"
               id="subject"
@@ -243,6 +304,9 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
         )}
         {category === 'paymentcard' && (
           <fieldset>
+            <div onClick={() => setShowIconSelection(true)}>
+                {renderSelectedIcon()}
+            </div>
             <label htmlFor="favourite">{t('favourite')}</label>
             <input
               type="checkbox"
@@ -252,6 +316,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               placeholder={t('favourite')}
               onChange={(e) => setFavourite(e.target.value)}
             />
+
             <input
               type="text"
               id="subject"
