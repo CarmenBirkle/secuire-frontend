@@ -76,7 +76,7 @@ const SingleDataEntry = ({
   };
 
   return (
-    <div class="test" onClick={handleCardClick}>
+    <div className="test" onClick={handleCardClick}>
       {renderDataEntry()}
     </div>
   );

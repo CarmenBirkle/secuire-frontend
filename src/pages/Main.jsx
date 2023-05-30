@@ -92,6 +92,15 @@ const Main = ({user}) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const handleCloseClick = () => {
+      setShowDetail(false);
+      setSelectedId(null);
+    };
+
+    handleCloseClick();
+  }, [ENTRY_TYPE]); 
+
   /**
    * Is triggered when the user clicks on the + Icon.
    * It sets the 'showCreateDataEntry' state variable to true,
