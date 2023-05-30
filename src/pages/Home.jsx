@@ -39,12 +39,14 @@ const Home = () => {
   }, []);
 
   return (
-    
-      <>
-        <h1> {t('home:home')}</h1>
-        <Link to="/login">{t('home:login')}</Link> <br />
-        <Link to="/signup">{t('common:signupLink')}</Link>
-      </>
+    <>
+      <h1> {t('home:Seciure')}</h1>
+      <p>{t('home:content')}</p>
+      <br/>
+      <p>{t('home:video')}</p>
+      <Link to="/login">{t('home:login')}</Link> <br />
+      <Link to="/signup">{t('common:signupLink')}</Link>
+    </>
   );
 };
 

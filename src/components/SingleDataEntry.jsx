@@ -1,4 +1,7 @@
 import { useTranslation } from 'react-i18next';
+import { icons } from './helperSites/IconsDataEntry';
+import { dummyIcon } from './helperSites/IconsDataEntry';
+
 /**
  * Display Single DataEntry Overview component with Name
  * @returns for each DataEntry an Overview component
@@ -31,13 +34,19 @@ const SingleDataEntry = ({
       case 'login':
         return (
           <>
-            <label htmlFor="favourite">{t('favourite')}:</label>
-            <input
+            {/* <label htmlFor="favourite">{t('favourite')}:</label> */}
+            {/* <input
               id="favourite"
               type="checkbox"
               checked={dataEntry.favourite ? true : false}
               readOnly
-            />
+            /> */}
+            <div>
+              <img
+                style={{ width: '30px' }}
+                src={icons[dataEntry.selectedIcon] || dummyIcon}
+              />
+            </div>
             <div>{t('subject')}:</div>
             <div>{dataEntry.subject}</div>
           </>
@@ -45,13 +54,19 @@ const SingleDataEntry = ({
       case 'safenote':
         return (
           <>
-            <label htmlFor="favourite">{t('favourite')}:</label>
-            <input
+            {/* <label htmlFor="favourite">{t('favourite')}:</label> */}
+            {/* <input
               type="checkbox"
               id="favourite"
               checked={dataEntry.favourite ? true : false}
               readOnly
-            />
+            /> */}
+            <div>
+              <img
+                style={{ width: '30px' }}
+                src={icons[dataEntry.selectedIcon] || dummyIcon}
+              />
+            </div>
             <div>{t('subject')}:</div>
             <div>{dataEntry.subject}</div>
           </>
@@ -59,13 +74,19 @@ const SingleDataEntry = ({
       case 'paymentcard':
         return (
           <>
-            <label htmlFor="favourite">{t('favourite')}:</label>
+            {/* <label htmlFor="favourite">{t('favourite')}:</label>
             <input
               id="favourite"
               type="checkbox"
               checked={dataEntry.favourite ? true : false}
               readOnly
-            />
+            /> */}
+            <div>
+              <img
+                style={{ width: '30px' }}
+                src={icons[dataEntry.selectedIcon] || dummyIcon}
+              />
+            </div>
             <div>{t('subject')}:</div>
             <div>{dataEntry.subject}</div>
           </>

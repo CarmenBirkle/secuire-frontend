@@ -1,3 +1,7 @@
+import { icons } from './helperSites/IconsDataEntry';
+import { dummyIcon } from './helperSites/IconsDataEntry';
+import { useTranslation } from 'react-i18next';
+
 /**
  * Display Single DataEntry Overview component with Name
  * @returns for each DataEntry an Overview component
@@ -8,6 +12,7 @@ const SingleDataEntryDetail = ({
   setSelectedId,
   setShowDetail,
 }) => {
+  const { t } = useTranslation(['main']);
   const renderCustomTopics = () => {
     if (dataEntry.customTopics.length !== 0) {
       return dataEntry.customTopics.map((topic, index) => (
@@ -23,21 +28,29 @@ const SingleDataEntryDetail = ({
    */
   const handleCloseClick = () => {
     setShowDetail(false);
-   setSelectedId(null);
-
+    setSelectedId(null);
   };
-
+//TODO Inline styling entfernen, wenn in css definiert
   const renderDataEntryDetail = () => {
     switch (dataEntry.category) {
       case 'login':
         return (
           <>
             <div onClick={handleCloseClick}>Placeholder Close Button</div>
+            <label htmlFor="favourite">{t('favourite')}:</label>
             <input
+              id="favourite"
               type="checkbox"
               checked={dataEntry.favourite ? true : false}
               readOnly
             />
+
+            <div>
+              <img
+                style={{ width: '30px' }}
+                src={icons[dataEntry.selectedIcon] || dummyIcon}
+              />
+            </div>
             <div>{dataEntry.subject}</div>
             <div>{dataEntry.username}</div>
             <div>{dataEntry.url}</div>
@@ -50,11 +63,19 @@ const SingleDataEntryDetail = ({
         return (
           <>
             <div onClick={handleCloseClick}>Placeholder Close Button</div>
+            <label htmlFor="favourite">{t('favourite')}:</label>
             <input
+              id="favourite"
               type="checkbox"
               checked={dataEntry.favourite ? true : false}
               readOnly
             />
+            <div>
+              <img
+                style={{ width: '30px' }}
+                src={icons[dataEntry.selectedIcon] || dummyIcon}
+              />
+            </div>
             <div>{dataEntry.subject}</div>
             <div>{dataEntry.note}</div>
             <div>{dataEntry.comment}</div>
@@ -66,11 +87,19 @@ const SingleDataEntryDetail = ({
         return (
           <>
             <div onClick={handleCloseClick}>Placeholder Close Button</div>
+            <label htmlFor="favourite">{t('favourite')}:</label>
             <input
+              id="favourite"
               type="checkbox"
               checked={dataEntry.favourite ? true : false}
               readOnly
             />
+            <div>
+              <img
+                style={{ width: '30px' }}
+                src={icons[dataEntry.selectedIcon] || dummyIcon}
+              />
+            </div>
             <div>{dataEntry.subject}</div>
             <div>{dataEntry.cardtype}</div>
             <div>{dataEntry.owner}</div>

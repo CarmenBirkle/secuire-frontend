@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { encryptObject } from './helperSites/Encrypt';
-// import test1 from '../img/icons_DataEntrys/1.png';
-// import test2 from '../img/icons_DataEntrys/2.png';
 import { icons } from './helperSites/IconsDataEntry'; 
 import {placeholderIcon} from './helperSites/IconsDataEntry';
-// import placeholder from '../img/icons_DataEntrys/dummy-icon.png';
+
 
 const CreateDataEntry = ({ setShowCreateDataEntry }) => {
   const { t } = useTranslation(['main']);
@@ -198,7 +196,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
         {category === 'login' && (
           <fieldset>
             <div onClick={() => setShowIconSelection(true)}>
-                {renderSelectedIcon()}
+              {renderSelectedIcon()}
             </div>
             <label htmlFor="favourite">{t('favourite')}</label>
             <input
@@ -209,7 +207,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               placeholder={t('favourite')}
               onChange={(e) => setFavourite(e.target.value)}
             />
-        
+
             <input
               type="text"
               id="subject"
@@ -262,7 +260,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
         {category === 'safenote' && (
           <fieldset>
             <div onClick={() => setShowIconSelection(true)}>
-                {renderSelectedIcon()}
+              {renderSelectedIcon()}
             </div>
             <label htmlFor="favourite">{t('favourite')}</label>
             <input
@@ -307,7 +305,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
         {category === 'paymentcard' && (
           <fieldset>
             <div onClick={() => setShowIconSelection(true)}>
-                {renderSelectedIcon()}
+              {renderSelectedIcon()}
             </div>
             <label htmlFor="favourite">{t('favourite')}</label>
             <input

@@ -23,6 +23,7 @@ const Main = ({user}) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedId, setSelectedId] = useState(null);
   const [showDetail, setShowDetail] = useState(false);
+  const [editMode, setEditMode] = useState(false);
 
   /**
    * showCreateDataEntry and setShowCreateDataEntry get from AppContext
