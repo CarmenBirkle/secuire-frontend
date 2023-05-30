@@ -140,12 +140,18 @@ return (
       </div>
     )}
 
-    {showDetail ? (
+    {editMode ? (
+      <EditDataEntry
+        dataEntry={filteredDataEntries.find((entry) => entry.id === selectedId)}
+        setEditMode={setEditMode}
+      />
+    ) : showDetail ? (
       <SingleDataEntryDetail
         dataEntry={filteredDataEntries.find((entry) => entry.id === selectedId)}
         selectedId={selectedId}
         setShowDetail={setShowDetail}
         setSelectedId={setSelectedId}
+        setEditMode={setEditMode} 
       />
     ) : (
       <>

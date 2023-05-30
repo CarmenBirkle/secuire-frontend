@@ -24,7 +24,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
   const [cardtype, setCardtype] = useState(null);
   const [customTopics, setCustomTopics] = useState([]);
   const [showIconSelection, setShowIconSelection] = useState(false);
-//  const icons = [test1, test2];
+
  const resetState = () => {
    setFavourite(false);
    setSubject('');

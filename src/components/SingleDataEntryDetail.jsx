@@ -11,6 +11,7 @@ const SingleDataEntryDetail = ({
   removeDataEntry,
   setSelectedId,
   setShowDetail,
+  setEditMode
 }) => {
   const { t } = useTranslation(['main']);
   const renderCustomTopics = () => {
@@ -21,6 +22,11 @@ const SingleDataEntryDetail = ({
         </div>
       ));
     }
+  };
+
+  const handleEditClick = () => {
+    setEditMode(true);
+    setShowDetail(false);
   };
 
   /**
@@ -56,7 +62,7 @@ const SingleDataEntryDetail = ({
             <div>{dataEntry.url}</div>
             <div>{dataEntry.comment}</div>
             {renderCustomTopics()}
-            <div>Placeholder Edit Button</div>
+            <div onClick={handleEditClick}>Placeholder Edit Button</div>
           </>
         );
       case 'safenote':
@@ -80,7 +86,7 @@ const SingleDataEntryDetail = ({
             <div>{dataEntry.note}</div>
             <div>{dataEntry.comment}</div>
             {renderCustomTopics()}
-            <div>Placeholder Edit Button</div>
+            <div onClick={handleEditClick}>Placeholder Edit Button</div>
           </>
         );
       case 'paymentcard':
@@ -109,7 +115,7 @@ const SingleDataEntryDetail = ({
             <div>{dataEntry.cvv}</div>
             <div>{dataEntry.comment}</div>
             {renderCustomTopics()}
-            <div>Placeholder Edit Button</div>
+            <div onClick={handleEditClick}>Placeholder Edit Button</div>
           </>
         );
       default:
