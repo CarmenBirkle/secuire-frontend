@@ -24,6 +24,7 @@ const SingleDataEntryDetail = ({
   const handleCloseClick = () => {
     setShowDetail(false);
    setSelectedId(null);
+
   };
 
   const renderDataEntryDetail = () => {

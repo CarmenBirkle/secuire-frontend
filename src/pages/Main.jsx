@@ -96,6 +96,7 @@ const Main = ({user}) => {
     const handleCloseClick = () => {
       setShowDetail(false);
       setSelectedId(null);
+      setShowCreateDataEntry(false);
     };
 
     handleCloseClick();

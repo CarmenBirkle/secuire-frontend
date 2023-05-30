@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { encryptObject } from './helperSites/Encrypt';
-import test1 from '../img/icons_DataEntrys/1.png';
-import test2 from '../img/icons_DataEntrys/2.png';
-import placeholder from '../img/icons_DataEntrys/dummy-icon.png';
+// import test1 from '../img/icons_DataEntrys/1.png';
+// import test2 from '../img/icons_DataEntrys/2.png';
+import { icons } from './helperSites/IconsDataEntry'; 
+import {placeholderIcon} from './helperSites/IconsDataEntry';
+// import placeholder from '../img/icons_DataEntrys/dummy-icon.png';
 
 const CreateDataEntry = ({ setShowCreateDataEntry }) => {
   const { t } = useTranslation(['main']);
@@ -24,7 +26,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
   const [cardtype, setCardtype] = useState(null);
   const [customTopics, setCustomTopics] = useState([]);
   const [showIconSelection, setShowIconSelection] = useState(false);
- const icons = [test1, test2];
+//  const icons = [test1, test2];
  const resetState = () => {
    setFavourite(false);
    setSubject('');
@@ -139,7 +141,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
      return (
        <img
          style={{ width: '30px' }}
-         src={selectedIcon !== null ? icons[selectedIcon] : placeholder}
+         src={selectedIcon !== null ? icons[selectedIcon] : placeholderIcon}
          alt={selectedIcon !== null ? `Icon ${selectedIcon}` : 'Choose Icon'}
        />
      );
