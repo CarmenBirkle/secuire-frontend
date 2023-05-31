@@ -14,6 +14,7 @@ const SingleDataEntryDetail = ({
   setEditMode
 }) => {
   const { t } = useTranslation(['main']);
+  
   const renderCustomTopics = () => {
     if (dataEntry.customTopics.length !== 0) {
       return dataEntry.customTopics.map((topic, index) => (
