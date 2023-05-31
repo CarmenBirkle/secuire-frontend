@@ -5,6 +5,7 @@ import { placeholderIcon } from './helperSites/IconsDataEntry';
 import { dummyIcon } from './helperSites/IconsDataEntry';
 import { icons } from './helperSites/IconsDataEntry';
 // import IconPicker from './helperSites/IconPicker';
+
 import axios from 'axios';
 
 const EditDataEntry = ({
@@ -31,14 +32,17 @@ const EditDataEntry = ({
     owner: dataEntry.owner,
     cvv: dataEntry.cvv,
     cardtype: dataEntry.cardtype,
-    customTopics: dataEntry.customTopics,
+    customTopics: dataEntry.customTopics || [],
   };
   const { t } = useTranslation(['main']);
   const [state, setState] = useState(initialState);
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [showIconSelection, setShowIconSelection] = useState(false);
-
-
+  
+  const [customTopics, setCustomTopics] = useState(
+    dataEntry.customTopics || []
+  );
+ 
   //  console.log('Initial state nach instanziierung: ', initialState);
 
   // TODO entfernen
@@ -58,7 +62,17 @@ const EditDataEntry = ({
     setShowDetail(true);
     setEditMode(false);
 
-    //TODo ev. logik implementieren das wenn gespeichert wird die daten aktualisiert werden - das nochmals prüfen
+ const updatedDataEntry = {
+   ...state,
+   customTopics: customTopics.map((field) => ({
+     fieldName: field.fieldName,
+     fieldValue: field.fieldValue,
+   })),
+ };
+
+ // aktualisierten Datensatz speichern oder senden an API hier nochmals prüfen
+
+    console.log('Aktualisierter Datensatz:', updatedDataEntry);
   };
 
   const handleCancel = () => {
@@ -66,49 +80,99 @@ const EditDataEntry = ({
     setEditMode(false);
   };
 
-  // testing area icons:
-const handleIconSelect = (index) => {
-  setSelectedIcon(index);
-  setState((prevState) => ({ ...prevState, selectedIcon: index }));
-  setShowIconSelection(false);
-};
+  const handleAddField = () => {
+    const newField = { fieldName: '', fieldValue: '' };
+    setCustomTopics([...customTopics, newField]);
+    setState((prevState) => ({
+      ...prevState,
+      customTopics: [...prevState.customTopics, newField],
+    }));
+  };
 
+ const handleRemoveField = (index) => {
+   const updatedFields = [...customTopics];
+   updatedFields.splice(index, 1);
+   setCustomTopics(updatedFields);
+ };
+
+ const handleFieldChange = (index, fieldKey, value) => {
+  console.log(`Eingabe in Feld ${index} (${fieldKey}): ${value}`);
+   const updatedFields = [...customTopics];
+   updatedFields[index][fieldKey] = value;
+   setCustomTopics(updatedFields);
+ };
+
+ const renderFields = () => {
+   return customTopics.map((field, index) => (
+     <div key={index}>
+       <input
+         type="text"
+         name={`fieldName-${index}`}
+         value={field.fieldName}
+         placeholder={`${t('varTitle')}${index + 1}`}
+         onChange={(e) => handleFieldChange(index, 'fieldName', e.target.value)}
+       />
+
+       <input
+         type="text"
+         name={`fieldValue-${index}`}
+         value={field.fieldValue}
+         placeholder={`${t('var')}${index + 1}`}
+         onChange={(e) =>
+           handleFieldChange(index, 'fieldValue', e.target.value)
+         }
+       />
+
+       <button type="button" onClick={() => handleRemoveField(index)}>
+         {t('remove')}
+       </button>
+     </div>
+   ));
+ };
+
+
+
+  // Icon selection
+  const handleIconSelect = (index) => {
+    setSelectedIcon(index);
+    setState((prevState) => ({ ...prevState, selectedIcon: index }));
+    setShowIconSelection(false);
+  };
 
   // TODO Inline with wieder entfernen wenn classe definiert
-// const renderSelectedIcon = () => {
-//   return (
-//     <img
-//       style={{ width: '30px' }}
-//       src={state.selectedIcon !== null ? icons[state.selectedIcon] : dummyIcon}
-//       alt={
-//         state.selectedIcon !== null
-//           ? `Icon ${state.selectedIcon}`
-//           : 'Choose Icon'
-//       }
-//     />
-//   );
-// };
+  // const renderSelectedIcon = () => {
+  //   return (
+  //     <img
+  //       style={{ width: '30px' }}
+  //       src={state.selectedIcon !== null ? icons[state.selectedIcon] : dummyIcon}
+  //       alt={
+  //         state.selectedIcon !== null
+  //           ? `Icon ${state.selectedIcon}`
+  //           : 'Choose Icon'
+  //       }
+  //     />
+  //   );
+  // };
 
-const renderSelectedIcon = () => {
-  return (
-    <img
-      style={{ width: '30px' }}
-      src={
-        state.selectedIcon !== null && state.selectedIcon !== undefined
-          ? icons[state.selectedIcon]
-          : dummyIcon
-      }
-      alt={
-        state.selectedIcon !== null && state.selectedIcon !== undefined
-          ? `Icon ${state.selectedIcon}`
-          : 'Choose Icon'
-      }
-    />
-  );
-};
+  const renderSelectedIcon = () => {
+    return (
+      <img
+        style={{ width: '30px' }}
+        src={
+          state.selectedIcon !== null && state.selectedIcon !== undefined
+            ? icons[state.selectedIcon]
+            : dummyIcon
+        }
+        alt={
+          state.selectedIcon !== null && state.selectedIcon !== undefined
+            ? `Icon ${state.selectedIcon}`
+            : 'Choose Icon'
+        }
+      />
+    );
+  };
 
-
-// TODO: Inline Style wieder entfernen
+  // TODO: Inline Style wieder entfernen
   const IconSelectionModal = () => {
     return (
       <div>
@@ -134,7 +198,6 @@ const renderSelectedIcon = () => {
     const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // january is 0
     return `${year}-${month}`;
   }
-
 
   return (
     <>
@@ -205,10 +268,10 @@ const renderSelectedIcon = () => {
               value={state.comment}
               onChange={(e) => handleInputChange('comment', e.target.value)}
             />
-            {/* {renderFields()}
+            {renderFields()}
             <button type="button" onClick={handleAddField}>
               {t('addField')}
-            </button> */}
+            </button>
           </fieldset>
         )}
 
@@ -227,7 +290,6 @@ const renderSelectedIcon = () => {
               placeholder={t('favourite')}
               onChange={(e) => handleInputChange('favourite', e.target.checked)}
             />
-
             <input
               type="text"
               id="subject"
@@ -237,7 +299,6 @@ const renderSelectedIcon = () => {
               value={state.subject}
               onChange={(e) => handleInputChange('subject', e.target.value)}
             />
-
             <input
               type="note"
               id="note"
@@ -246,7 +307,6 @@ const renderSelectedIcon = () => {
               value={state.note}
               onChange={(e) => handleInputChange('note', e.target.value)}
             />
-
             <input
               type="text"
               id="comment"
@@ -255,10 +315,11 @@ const renderSelectedIcon = () => {
               value={state.comment}
               onChange={(e) => handleInputChange('comment', e.target.value)}
             />
-            {/* {renderFields()}
+
+            {renderFields()}
             <button type="button" onClick={handleAddField}>
               {t('addField')}
-            </button> */}
+            </button>
           </fieldset>
         )}
         {state.category === 'paymentcard' && (
@@ -350,10 +411,10 @@ const renderSelectedIcon = () => {
               value={state.comment}
               onChange={(e) => handleInputChange('comment', e.target.value)}
             />
-            {/* {renderFields()}
+            {renderFields()}
             <button type="button" onClick={handleAddField}>
               {t('addField')}
-            </button> */}
+            </button>
           </fieldset>
         )}
         <button type="button" onClick={() => handleCancel()}>

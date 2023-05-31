@@ -9,6 +9,7 @@ import SearchBar from '../components/SearchBar';
 import { encryptedDataEntrys, useFetchData } from '../components/helperSites/Axios';
 import { AppContext } from '../components/helperSites/AppContext';
 import SingleDataEntryDetail from '../components/SingleDataEntryDetail';
+import addIcon from '../img/icon-add.svg'
 
 
 
@@ -180,7 +181,7 @@ return (
 
         {/* TODO + Icon */}
         {!showCreateDataEntry && (
-          <button onClick={handleClick}>Placeholder for Add Icon +</button>
+           <img onClick={handleClick} style={{ width: '30px' }} src={addIcon} alt={t('generateNew')} />
         )}
       </>
     )}

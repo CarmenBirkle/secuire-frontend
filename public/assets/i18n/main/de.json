@@ -39,5 +39,6 @@
   "chooseIcon:": "Wähle ein Icon",
   "hide": "verbergen",
   "show": "anzeigen",
-  "copy": "in Zwischenablage kopieren"
+  "copy": "in Zwischenablage kopieren",
+  "createNew": "Neuer Eintrag anlegen"
 }

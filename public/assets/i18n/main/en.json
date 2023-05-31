@@ -39,5 +39,6 @@
   "chooseIcon:": "Chosse an icon:",
   "hide": "hide",
   "show": "show",
-  "copy": "copy to clipboard"
+  "copy": "copy to clipboard",
+  "createNew": "Generate new"
 }
