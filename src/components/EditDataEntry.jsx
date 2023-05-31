@@ -1,7 +1,7 @@
 // import Decrypt from './helperSites/Decrypt';
 import { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { placeholderIcon } from './helperSites/IconsDataEntry';
+import { encryptObject } from './helperSites/Encrypt';
 import { dummyIcon } from './helperSites/IconsDataEntry';
 import { icons } from './helperSites/IconsDataEntry';
 // import IconPicker from './helperSites/IconPicker';
@@ -73,6 +73,13 @@ const EditDataEntry = ({
  // aktualisierten Datensatz speichern oder senden an API hier nochmals prüfen
 
     console.log('Aktualisierter Datensatz:', updatedDataEntry);
+    const encryptedData = encryptObject(
+      updatedDataEntry,
+      process.env.REACT_APP_SECRET
+    );
+    console.log('Verschlüsselte Daten: ', encryptedData);
+    setShowDetail(true);
+    setSelectedId(updatedDataEntry.id);
   };
 
   const handleCancel = () => {
