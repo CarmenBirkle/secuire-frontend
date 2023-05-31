@@ -16,7 +16,6 @@ const Header = () => {
 
   const navbutton = React.useRef(document.getElementById("mobile_button"));
   const navigation = React.useRef(document.getElementById("nav"));
-  const links = React.useRef(document.getElementsByClassName("link"));
 
   useEffect(() => {
     if (localStorage.getItem('i18nextLng')?.length > 2 && !toggleLang) {
@@ -49,9 +48,6 @@ const Header = () => {
   const homeButtonClick = event => {
     navbutton.current.classList.replace('open', 'closed');
     navigation.current.classList.remove('open');
-    Array.from(links).forEach((el) => {
-      el.classList.remove('active');
-    });
   }
   
   return (

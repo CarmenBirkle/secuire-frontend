@@ -80,10 +80,11 @@ main {
   margin: 2em auto;
   min-height: 77vh;
 }
-.link {
+.link, .navlink {
   color: grey;
+
 }
-.link:hover, link:active, .active {
+.link:hover, link:active, .navlink:hover, .navlink:active, .active {
   color: #2454C4;
 }
 
@@ -187,13 +188,13 @@ nav {
 nav ul {
   list-style: none;
 }
-nav .link a {
+nav .navlink a {
   display: block;
   color: #ffffff;
   text-decoration: none;
   height: 2.5em;
 }
-nav li.link.active a, nav li a:hover  {
+nav li.navlink.active a, nav li a:hover  {
   color: #2454C4;
 }
 #mobile_button {

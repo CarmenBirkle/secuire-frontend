@@ -1,4 +1,5 @@
 import React, { useContext} from 'react';
+import { useState } from "react";
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AppContext } from '../helperSites/AppContext';
@@ -9,44 +10,45 @@ const Navbar = () => {
   
   const navbutton = React.useRef(document.getElementById("mobile_button"));
   const navigation = React.useRef(document.getElementById("nav"));
-  const links = React.useRef(document.getElementsByClassName("link"));
-
+  
   const navClick = event => {
+    const links = document.querySelectorAll(".navlink"); 
     Array.from(links).forEach((el) => {
       el.classList.remove('active');
     });
     event.currentTarget.classList.add('active'); 
     navbutton.current.classList.replace('open', 'closed');   
     navigation.current.classList.remove('open');
-    };
+  };
+  
 
   return (
     <ul>
-      <li id="navAccount" className="link" onClick={navClick} ref={links}>
+      <li id="navAccount" className="navlink" onClick={navClick} >
         <NavLink to="account">{t('accountSettings')}</NavLink>
       </li>
-      <li id="navMain" className="link" onClick={navClick} ref={links}>
+      <li id="navMain" className="navlink" onClick={navClick}>
         <NavLink to="/main">{t('allEntries')}</NavLink>
       </li>
-      <li id="navFavourites" className="link" onClick={navClick} ref={links}>
+      <li id="navFavourites" className="navlink" onClick={navClick}>
         <NavLink to="/main?type=favourites">{t('favourites')}</NavLink>
       </li>
-      <li id="navPassword" className="link" onClick={navClick} ref={links}>
+      <li id="navPassword" className="navlink" onClick={navClick}>
         <NavLink to="/main?type=login">{t('passwords')}</NavLink>
       </li>
-      <li id="navNotes" className="link" onClick={navClick} ref={links}>
+      <li id="navNotes" className="navlink" onClick={navClick}>
         <NavLink to="/main?type=safenote">{t('safeNotes')}</NavLink>
       </li>
-      <li id="navCards" className="link" onClick={navClick} ref={links}>
+      <li id="navCards" className="navlink" onClick={navClick}>
         <NavLink to="/main?type=paymentcard">{t('paymentCards')}</NavLink>
       </li>
-      <li id="navPwGenerator" className="link" onClick={navClick} ref={links}>
+      <li id="navPwGenerator" className="navlink" onClick={navClick}>
         <NavLink to="pwgenerator">{t('passwordGenerator')}</NavLink>
       </li>
-      <li id="navFAQ" className="link" onClick={navClick} ref={links}>
+      <li id="navFAQ" className="navlink" onClick={navClick}>
         <NavLink to="faq">{t('faq')}</NavLink>
       </li>
-      <li id="navKnow" className="link" onClick={navClick} ref={links}>
+      <li id="navKnow" className="navlink" onClick={navClick}>
         <NavLink to="nice2know">{t('nice2know')}</NavLink>
       </li>
     </ul>
