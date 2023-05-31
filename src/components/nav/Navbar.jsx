@@ -6,17 +6,18 @@ import { AppContext } from '../helperSites/AppContext';
 const Navbar = () => {
   const { t } = useTranslation(['sidebar']);
 
-  var mobilebutton = document.getElementById("mobile_button");
-  var nav = document.getElementById("nav");
-  var links = document.getElementsByClassName("link");
+  
+  const navbutton = React.useRef(document.getElementById("mobile_button"));
+  const navigation = React.useRef(document.getElementById("nav"));
+  const links = React.useRef(document.getElementsByClassName("link"));
 
   const navClick = event => {
     Array.from(links).forEach((el) => {
       el.classList.remove('active');
     });
     event.currentTarget.classList.add('active'); 
-    mobilebutton.classList.replace('open', 'closed');   
-    nav.classList.remove('open');
+    navbutton.current.classList.replace('open', 'closed');   
+    navigation.current.classList.remove('open');
     };
 
   return (
