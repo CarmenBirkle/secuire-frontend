@@ -36,5 +36,8 @@
   "main": "Entire Data List ",
   "edit": "Edit",
   "back": "Back",
-  "chooseIcon:": "Chosse an icon:"
+  "chooseIcon:": "Chosse an icon:",
+  "hide": "hide",
+  "show": "show",
+  "copy": "copy to clipboard"
 }

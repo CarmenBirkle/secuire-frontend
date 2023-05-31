@@ -77,7 +77,7 @@ const Signup = () => {
         {error && <p className="errorMessage">{t('signup:passwordError')}</p>}
         <p>{t('signup:information')}</p>
        
-        <fieldset class="question">
+        <fieldset className="question">
           <select>
             {/* TODO what question to offer?, translation, maybe onchange function */}
             <option value="1">Question1</option>

@@ -1,9 +1,13 @@
+import { useState } from 'react';
 import { icons } from './helperSites/IconsDataEntry';
 import { dummyIcon } from './helperSites/IconsDataEntry';
 import { useTranslation } from 'react-i18next';
 import deleteIcon from './../img/icon-delete.svg';
 import editIcon from './../img/icon-work.svg';
 import arrowIcon from './../img/arrow.svg';
+import copyIcon from './../img/icon-copy.svg'
+import hideIcon from './../img/hide.png'
+import showIcon from './../img/show.png'
 /**
  * Display Single DataEntry Overview component with Name
  * @returns for each DataEntry an Overview component
@@ -13,10 +17,44 @@ const SingleDataEntryDetail = ({
   removeDataEntry,
   setSelectedId,
   setShowDetail,
-  setEditMode
+  setEditMode,
 }) => {
   const { t } = useTranslation(['main']);
-  
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  // const copyPasswordToClipboard = () => {
+  //   navigator.clipboard
+  //     .writeText(dataEntry.password)
+  //     .then(() => {
+  //       console.log('Password copied to clipboard');
+  //       // TODO: User Feedback abklären wie das Feedback aussehen soll / Console.log raus
+  //     })
+  //     .catch((error) => {
+  //       console.error('Failed to copy password to clipboard:', error);
+  //       // TODO welches Feedback wenn nicht erfolgreich ?  / Console.log raus
+  //     });
+  // };
+
+const copyToClipboard = (text) => {
+  navigator.clipboard
+    .writeText(text)
+    .then(() => {
+      console.log('Text copied to clipboard');
+      // Hier kannst du Feedback für den Benutzer anzeigen, dass der Text erfolgreich in die Zwischenablage kopiert wurde
+    })
+    .catch((error) => {
+      console.error('Failed to copy text to clipboard:', error);
+      // Hier kannst du Feedback für den Benutzer anzeigen, dass das Kopieren in die Zwischenablage fehlgeschlagen ist
+    });
+};
+
+
+
+
   const renderCustomTopics = () => {
     if (dataEntry.customTopics.length !== 0) {
       return dataEntry.customTopics.map((topic, index) => (
@@ -32,7 +70,7 @@ const SingleDataEntryDetail = ({
     setShowDetail(false);
   };
 
-  // Bereich löschen - das noch auslagern in Axios Datei: 
+  // Bereich löschen - das noch auslagern in Axios Datei:
 
   const handleDeleteClick = async () => {
     console.log('Delete DataEntry with id: ', dataEntry.id);
@@ -59,11 +97,10 @@ const SingleDataEntryDetail = ({
   const handleCloseClick = () => {
     setShowDetail(false);
     setSelectedId(null);
+    setShowPassword(false);
   };
 
-
-
-//TODO Inline styling entfernen, wenn in css definiert
+  //TODO Inline styling entfernen, wenn in css definiert
   const renderDataEntryDetail = () => {
     switch (dataEntry.category) {
       case 'login':
@@ -87,6 +124,31 @@ const SingleDataEntryDetail = ({
             <div>{dataEntry.subject}</div>
             <span>{t('username')}:</span>
             <div>{dataEntry.username}</div>
+            <img
+              onClick={() => copyToClipboard(dataEntry.username)}
+              style={{ width: '30px' }}
+              src={copyIcon}
+              alt={t('copy')}
+            />
+            <span>{t('password')}:</span>
+            {showPassword ? (
+              <span>{dataEntry.password}</span>
+            ) : (
+              <span>*******</span>
+            )}
+            <div onClick={togglePasswordVisibility}>
+              {showPassword ? (
+                <img style={{ width: '30px' }} src={hideIcon} alt={t('hide')} />
+              ) : (
+                <img style={{ width: '30px' }} src={showIcon} alt={t('show')} />
+              )}
+            </div>
+            <img
+              onClick={() => copyToClipboard(dataEntry.password)}
+              style={{ width: '30px' }}
+              src={copyIcon}
+              alt={t('copy')}
+            />
             <span>{t('url')}:</span>
             <div>{dataEntry.url}</div>
             <span>{t('comment')}:</span>
@@ -126,8 +188,7 @@ const SingleDataEntryDetail = ({
             <div>{dataEntry.subject}</div>
             <span>{t('note')}:</span>
             <div>{dataEntry.note}</div>
-            <span>{t('comment')}:</span>:
-            <div>{dataEntry.comment}</div>
+            <span>{t('comment')}:</span>:<div>{dataEntry.comment}</div>
             {renderCustomTopics()}
             <img
               style={{ width: '30px' }}
@@ -196,15 +257,15 @@ const SingleDataEntryDetail = ({
   };
 
   return (
-     <>
-     <img
-              style={{ width: '30px' }}
-              src={arrowIcon}
-              alt={t('back')}
-              onClick={handleCloseClick}
-            />
-     {renderDataEntryDetail()}
-     </>
+    <>
+      <img
+        style={{ width: '30px' }}
+        src={arrowIcon}
+        alt={t('back')}
+        onClick={handleCloseClick}
+      />
+      {renderDataEntryDetail()}
+    </>
   );
 };
 

@@ -36,5 +36,8 @@
   "main": "Gesamte Datenliste",
   "edit":"Ändern",
   "back": "Zurück",
-  "chooseIcon:": "Wähle ein Icon"
+  "chooseIcon:": "Wähle ein Icon",
+  "hide": "verbergen",
+  "show": "anzeigen",
+  "copy": "in Zwischenablage kopieren"
 }

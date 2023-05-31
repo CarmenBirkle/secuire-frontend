@@ -128,6 +128,14 @@ const renderSelectedIcon = () => {
     );
   };
 
+  function getMinimumDate() {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // january is 0
+    return `${year}-${month}`;
+  }
+
+
   return (
     <>
       {showIconSelection && (
@@ -313,6 +321,7 @@ const renderSelectedIcon = () => {
               name="expirationdate"
               placeholder={t('expirationdate')}
               value={state.expirationdate}
+              min={getMinimumDate()}
               onChange={(e) =>
                 handleInputChange('expirationdate', e.target.value)
               }

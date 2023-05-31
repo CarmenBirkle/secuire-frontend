@@ -109,6 +109,14 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
     setCustomTopics(updatedFields);
   };
 
+  function getMinimumDate() {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); //January is 0!
+    return `${year}-${month}`;
+  }
+
+
 
 
 //  icon selection
@@ -359,6 +367,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               id="expirationdate"
               name="expirationdate"
               placeholder={t('expirationdate')}
+              min={getMinimumDate()}
               onChange={(e) => setExpirationdate(e.target.value)}
             />
             <input
@@ -393,7 +402,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
         </button>
 
         <button className="submitButton" type="submit">
-            {t('submit')}
+          {t('submit')}
         </button>
       </form>
     </>
