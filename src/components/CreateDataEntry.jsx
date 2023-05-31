@@ -5,6 +5,8 @@ import { icons } from './helperSites/IconsDataEntry';
 import {placeholderIcon} from './helperSites/IconsDataEntry';
 
 
+
+
 const CreateDataEntry = ({ setShowCreateDataEntry }) => {
   const { t } = useTranslation(['main']);
   const [category, setCategory] = useState('login');
@@ -390,7 +392,9 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
           {t('cancel')}
         </button>
 
-        <button type="submit"> {t('submit')}</button>
+        <button className="submitButton" type="submit">
+            {t('submit')}
+        </button>
       </form>
     </>
   );

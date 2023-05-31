@@ -98,6 +98,7 @@ const Main = ({user}) => {
       setShowDetail(false);
       setSelectedId(null);
       setShowCreateDataEntry(false);
+      setEditMode(false);
     };
 
     handleCloseClick();
@@ -126,12 +127,11 @@ const Main = ({user}) => {
 return (
   <>
     {/* TODO Searchbar display fixed or dynamic ? */}
-    <SearchBar handleSearch={handleSearch} />
+    {/* <SearchBar handleSearch={handleSearch} /> */}
     {/* TODO: Username (Begrüßung) ausgeben, wenn später gefetcht */}
-    <h3>
+    {/* <h3>
       {t('welcome')} {user?.email},
-    </h3>
-    <h4>{t(ENTRY_TYPE ? ENTRY_TYPE : 'main')}</h4>
+    </h3> */}
 
     {searchTerm && (
       <div>
@@ -144,6 +144,8 @@ return (
       <EditDataEntry
         dataEntry={filteredDataEntries.find((entry) => entry.id === selectedId)}
         setEditMode={setEditMode}
+        setSelectedId={setSelectedId}
+        setShowDetail={setShowDetail}
       />
     ) : showDetail ? (
       <SingleDataEntryDetail
@@ -151,18 +153,25 @@ return (
         selectedId={selectedId}
         setShowDetail={setShowDetail}
         setSelectedId={setSelectedId}
-        setEditMode={setEditMode} 
+        setEditMode={setEditMode}
       />
     ) : (
       <>
         {!showCreateDataEntry && (
-          <DataEntry
-            filteredDataEntries={filteredDataEntries}
-            removeDataEntry={removeDataEntry}
-            selectedId={selectedId} // Zustand hier weitergeben
-            setSelectedId={setSelectedId} // Funktion hier weitergeben
-            setShowDetail={setShowDetail}
-          />
+          <>
+            <SearchBar handleSearch={handleSearch} />
+            <h4>{t(ENTRY_TYPE ? ENTRY_TYPE : 'main')}</h4>
+            <h3>
+              {t('welcome')} {user?.email},
+            </h3>
+            <DataEntry
+              filteredDataEntries={filteredDataEntries}
+              removeDataEntry={removeDataEntry}
+              selectedId={selectedId}
+              setSelectedId={setSelectedId}
+              setShowDetail={setShowDetail}
+            />
+          </>
         )}
 
         {showCreateDataEntry && (

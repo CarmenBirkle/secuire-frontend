@@ -1,21 +1,21 @@
 // import Decrypt from './helperSites/Decrypt';
 import { useState, useEffect, useContext } from 'react';
-import { icons } from './helperSites/IconsDataEntry';
-import { dummyIcon } from './helperSites/IconsDataEntry';
 import { useTranslation } from 'react-i18next';
+import { placeholderIcon } from './helperSites/IconsDataEntry';
+import { dummyIcon } from './helperSites/IconsDataEntry';
+import { icons } from './helperSites/IconsDataEntry';
+// import IconPicker from './helperSites/IconPicker';
 import axios from 'axios';
 
-
-
-const EditDataEntry = ({ dataEntry, setEditMode }) => {
-
- 
-
-
-
-
+const EditDataEntry = ({
+  dataEntry,
+  setEditMode,
+  setSelectedId,
+  setShowDetail,
+}) => {
+  //TODO klären ob id mit übergeben wird beim put request
   const initialState = {
-    id: dataEntry.id,
+    id: dataEntry?.id ?? '',
     category: dataEntry.category,
     favourite: dataEntry.favourite,
     selectedIcon: dataEntry.selectedIcon,
@@ -33,45 +33,114 @@ const EditDataEntry = ({ dataEntry, setEditMode }) => {
     cardtype: dataEntry.cardtype,
     customTopics: dataEntry.customTopics,
   };
+  const { t } = useTranslation(['main']);
+  const [state, setState] = useState(initialState);
+  const [selectedIcon, setSelectedIcon] = useState(null);
+  const [showIconSelection, setShowIconSelection] = useState(false);
 
-   const [state, setState] = useState(initialState);
 
   //  console.log('Initial state nach instanziierung: ', initialState);
 
-
-  const { t } = useTranslation(['main']);
-
+  // TODO entfernen
   console.log('ursprungsdaten: ', dataEntry);
-  console.log('state: vor änderung ', state)
-
-
+  console.log('state: vor änderung ', state);
 
   const handleInputChange = (field, value) => {
     setState((prevState) => ({ ...prevState, [field]: value }));
-      // console.log('initialState: ', initialState);
-        console.log(`Updated field ${field}: `, value);
-        // console.log('state nach änderung: ', state);
+    // console.log('initialState: ', initialState);
+    console.log(`Updated field ${field}: `, value);
+    // console.log('state nach änderung: ', state);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('handleSubmit - abgesendet: ', state);
+    setShowDetail(true);
+    setEditMode(false);
 
-  }
+    //TODo ev. logik implementieren das wenn gespeichert wird die daten aktualisiert werden - das nochmals prüfen
+  };
+
+  const handleCancel = () => {
+    setShowDetail(true);
+    setEditMode(false);
+  };
+
+  // testing area icons:
+const handleIconSelect = (index) => {
+  setSelectedIcon(index);
+  setState((prevState) => ({ ...prevState, selectedIcon: index }));
+  setShowIconSelection(false);
+};
 
 
+  // TODO Inline with wieder entfernen wenn classe definiert
+// const renderSelectedIcon = () => {
+//   return (
+//     <img
+//       style={{ width: '30px' }}
+//       src={state.selectedIcon !== null ? icons[state.selectedIcon] : dummyIcon}
+//       alt={
+//         state.selectedIcon !== null
+//           ? `Icon ${state.selectedIcon}`
+//           : 'Choose Icon'
+//       }
+//     />
+//   );
+// };
 
+const renderSelectedIcon = () => {
+  return (
+    <img
+      style={{ width: '30px' }}
+      src={
+        state.selectedIcon !== null && state.selectedIcon !== undefined
+          ? icons[state.selectedIcon]
+          : dummyIcon
+      }
+      alt={
+        state.selectedIcon !== null && state.selectedIcon !== undefined
+          ? `Icon ${state.selectedIcon}`
+          : 'Choose Icon'
+      }
+    />
+  );
+};
+
+
+// TODO: Inline Style wieder entfernen
+  const IconSelectionModal = () => {
+    return (
+      <div>
+        <h4>{t('chooseIcon')}</h4>
+        <div>
+          {icons.map((icon, index) => (
+            <div
+              key={index}
+              onClick={() => handleIconSelect(index)}
+              style={{ cursor: 'pointer' }}
+            >
+              <img style={{ width: '30px' }} src={icon} alt={icon} />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
-      EditDataEntry
+      {showIconSelection && (
+        <IconSelectionModal handleIconSelect={handleIconSelect} />
+      )}
+
       <form onSubmit={handleSubmit}>
         {/* form-elements for login */}
         {state.category === 'login' && (
           <fieldset>
-            {/* <div onClick={() => setShowIconSelection(true)}>
+            <div onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
-            </div> */}
+            </div>
             <label htmlFor="favourite">{t('favourite')}</label>
             <input
               type="checkbox"
@@ -138,9 +207,9 @@ const EditDataEntry = ({ dataEntry, setEditMode }) => {
         {/* form-elements for safenotes */}
         {state.category === 'safenote' && (
           <fieldset>
-            {/* <div onClick={() => setShowIconSelection(true)}>
+            <div onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
-            </div> */}
+            </div>
             <label htmlFor="favourite">{t('favourite')}</label>
             <input
               type="checkbox"
@@ -186,9 +255,9 @@ const EditDataEntry = ({ dataEntry, setEditMode }) => {
         )}
         {state.category === 'paymentcard' && (
           <fieldset>
-            {/* <div onClick={() => setShowIconSelection(true)}>
+            <div onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
-            </div> */}
+            </div>
             <label htmlFor="favourite">{t('favourite')}</label>
             <input
               type="checkbox"
@@ -278,14 +347,13 @@ const EditDataEntry = ({ dataEntry, setEditMode }) => {
             </button> */}
           </fieldset>
         )}
-        <button
-          type="button"
-          // onClick={() => setShowCreateDataEntry(false)}
-        >
+        <button type="button" onClick={() => handleCancel()}>
           {t('cancel')}
         </button>
 
-        <button type="submit"> {t('submit')}</button>
+        <button className="submitButton" type="submit">
+          {t('submit')}
+        </button>
       </form>
     </>
   );
