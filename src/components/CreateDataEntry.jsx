@@ -144,6 +144,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
        </div>
      );
    };
+   
    // TODO Inline with wieder entfernen wenn classe definiert
    const renderSelectedIcon = () => {
      return (

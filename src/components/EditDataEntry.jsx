@@ -1,11 +1,8 @@
-// import Decrypt from './helperSites/Decrypt';
 import { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { encryptObject } from './helperSites/Encrypt';
 import { dummyIcon } from './helperSites/IconsDataEntry';
 import { icons } from './helperSites/IconsDataEntry';
-// import IconPicker from './helperSites/IconPicker';
-
 import axios from 'axios';
 
 const EditDataEntry = ({
