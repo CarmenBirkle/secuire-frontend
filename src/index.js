@@ -7,6 +7,8 @@ import reportWebVitals from './reportWebVitals';
 import './i18n';
 import { AppProvider } from './components/helperSites/AppContext';
 
+import "./web.config";
+
 ReactDOM.render(
   <React.StrictMode>
     <AppProvider>
