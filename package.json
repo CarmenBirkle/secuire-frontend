@@ -26,6 +26,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
+    "postbuild": "node iisConfig/copyIISConfig.js",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
