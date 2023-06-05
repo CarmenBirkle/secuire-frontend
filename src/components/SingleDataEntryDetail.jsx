@@ -20,10 +20,10 @@ const SingleDataEntryDetail = ({
   setEditMode,
 }) => {
   const { t } = useTranslation(['main']);
-  const [showPassword, setShowPassword] = useState(false);
+  const [showSecret, setShowSecret] = useState(false);
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+    setShowSecret(!showSecret);
   };
 
 
@@ -32,11 +32,11 @@ const copyToClipboard = (text) => {
     .writeText(text)
     .then(() => {
       console.log('Text copied to clipboard');
-      // Hier kannst du Feedback für den Benutzer anzeigen, dass der Text erfolgreich in die Zwischenablage kopiert wurde
+      // TODO Userfeedback - text erfolgreich kopiert ? 
     })
     .catch((error) => {
       console.error('Failed to copy text to clipboard:', error);
-      // Hier kannst du Feedback für den Benutzer anzeigen, dass das Kopieren in die Zwischenablage fehlgeschlagen ist
+      // TODO Userfeedback - text konnte nicht kopiert werden
     });
 };
 
@@ -85,7 +85,7 @@ const copyToClipboard = (text) => {
   const handleCloseClick = () => {
     setShowDetail(false);
     setSelectedId(null);
-    setShowPassword(false);
+    setShowSecret(false);
   };
 
   //TODO Inline styling entfernen, wenn in css definiert
@@ -119,13 +119,13 @@ const copyToClipboard = (text) => {
               alt={t('copy')}
             />
             <span>{t('password')}:</span>
-            {showPassword ? (
+            {showSecret ? (
               <span>{dataEntry.password}</span>
             ) : (
               <span>*******</span>
             )}
             <div onClick={togglePasswordVisibility}>
-              {showPassword ? (
+              {showSecret ? (
                 <img style={{ width: '30px' }} src={hideIcon} alt={t('hide')} />
               ) : (
                 <img style={{ width: '30px' }} src={showIcon} alt={t('show')} />
@@ -216,10 +216,33 @@ const copyToClipboard = (text) => {
             <div>{dataEntry.owner}</div>
             <span>{t('cardnumber')}:</span>
             <div>{dataEntry.cardnumber}</div>
+            <img
+              onClick={() => copyToClipboard(dataEntry.cardnumber)}
+              style={{ width: '30px' }}
+              src={copyIcon}
+              alt={t('copy')}
+            />
             <span>{t('expirationdate')}:</span>
             <div>{dataEntry.expirationdate}</div>
             <span>{t('pin')}:</span>
-            <div>{dataEntry.pin}</div>
+             {showSecret ? (
+              <span>{dataEntry.pin}</span>
+            ) : (
+              <span>****</span>
+            )}
+            <div onClick={togglePasswordVisibility}>
+              {showSecret ? (
+                <img style={{ width: '30px' }} src={hideIcon} alt={t('hide')} />
+              ) : (
+                <img style={{ width: '30px' }} src={showIcon} alt={t('show')} />
+              )}
+            </div>
+            <img
+              onClick={() => copyToClipboard(dataEntry.pin)}
+              style={{ width: '30px' }}
+              src={copyIcon}
+              alt={t('copy')}
+            />
             <span>{t('cvv')}:</span>
             <div>{dataEntry.cvv}:</div>
             <span>{t('comment')}:</span>
