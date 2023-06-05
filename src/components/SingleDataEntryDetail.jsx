@@ -26,18 +26,6 @@ const SingleDataEntryDetail = ({
     setShowPassword(!showPassword);
   };
 
-  // const copyPasswordToClipboard = () => {
-  //   navigator.clipboard
-  //     .writeText(dataEntry.password)
-  //     .then(() => {
-  //       console.log('Password copied to clipboard');
-  //       // TODO: User Feedback abklären wie das Feedback aussehen soll / Console.log raus
-  //     })
-  //     .catch((error) => {
-  //       console.error('Failed to copy password to clipboard:', error);
-  //       // TODO welches Feedback wenn nicht erfolgreich ?  / Console.log raus
-  //     });
-  // };
 
 const copyToClipboard = (text) => {
   navigator.clipboard
