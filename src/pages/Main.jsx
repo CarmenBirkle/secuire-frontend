@@ -10,7 +10,7 @@ import { encryptedDataEntrys, useFetchData } from '../components/helperSites/Axi
 import { AppContext } from '../components/helperSites/AppContext';
 import SingleDataEntryDetail from '../components/SingleDataEntryDetail';
 import addIcon from '../img/icon-add.svg'
-import { HmacSHA1 } from 'crypto-js';
+
 
 
 
@@ -84,10 +84,7 @@ const Main = ({user}) => {
     setFilteredDataEntries(updatedFilteredDataEntries);
   }, [dataEntrys, ENTRY_TYPE, IS_FAVOURITES, searchTerm]);
 
-  const removeDataEntry = (id) => {
-    //TODO ggf. als async makieren / vorbereitete Funktion - später relevant, wird aber schon an die anderen components übergeben
-  };
-
+ 
   /**
    * Is triggered when the component is mounted and fetches all data entries from the server.
    */
@@ -102,7 +99,6 @@ const Main = ({user}) => {
       setShowCreateDataEntry(false);
       setEditMode(false);
     };
-
     handleCloseClick();
   }, [ENTRY_TYPE]); 
 
@@ -125,6 +121,7 @@ const Main = ({user}) => {
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
+
 
 return (
   <>
@@ -165,24 +162,37 @@ return (
             <h1>
               {t('welcome')} {user?.email},
             </h1>
-            <h2 className='subheadline'>{t(ENTRY_TYPE ? ENTRY_TYPE : 'main')}</h2>
-              <DataEntry
-                filteredDataEntries={filteredDataEntries}
-                removeDataEntry={removeDataEntry}
-                selectedId={selectedId}
-                setSelectedId={setSelectedId}
-                setShowDetail={setShowDetail}
-              />
+            <h2 className="subheadline">
+              {t(ENTRY_TYPE ? ENTRY_TYPE : 'main')}
+            </h2>
+            <DataEntry
+              filteredDataEntries={filteredDataEntries}
+              // removeDataEntry={removeDataEntry} TODO: unklar ob noch benötigt, auf Service warten
+              selectedId={selectedId}
+              setSelectedId={setSelectedId}
+              setShowDetail={setShowDetail}
+            />
           </>
         )}
 
         {showCreateDataEntry && (
-          <CreateDataEntry setShowCreateDataEntry={setShowCreateDataEntry} />
+          <CreateDataEntry
+            setShowCreateDataEntry={setShowCreateDataEntry}
+         
+          />
         )}
 
         {/* TODO + Icon */}
         {!showCreateDataEntry && (
-           <div className='main_icons_bg'> <img className='icon_button' onClick={handleClick} src={addIcon} alt={t('generateNew')} /></div>
+          <div className="main_icons_bg">
+            {' '}
+            <img
+              className="icon_button"
+              onClick={handleClick}
+              src={addIcon}
+              alt={t('generateNew')}
+            />
+          </div>
         )}
       </>
     )}

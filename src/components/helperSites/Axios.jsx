@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { useState } from 'react';
+import crypto from 'crypto-js';
 
 const BASEURL = process.env.REACT_APP_URL_AZURE;
+const GWDG_URL = process.env.REACT_APP_API_GWDG_URL;
 
 
 export const useFetchData = (endpoint) => {
@@ -115,6 +117,69 @@ export const useFetchData = (endpoint) => {
       throw error.response.data;
     }
   };
+
+
+  export const checkPasswordSecurity = async (password, setCountLeaks) => {
+    if (!password) {
+      return;
+    }
+    console.log('password', password);
+    console.log(GWDG_URL);
+    let hashedPassword = crypto.SHA1(password).toString();
+
+    let firstFiveCharacters = hashedPassword.substring(0, 5).toUpperCase();
+    let hashedPasswordwithoutFirstFive = hashedPassword.substring(5);
+
+    try {
+      const response = await axios.get(`${GWDG_URL}${firstFiveCharacters}`);
+      let hashes = response.data.split('\n');
+
+      for (let i = 0; i < hashes.length; i++) {
+        let [hash, count] = hashes[i].split(':');
+        if (hash.toLowerCase() === hashedPasswordwithoutFirstFive) {
+          console.log(`Hash matched! ${hash}:${count}`);
+          setCountLeaks(count);
+          break;
+        }
+      }
+    } catch (error) {
+      console.log('Error fetching data from API:', error);
+      throw error;
+    }
+  };
+
+ 
+  // export const checkPasswordSecurity = async (password) => {
+  //   if (!password) {
+  //     return;
+  //   }
+  //   console.log('password', password)
+  //   console.log(GWDG_URL);
+  //   let hashedPassword = crypto.SHA1(password).toString();
+
+  //   let firstFiveCharacters = hashedPassword.substring(0, 5).toUpperCase();
+  //   let hashedPasswordwithoutFirstFive = hashedPassword.substring(5);
+
+  //   try {
+  //     const response = await axios.get(
+  //       `${GWDG_URL}${firstFiveCharacters}`
+  //     );
+  //     let hashes = response.data.split('\n');
+
+  //     for (let i = 0; i < hashes.length; i++) {
+  //       let [hash, count] = hashes[i].split(':');
+  //       if (hash.toLowerCase() === hashedPasswordwithoutFirstFive) {
+  //         console.log(`Hash matched! ${hash}:${count}`);
+  //         break;
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.log('Error fetching data from API:', error);
+  //     throw error;
+  //   }
+  // };
+
+
 
   //TODO: check the correct endpoint if service is running
   export const createDataEntry = async (data, setErrMsg) => {

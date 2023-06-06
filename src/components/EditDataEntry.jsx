@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { encryptObject } from './helperSites/Encrypt';
 import { dummyIcon } from './helperSites/IconsDataEntry';
 import { icons } from './helperSites/IconsDataEntry';
-import { updatedDataEntry } from './helperSites/Axios.jsx';
+import { updatedDataEntry,checkPasswordSecurity, } from './helperSites/Axios.jsx';
+ 
 
 const EditDataEntry = ({
   dataEntry,
@@ -35,7 +36,7 @@ const EditDataEntry = ({
   const [state, setState] = useState(initialState);
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [showIconSelection, setShowIconSelection] = useState(false);
-  
+  const [errMsg, setErrMsg] = useState('');
   const [customTopics, setCustomTopics] = useState(
     dataEntry.customTopics || []
   );
@@ -255,6 +256,17 @@ const EditDataEntry = ({
               value={state.username}
               onChange={(e) => handleInputChange('username', e.target.value)}
             />
+             {errMsg && <p className="errorMessage">{errMsg}</p>}
+            {/* <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              placeholder={t('password')}
+              value={state.password}
+              onChange={(e) => handleInputChange('password', e.target.value)}
+            /> */}
+
             <input
               type="password"
               id="password"
@@ -263,7 +275,20 @@ const EditDataEntry = ({
               placeholder={t('password')}
               value={state.password}
               onChange={(e) => handleInputChange('password', e.target.value)}
+              onBlur={(e) => {
+                if (e.target.value !== '') {
+                  checkPasswordSecurity(e.target.value).then((isValid) => {
+                    if (!isValid) {
+                      setErrMsg(
+                        'Ihr gewähltes Passwort ist unsicher und wurde bereits in Datenlecks gefunden.'
+                      );
+                    }
+                  });
+                }
+              }}
             />
+
+
             <input
               type="text"
               id="url"

@@ -3,7 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { encryptObject } from './helperSites/Encrypt';
 import { icons } from './helperSites/IconsDataEntry'; 
 import { placeholderIcon} from './helperSites/IconsDataEntry';
-import { createDataEntry } from './helperSites/Axios.jsx';
+import {
+  createDataEntry,
+  checkPasswordSecurity,
+} from './helperSites/Axios.jsx';
 
 
 
@@ -28,6 +31,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
   const [customTopics, setCustomTopics] = useState([]);
   const [showIconSelection, setShowIconSelection] = useState(false);
   const [errMsg, setErrMsg] = useState('');
+  const [countLeaks, setCountLeaks] = useState(null);
 
  const resetState = () => {
    setFavourite(false);
@@ -46,6 +50,8 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
    setCardtype('');
    setCustomTopics([]);
  };
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -206,7 +212,6 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
 
   return (
     <>
-      {errMsg && <div>{errMsg}</div>}
       <select
         name="category"
         id="category"
@@ -216,6 +221,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
         <option value="safenote">{t('safenotes')}</option>
         <option value="paymentcard">{t('paymentcards')} </option>
       </select>
+
       {showIconSelection && (
         <IconSelectionModal handleIconSelect={handleIconSelect} />
       )}
@@ -253,6 +259,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               placeholder={t('username')}
               onChange={(e) => setUsername(e.target.value)}
             />
+            {errMsg && <p className="errorMessage">{errMsg}</p>}
             <input
               type="password"
               id="password"
@@ -260,6 +267,18 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               required
               placeholder={t('password')}
               onChange={(e) => setPassword(e.target.value)}
+              onBlur={(e) => {
+                if (e.target.value !== '') {
+                  checkPasswordSecurity(e.target.value, setCountLeaks).then((isValid) => {
+                    if (!isValid) {
+                      setErrMsg(
+                        'Ihr gewähltes Passwort ist unsicher und wurde bereits in Datenlecks gefunden.'
+                      );
+                      console.log('countLeaks: ', countLeaks);
+                    }
+                  });
+                }
+              }}
             />
             <input
               type="text"
