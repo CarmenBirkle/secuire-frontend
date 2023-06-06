@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { encryptObject } from './helperSites/Encrypt';
 import { dummyIcon } from './helperSites/IconsDataEntry';
 import { icons } from './helperSites/IconsDataEntry';
-import axios from 'axios';
+import { updatedDataEntry,checkPasswordSecurity, } from './helperSites/Axios.jsx';
+ 
 
 const EditDataEntry = ({
   dataEntry,
@@ -35,10 +36,11 @@ const EditDataEntry = ({
   const [state, setState] = useState(initialState);
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [showIconSelection, setShowIconSelection] = useState(false);
-  
+  const [errMsg, setErrMsg] = useState('');
   const [customTopics, setCustomTopics] = useState(
     dataEntry.customTopics || []
   );
+  const [countLeaks, setCountLeaks] = useState(null);
  
   //  console.log('Initial state nach instanziierung: ', initialState);
 
@@ -53,7 +55,7 @@ const EditDataEntry = ({
     // console.log('state nach änderung: ', state);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('handleSubmit - abgesendet: ', state);
     setShowDetail(true);
@@ -75,8 +77,18 @@ const EditDataEntry = ({
       process.env.REACT_APP_SECRET
     );
     console.log('Verschlüsselte Daten: ', encryptedData);
+
+    try{
+      const response = await updatedDataEntry(updatedDataEntry.id, encryptedData);
+      return response.data;
+    } catch (error) {
+       console.error('Fehler beim Übertragen der Daten:', error);
+    }
+
     setShowDetail(true);
     setSelectedId(updatedDataEntry.id);
+
+
   };
 
   const handleCancel = () => {
@@ -203,6 +215,12 @@ const EditDataEntry = ({
     return `${year}-${month}`;
   }
 
+    useEffect(() => {
+    if (countLeaks !== null) {
+      setErrMsg(` ${countLeaks}`);
+    }
+  }, [countLeaks]);
+
   return (
     <>
       {showIconSelection && (
@@ -245,6 +263,12 @@ const EditDataEntry = ({
               value={state.username}
               onChange={(e) => handleInputChange('username', e.target.value)}
             />
+            {errMsg && (
+              <p className="errorMessage">
+                {t('dataLeak')}{errMsg}
+              </p>
+            )}
+
             <input
               type="password"
               id="password"
@@ -252,8 +276,23 @@ const EditDataEntry = ({
               required
               placeholder={t('password')}
               value={state.password}
-              onChange={(e) => handleInputChange('password', e.target.value)}
+              onChange={(e) => {
+                handleInputChange('password', e.target.value);
+                setErrMsg(null);
+              }}
+              onBlur={(e) => {
+                if (e.target.value !== '') {
+                  checkPasswordSecurity(e.target.value, setCountLeaks).then(
+                    (isValid, count) => {
+                      if (!isValid) {
+                      }
+                    }
+                  );
+                }
+              }}
             />
+
+
             <input
               type="text"
               id="url"

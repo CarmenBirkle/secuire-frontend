@@ -40,5 +40,6 @@
   "hide": "hide",
   "show": "show",
   "copy": "copy to clipboard",
-  "createNew": "Generate new"
+  "createNew": "Generate new",
+  "dataLeak":"Your chosen password is insecure and has already been found in data leaks. It has the Bad Score: "
 }

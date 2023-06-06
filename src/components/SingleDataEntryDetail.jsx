@@ -8,6 +8,7 @@ import arrowIcon from './../img/arrow.svg';
 import copyIcon from './../img/icon-copy.svg'
 import hideIcon from './../img/hide.png'
 import showIcon from './../img/show.png'
+import { deleteDataEntry } from './helperSites/Axios.jsx';
 /**
  * Display Single DataEntry Overview component with Name
  * @returns for each DataEntry an Overview component
@@ -58,25 +59,18 @@ const copyToClipboard = (text) => {
     setShowDetail(false);
   };
 
-  // Bereich löschen - das noch auslagern in Axios Datei:
+  //TODO: complete delete function when backend is ready
 
   const handleDeleteClick = async () => {
-    console.log('Delete DataEntry with id: ', dataEntry.id);
-    //TODO:Backend Call and delete DataEntry
-    // try {
-    //   const response = await axios.delete(
-    //     `https://your-api-url.com/endpoint/${dataEntry.id}`
-    //   );
-    //   if (response.status === 200) {
-    //     removeDataEntry(dataEntry.id);
-    //     setSelectedId(null);
-    //     setShowDetail(false);
-    //   } else {
-    //     console.log('Fehler beim Löschen des Datensatzes');
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    console.log('Try Delete DataEntry with id: ', dataEntry.id);
+    const response = await deleteDataEntry(dataEntry.id);
+     if (response) {
+     console.log('Dateneintrag erfolgreich gelöscht');
+     // TODO Seite aktualisieren ggf. neues fetch ausführen,
+   
+   } else {
+     console.log('Fehler beim Löschen des Dateneintrags');
+   }
   };
 
   /**

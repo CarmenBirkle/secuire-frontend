@@ -2,7 +2,11 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { encryptObject } from './helperSites/Encrypt';
 import { icons } from './helperSites/IconsDataEntry'; 
-import {placeholderIcon} from './helperSites/IconsDataEntry';
+import { placeholderIcon} from './helperSites/IconsDataEntry';
+import {
+  createDataEntry,
+  checkPasswordSecurity,
+} from './helperSites/Axios.jsx';
 
 
 
@@ -26,6 +30,8 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
   const [cardtype, setCardtype] = useState(null);
   const [customTopics, setCustomTopics] = useState([]);
   const [showIconSelection, setShowIconSelection] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
+  const [countLeaks, setCountLeaks] = useState(null);
 
  const resetState = () => {
    setFavourite(false);
@@ -44,6 +50,8 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
    setCardtype('');
    setCustomTopics([]);
  };
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -80,6 +88,21 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
 
     //TODO delete in production
     console.log('Verschlüsselt: Eingabe aus Submit:', encryptedData);
+    //TODO error handling definieren
+    //Send Data to Backend
+    createDataEntry(encryptedData,setErrMsg)
+      .then((response) => {
+        console.log('Erfolgreiche Übertragung:', response);
+      })
+      .catch((error) => {
+        console.error('Fehler beim Übertragen der Daten:', error);
+        // if(!error.response){ // lost connection to server
+        //    setErrMsg('No Server Response');
+        // }else if (error.response?.status === 400) {
+        //   setErrMsg('Bad Request');
+        // }setErrMsg('Something went wrong');
+      });
+
   };
 
   /**
@@ -187,6 +210,14 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
     ));
   };
 
+
+  useEffect(() => {
+    if (countLeaks !== null) {
+      setErrMsg(` ${countLeaks}`);
+    }
+  }, [countLeaks]);
+
+
   return (
     <>
       <select
@@ -203,7 +234,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
         <IconSelectionModal handleIconSelect={handleIconSelect} />
       )}
       <form onSubmit={handleSubmit}>
-        {/* form-elements for login */}
+        {/* form-elements for login-type */}
         {category === 'login' && (
           <fieldset>
             <div onClick={() => setShowIconSelection(true)}>
@@ -236,13 +267,32 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               placeholder={t('username')}
               onChange={(e) => setUsername(e.target.value)}
             />
+            {errMsg && (
+              <p className="errorMessage">
+                {t('dataLeak')}
+                {errMsg}
+              </p>
+            )}
             <input
               type="password"
               id="password"
               name="password"
               required
               placeholder={t('password')}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setErrMsg(null);
+              }}
+              onBlur={(e) => {
+                if (e.target.value !== '') {
+                  checkPasswordSecurity(e.target.value, setCountLeaks).then(
+                    (isValid, count) => {
+                      if (!isValid) {
+                      }
+                    }
+                  );
+                }
+              }}
             />
             <input
               type="text"
@@ -267,7 +317,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
           </fieldset>
         )}
 
-        {/* form-elements for safenotes */}
+        {/* form-elements for safenote-type */}
         {category === 'safenote' && (
           <fieldset>
             <div onClick={() => setShowIconSelection(true)}>
@@ -313,6 +363,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
             </button>
           </fieldset>
         )}
+        {/* form-elements for paymentcard-type */}
         {category === 'paymentcard' && (
           <fieldset>
             <div onClick={() => setShowIconSelection(true)}>
