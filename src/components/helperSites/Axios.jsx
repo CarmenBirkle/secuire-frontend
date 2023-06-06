@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 const BASEURL = process.env.REACT_APP_URL_AZURE;
 
+
 export const useFetchData = (endpoint) => {
    const [encryptedDataEntrys, setEncryptedDataEntrys] = useState([
      {
@@ -86,9 +87,9 @@ export const useFetchData = (endpoint) => {
      },
    ]);
 
+   //TODO fetch data from backend active
   const fetchData = async () => {
     const url = `${BASEURL}/${endpoint}`;
-
     try {
       const responseDataEntrys = await axios.get(url);
       console.log('fetch from main side:', responseDataEntrys);
@@ -114,3 +115,59 @@ export const useFetchData = (endpoint) => {
       throw error.response.data;
     }
   };
+
+  //TODO: check the correct endpoint if service is running
+  export const createDataEntry = async (data, setErrMsg) => {
+    try {
+      const response = await axios.post(`${BASEURL}/createdataentry`, data, {
+        headers: {'Content-Type': 'application/json'},
+        withCredentials: true
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  //TODO: check the correct endpoint if service is running
+  export const updatedDataEntry = async (id, data) => {
+    try {
+      const response = await axios.put(`${BASEURL}/updatedataentry/${id}`, data, {
+        headers: {'Content-Type': 'application/json'},
+        withCredentials: true
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  export const deleteDataEntry = async (id) => {
+    try {
+      const response = await axios.delete(`${BASEURL}/dataentry/${id}`);
+      return response.data;
+    } catch (error) {
+      console.log('Fehler beim Löschen des Dateneintrags: ', error);
+      throw error;
+    }
+  };
+
+
+  //TODO: Complete, currently only prepared, setErrMsg is not defined
+    export const getLogin = async (data) => {
+      try {
+        const response = await axios.post(`${BASEURL}/platzhalter`, data, {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
+        });
+        const accessToken = response?.data?.accessToken;
+        // setAuth(user, accessToken);
+        //resetUser('')
+        //setPwd('');
+        //navigate('/main');
+        return response.data;
+      } catch (error) {
+          throw error;
+      }
+    };
+

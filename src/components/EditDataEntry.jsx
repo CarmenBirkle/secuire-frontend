@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { encryptObject } from './helperSites/Encrypt';
 import { dummyIcon } from './helperSites/IconsDataEntry';
 import { icons } from './helperSites/IconsDataEntry';
-import axios from 'axios';
+import { updatedDataEntry } from './helperSites/Axios.jsx';
 
 const EditDataEntry = ({
   dataEntry,
@@ -53,7 +53,7 @@ const EditDataEntry = ({
     // console.log('state nach änderung: ', state);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('handleSubmit - abgesendet: ', state);
     setShowDetail(true);
@@ -75,8 +75,18 @@ const EditDataEntry = ({
       process.env.REACT_APP_SECRET
     );
     console.log('Verschlüsselte Daten: ', encryptedData);
+
+    try{
+      const response = await updatedDataEntry(updatedDataEntry.id, encryptedData);
+      return response.data;
+    } catch (error) {
+       console.error('Fehler beim Übertragen der Daten:', error);
+    }
+
     setShowDetail(true);
     setSelectedId(updatedDataEntry.id);
+
+
   };
 
   const handleCancel = () => {
