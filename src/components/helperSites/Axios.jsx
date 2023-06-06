@@ -121,15 +121,13 @@ export const useFetchData = (endpoint) => {
 
   export const checkPasswordSecurity = async (password, setCountLeaks) => {
     if (!password) {
+      setCountLeaks(null);
       return;
     }
-    console.log('password', password);
-    console.log(GWDG_URL);
     let hashedPassword = crypto.SHA1(password).toString();
-
     let firstFiveCharacters = hashedPassword.substring(0, 5).toUpperCase();
     let hashedPasswordwithoutFirstFive = hashedPassword.substring(5);
-
+    let matchFound = false;
     try {
       const response = await axios.get(`${GWDG_URL}${firstFiveCharacters}`);
       let hashes = response.data.split('\n');
@@ -137,48 +135,15 @@ export const useFetchData = (endpoint) => {
       for (let i = 0; i < hashes.length; i++) {
         let [hash, count] = hashes[i].split(':');
         if (hash.toLowerCase() === hashedPasswordwithoutFirstFive) {
-          console.log(`Hash matched! ${hash}:${count}`);
           setCountLeaks(count);
+          matchFound = true;
           break;
         }
       }
     } catch (error) {
-      console.log('Error fetching data from API:', error);
       throw error;
     }
   };
-
- 
-  // export const checkPasswordSecurity = async (password) => {
-  //   if (!password) {
-  //     return;
-  //   }
-  //   console.log('password', password)
-  //   console.log(GWDG_URL);
-  //   let hashedPassword = crypto.SHA1(password).toString();
-
-  //   let firstFiveCharacters = hashedPassword.substring(0, 5).toUpperCase();
-  //   let hashedPasswordwithoutFirstFive = hashedPassword.substring(5);
-
-  //   try {
-  //     const response = await axios.get(
-  //       `${GWDG_URL}${firstFiveCharacters}`
-  //     );
-  //     let hashes = response.data.split('\n');
-
-  //     for (let i = 0; i < hashes.length; i++) {
-  //       let [hash, count] = hashes[i].split(':');
-  //       if (hash.toLowerCase() === hashedPasswordwithoutFirstFive) {
-  //         console.log(`Hash matched! ${hash}:${count}`);
-  //         break;
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.log('Error fetching data from API:', error);
-  //     throw error;
-  //   }
-  // };
-
 
 
   //TODO: check the correct endpoint if service is running

@@ -40,6 +40,7 @@ const EditDataEntry = ({
   const [customTopics, setCustomTopics] = useState(
     dataEntry.customTopics || []
   );
+  const [countLeaks, setCountLeaks] = useState(null);
  
   //  console.log('Initial state nach instanziierung: ', initialState);
 
@@ -214,6 +215,12 @@ const EditDataEntry = ({
     return `${year}-${month}`;
   }
 
+    useEffect(() => {
+    if (countLeaks !== null) {
+      setErrMsg(` ${countLeaks}`);
+    }
+  }, [countLeaks]);
+
   return (
     <>
       {showIconSelection && (
@@ -256,7 +263,11 @@ const EditDataEntry = ({
               value={state.username}
               onChange={(e) => handleInputChange('username', e.target.value)}
             />
-             {errMsg && <p className="errorMessage">{errMsg}</p>}
+            {errMsg && (
+              <p className="errorMessage">
+                {t('dataLeak')}{errMsg}
+              </p>
+            )}
             {/* <input
               type="password"
               id="password"
@@ -274,16 +285,18 @@ const EditDataEntry = ({
               required
               placeholder={t('password')}
               value={state.password}
-              onChange={(e) => handleInputChange('password', e.target.value)}
+              onChange={(e) => {
+                handleInputChange('password', e.target.value);
+                setErrMsg(null);
+              }}
               onBlur={(e) => {
                 if (e.target.value !== '') {
-                  checkPasswordSecurity(e.target.value).then((isValid) => {
-                    if (!isValid) {
-                      setErrMsg(
-                        'Ihr gewähltes Passwort ist unsicher und wurde bereits in Datenlecks gefunden.'
-                      );
+                  checkPasswordSecurity(e.target.value, setCountLeaks).then(
+                    (isValid, count) => {
+                      if (!isValid) {
+                      }
                     }
-                  });
+                  );
                 }
               }}
             />

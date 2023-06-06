@@ -210,6 +210,14 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
     ));
   };
 
+
+  useEffect(() => {
+    if (countLeaks !== null) {
+      setErrMsg(` ${countLeaks}`);
+    }
+  }, [countLeaks]);
+
+
   return (
     <>
       <select
@@ -259,24 +267,30 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               placeholder={t('username')}
               onChange={(e) => setUsername(e.target.value)}
             />
-            {errMsg && <p className="errorMessage">{errMsg}</p>}
+            {errMsg && (
+              <p className="errorMessage">
+                {t('dataLeak')}
+                {errMsg}
+              </p>
+            )}
             <input
               type="password"
               id="password"
               name="password"
               required
               placeholder={t('password')}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setErrMsg(null);
+              }}
               onBlur={(e) => {
                 if (e.target.value !== '') {
-                  checkPasswordSecurity(e.target.value, setCountLeaks).then((isValid) => {
-                    if (!isValid) {
-                      setErrMsg(
-                        'Ihr gewähltes Passwort ist unsicher und wurde bereits in Datenlecks gefunden.'
-                      );
-                      console.log('countLeaks: ', countLeaks);
+                  checkPasswordSecurity(e.target.value, setCountLeaks).then(
+                    (isValid, count) => {
+                      if (!isValid) {
+                      }
                     }
-                  });
+                  );
                 }
               }}
             />
