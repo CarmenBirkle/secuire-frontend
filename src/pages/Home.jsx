@@ -44,8 +44,8 @@ const Home = () => {
       <p>{t('home:content')}</p>
       <br/>
       <p>{t('home:video')}</p>
-      <Link to="/login">{t('home:login')}</Link> <br />
-      <Link to="/signup">{t('common:signupLink')}</Link>
+      <Link to="/login" className='submitButton loginLink'>{t('home:login')}</Link>
+      <Link to="/signup" className='submitButton signupLink'>{t('common:signupLink')}</Link>
     </>
   );
 };

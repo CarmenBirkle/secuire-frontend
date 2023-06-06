@@ -14,7 +14,7 @@ const DataEntry = ({
   //TODO remove in production
   // console.log('dataEntrys in DataEntry:', filteredDataEntries);
   return (
-    <div>
+    <div className="gridContainer">
       {filteredDataEntries.map((dataEntry) => {
         if (selectedId === dataEntry.id) {
           return (

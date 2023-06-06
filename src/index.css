@@ -73,16 +73,23 @@ h1 {
 h2, h3 {
   font-size: 1.5em;
 }
-h4 {
+h4, .subheadline {
   font-size: 1em;
 }
-main {
-  margin: 2em auto;
-  min-height: 77vh;
+.subheadline {
+  color: #000000;
+  margin-bottom: 1em;
+}
+a {
+  text-decoration: none;
+}
+button {
+  font-family: 'Poppins',Arial, sans-serif;
+  font-size: 1em;
+  height: 2.5em;
 }
 .link, .navlink {
   color: grey;
-
 }
 .link:hover, link:active, .navlink:hover, .navlink:active, .active {
   color: #2454C4;
@@ -91,13 +98,19 @@ main {
 /* layout grid */
 .container {
   max-width: 1280px;
-  margin: 0em auto;
+  margin: 0 auto;
   padding: 1em;
-  position: relative;
 }
 .flexbox {
   display: flex;
   justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+.flexbox_checkbox {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
   align-content: center;
   align-items: center;
 }
@@ -130,6 +143,7 @@ header {
 }
 header>div.flexbox {
   justify-content: flex-start;
+  position: relative;
 }
 #logo img{
   width: 40px;
@@ -156,21 +170,6 @@ header>div.flexbox {
   background-size: contain;
   border: 1px solid #ffffff;
   border-radius: 50%;
-}
-.submitButton {
-  background-color: #2454C4;
-  color: #ffffff;
-  border: 2px solid #2454C4;
-  width: 250px;
-  height: 2em;
-  padding: 0 0.25em;
-  margin: 2em auto;
-  cursor: pointer;
-}
-.submitButton:hover {
-  background-color: #ffffff;
-  color: #2454C4;
-  border: 2px solid #2454C4;
 }
 .errorMessage {
   color: #be0231;
@@ -279,9 +278,105 @@ nav li.navlink.active a, nav li a:hover  {
    padding-top: 90px;
    opacity: 1;
   }
+  /* main style */
+  #root {
+    position: relative;
+    min-height: calc(100vh-60px);
+    height: 100%;
+    padding-bottom: 60px;
+  }
+  main {
+    margin: 0 auto;
+    min-height: 81vh;
+  }
+  main>div.container {
+    min-height: 81vh;
+  }
+  .main_icons_bg {
+    background-color: #2454C4;
+    width: 100vw;
+    height:80px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    margin-top:2em;
+    position: absolute;
+    bottom: 50px;
+    left:0;
+  }
+  .icon_button{
+    width: 35px;
+    height: 35px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin: auto 2em;
+    cursor: pointer;
+  }
+  .icon_circle_white {
+    border-radius: 100%;
+    border: 2px solid #ffffff;
+    width: 30px;
+    height: 30px;
+  }
+  .submitButton {
+    background-color: #2454C4;
+    color: #ffffff;
+    border: 2px solid #2454C4;
+    border-radius: 0.5em;
+    text-align: center;
+    font-size: 1em;
+    width: 250px;
+    height: 2em;
+    padding: 0 0.25em;
+    margin: 2em auto;
+    cursor: pointer;
+  }
+  button.submitButton {
+    height: 2.5em;
+  }
+  .submitButton:hover {
+    background-color: #ffffff;
+    color: #2454C4;
+    border: 2px solid #2454C4;
+  }
+  .loginLink, .signupLink {
+    display: block;
+    padding-top: 0.25em;
+    width: 250px;
+    height: 2em;
+    padding-top: 0.3em;
+  }
+  .signupLink {
+    background-color: #000000;
+    border: 2px solid #000000;
+  }
+  .signupLink:hover {
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    color: #000000;
+  }
+  .gridContainer {
+    display: grid;
+    gap: 1%;
+    grid-template-columns: 33% 33% 33%;
+    justify-content: space-evenly;
+  }
+  .dataEntry {
+    background-color: #ffffff;
+    width: 80%;
+    min-height: 80px;
+    height: auto;
+    padding: 2em;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
 
   /* footer */
   footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
     background-color: #000000;
     color: #ffffff;
     text-align: center;
@@ -326,6 +421,9 @@ nav li.navlink.active a, nav li a:hover  {
     width: 100%;
     text-align: center;
   }
+  .dataentry fieldset {
+    flex-direction: column;
+  }
   form fieldset.question {
     flex-direction: column;
   }
@@ -341,12 +439,11 @@ nav li.navlink.active a, nav li a:hover  {
   form input, form textarea, form select {
     width: 100%;
     height: 2em;
-    padding: 0.25em;
-    margin: 0.5em;
+    padding: 0.25em 0;
+    margin: 0.5em 0;
     text-align: center;
     font-size: 1em;
     border: none;
-    border-radius: 0.5em;
     background-color: #ffffff;
     cursor: text;
   }
@@ -354,6 +451,11 @@ nav li.navlink.active a, nav li a:hover  {
     padding: 0.25em 0 0.25em 1em ;
     cursor: pointer;
   }
+  #remember {
+    width: 100px;
+    padding-right: 7em;
+  }
+  
   input:checked {
     background-color: #2454C4;
   }
@@ -379,10 +481,19 @@ nav li.navlink.active a, nav li a:hover  {
   form .errorMessage {
     margin: 0;
   }
-
+  @media only screen and (max-width: 820px) {
+    .gridContainer {
+      gap: 2%;
+      grid-template-columns: 49% 49%;
+    }
+  }
   @media only screen and (max-width: 500px) {
     form {
       width: 100%;
+    }
+    .gridContainer {
+      gap: 5%;
+      grid-template-columns: 100%;
     }
     
   }

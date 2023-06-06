@@ -209,7 +209,7 @@ const EditDataEntry = ({
         <IconSelectionModal handleIconSelect={handleIconSelect} />
       )}
 
-      <form onSubmit={handleSubmit}>
+      <form className='dataentry' onSubmit={handleSubmit}>
         {/* form-elements for login */}
         {state.category === 'login' && (
           <fieldset>
@@ -421,6 +421,7 @@ const EditDataEntry = ({
             </button>
           </fieldset>
         )}
+        <div className='main_icons_bg'>
         <button type="button" onClick={() => handleCancel()}>
           {t('cancel')}
         </button>
@@ -428,6 +429,7 @@ const EditDataEntry = ({
         <button className="submitButton" type="submit">
           {t('submit')}
         </button>
+        </div>
       </form>
     </>
   );

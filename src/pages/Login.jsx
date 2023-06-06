@@ -48,6 +48,7 @@ const Login = ({setUser}) => {
           required
           onChange={(e) => setPassword(e.target.value)}
         />
+        <div className='flexbox_checkbox'>
         <input
           type="checkbox"
           id="remember"
@@ -55,7 +56,8 @@ const Login = ({setUser}) => {
           onChange={(e) => setRemember(e.target.checked)}
         />
         <label htmlFor="remember">{t('login:remember')}</label>
-        <button type="submit"> {t('login:loginButton')}</button>
+        </div>
+        <button className='submitButton' type="submit"> {t('login:loginButton')}</button>
       </form>
       <br />
       <Link to="/forgotpassword">{t('forgotpassword:forgotPW')}</Link> <br />

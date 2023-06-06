@@ -10,6 +10,7 @@ import { encryptedDataEntrys, useFetchData } from '../components/helperSites/Axi
 import { AppContext } from '../components/helperSites/AppContext';
 import SingleDataEntryDetail from '../components/SingleDataEntryDetail';
 import addIcon from '../img/icon-add.svg'
+import { HmacSHA1 } from 'crypto-js';
 
 
 
@@ -161,17 +162,17 @@ return (
         {!showCreateDataEntry && (
           <>
             <SearchBar handleSearch={handleSearch} />
-            <h4>{t(ENTRY_TYPE ? ENTRY_TYPE : 'main')}</h4>
-            <h3>
+            <h1>
               {t('welcome')} {user?.email},
-            </h3>
-            <DataEntry
-              filteredDataEntries={filteredDataEntries}
-              removeDataEntry={removeDataEntry}
-              selectedId={selectedId}
-              setSelectedId={setSelectedId}
-              setShowDetail={setShowDetail}
-            />
+            </h1>
+            <h2 className='subheadline'>{t(ENTRY_TYPE ? ENTRY_TYPE : 'main')}</h2>
+              <DataEntry
+                filteredDataEntries={filteredDataEntries}
+                removeDataEntry={removeDataEntry}
+                selectedId={selectedId}
+                setSelectedId={setSelectedId}
+                setShowDetail={setShowDetail}
+              />
           </>
         )}
 
@@ -181,7 +182,7 @@ return (
 
         {/* TODO + Icon */}
         {!showCreateDataEntry && (
-           <img onClick={handleClick} style={{ width: '30px' }} src={addIcon} alt={t('generateNew')} />
+           <div className='main_icons_bg'> <img className='icon_button' onClick={handleClick} src={addIcon} alt={t('generateNew')} /></div>
         )}
       </>
     )}

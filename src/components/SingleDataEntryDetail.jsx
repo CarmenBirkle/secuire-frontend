@@ -154,18 +154,27 @@ const copyToClipboard = (text) => {
             <span>{t('comment')}:</span>
             <div>{dataEntry.comment}</div>
             {renderCustomTopics()}
-            <img
-              style={{ width: '30px' }}
-              src={deleteIcon}
-              alt={t('remove')}
-              onClick={handleDeleteClick}
-            />
-            <img
-              style={{ width: '30px' }}
-              src={editIcon}
-              alt={t('edit')}
-              onClick={handleEditClick}
-            />
+            <div className='main_icons_bg'>
+              <img
+                className='icon_button icon_circle_white'           
+                src={arrowIcon}
+                alt={t('back')}
+                onClick={handleCloseClick}
+              />
+              <img
+                className='icon_button'
+                src={deleteIcon}
+                alt={t('remove')}
+                onClick={handleDeleteClick}
+              />
+              <img
+                className='icon_button'
+                src={editIcon}
+                alt={t('edit')}
+                onClick={handleEditClick}
+              />
+              
+            </div>
           </>
         );
       case 'safenote':
@@ -190,18 +199,26 @@ const copyToClipboard = (text) => {
             <div>{dataEntry.note}</div>
             <span>{t('comment')}:</span>:<div>{dataEntry.comment}</div>
             {renderCustomTopics()}
+            <div className='main_icons_bg'>
             <img
-              style={{ width: '30px' }}
-              src={deleteIcon}
-              alt={t('remove')}
-              onClick={handleDeleteClick}
-            />
-            <img
-              style={{ width: '30px' }}
-              src={editIcon}
-              alt={t('edit')}
-              onClick={handleEditClick}
-            />
+                className='icon_button icon_circle_white'           
+                src={arrowIcon}
+                alt={t('back')}
+                onClick={handleCloseClick}
+              />
+              <img
+                className='icon_button'
+                src={deleteIcon}
+                alt={t('remove')}
+                onClick={handleDeleteClick}
+              />
+              <img
+              className='icon_button'
+                src={editIcon}
+                alt={t('edit')}
+                onClick={handleEditClick}
+              />
+            </div>
           </>
         );
       case 'paymentcard':
@@ -237,18 +254,26 @@ const copyToClipboard = (text) => {
             <span>{t('comment')}:</span>
             <div>{dataEntry.comment}</div>
             {renderCustomTopics()}
+            <div className='main_icons_bg'>
             <img
-              style={{ width: '30px' }}
-              src={deleteIcon}
-              alt={t('remove')}
-              onClick={handleDeleteClick}
-            />
-            <img
-              style={{ width: '30px' }}
-              src={editIcon}
-              alt={t('edit')}
-              onClick={handleEditClick}
-            />
+                className='icon_button icon_circle_white'           
+                src={arrowIcon}
+                alt={t('back')}
+                onClick={handleCloseClick}
+              />
+              <img
+                className='icon_button'
+                src={deleteIcon}
+                alt={t('remove')}
+                onClick={handleDeleteClick}
+              />
+              <img
+              className='icon_button'
+                src={editIcon}
+                alt={t('edit')}
+                onClick={handleEditClick}
+              />
+            </div>
           </>
         );
       default:
@@ -258,12 +283,6 @@ const copyToClipboard = (text) => {
 
   return (
     <>
-      <img
-        style={{ width: '30px' }}
-        src={arrowIcon}
-        alt={t('back')}
-        onClick={handleCloseClick}
-      />
       {renderDataEntryDetail()}
     </>
   );

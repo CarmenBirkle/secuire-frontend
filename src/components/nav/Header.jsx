@@ -20,6 +20,8 @@ const Header = () => {
   useEffect(() => {
     if (localStorage.getItem('i18nextLng')?.length > 2 && !toggleLang) {
       i18next.changeLanguage('en');
+    } else {
+      i18next.changeLanguage('de');
     }
   }, []);
 
@@ -61,7 +63,7 @@ const Header = () => {
         </div>
 
         <div id="langSelect">
-          <span id="langFlag" style={{ backgroundImage:`url(${toggleLang ? imgEN : imgDE})` }} onClick={languageChangeClick}>
+          <span id="langFlag" style={{ backgroundImage:`url(${toggleLang ? imgDE : imgEN})` }} onClick={languageChangeClick}>
           </span>
             <select
               value={localStorage.getItem('i18nextLng')}
