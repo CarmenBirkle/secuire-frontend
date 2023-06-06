@@ -26,13 +26,20 @@ const Header = () => {
   /**
    * Effect to set initial language to english if no language is set
    */
-  useEffect(() => {
-    if (localStorage.getItem('i18nextLng')?.length > 2 && !toggleLang) {
-      i18next.changeLanguage('de');
-    } else {
-      i18next.changeLanguage('en');
-    }
-  }, []);
+  
+  // useEffect(() => {
+  //   if (localStorage.getItem('i18nextLng')?.length > 2 && !toggleLang) {
+  //     i18next.changeLanguage('de');
+  //   } else {
+  //     i18next.changeLanguage('en');
+  //   }
+  // }, []);
+
+   useEffect(() => {
+     if (localStorage.getItem('i18nextLng')?.length > 2 && !toggleLang) {
+       i18next.changeLanguage('en');
+     }
+   }, []);
 
   /**
    * Handle language change from select element
