@@ -94,53 +94,68 @@ const copyToClipboard = (text) => {
       case 'login':
         return (
           <>
-            <label htmlFor="favourite">{t('favourite')}:</label>
-            <input
-              id="favourite"
-              type="checkbox"
-              checked={dataEntry.favourite ? true : false}
-              readOnly
-            />
+          <section className='singleEntry'>
+            <table>
+              <tr>
+                <td><label htmlFor="favourite">{t('favourite')}:</label></td>
+                <td><input 
+                  id="favourite"
+                  type="checkbox"
+                  checked={dataEntry.favourite ? true : false}
+                  readOnly/>
+                </td>
+              </tr>
+              <tr>
+                <td colSpan={2}><img className='entryImage' src={icons[dataEntry.selectedIcon] || dummyIcon} />
+                </td>
+              </tr>
+              <tr>
+                <td>{t('subject')}:</td>
+                <td>{dataEntry.subject}</td>
+              </tr>
+              <tr>
+                <td>{t('username')}:</td>
+                <td>
+                  {dataEntry.username}
+                  <img
+                    className='icon_circle'
+                    onClick={() => copyToClipboard(dataEntry.username)}
+                    src={copyIcon}
+                    alt={t('copy')}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>{t('password')}:</td>
+                <td>
+                  {showSecret ? (<p>{dataEntry.password}</p>) : ( <p> *******</p>)}
+                  <div onClick={togglePasswordVisibility}>
+                    {showSecret ? (
+                      <img className='icon_circle_blue' src={hideIcon} alt={t('hide')} />
+                    ) : (
+                      <img className='icon_circle_blue' src={showIcon} alt={t('show')} />
+                    )}
+                  </div>
+                  <div>
+                    <img
+                      className='icon_circle'
+                      onClick={() => copyToClipboard(dataEntry.password)}
+                      src={copyIcon}
+                      alt={t('copy')}
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>{t('url')}:</td>
+                <td>{dataEntry.url}</td>
+              </tr>
+              <tr>
+                <td>{t('comment')}:</td>
+                <td>{dataEntry.comment}</td>
+              </tr>
+            </table>
 
-            <div>
-              <img
-                style={{ width: '30px' }}
-                src={icons[dataEntry.selectedIcon] || dummyIcon}
-              />
-            </div>
-            <span>{t('subject')}:</span>
-            <div>{dataEntry.subject}</div>
-            <span>{t('username')}:</span>
-            <div>{dataEntry.username}</div>
-            <img
-              onClick={() => copyToClipboard(dataEntry.username)}
-              style={{ width: '30px' }}
-              src={copyIcon}
-              alt={t('copy')}
-            />
-            <span>{t('password')}:</span>
-            {showSecret ? (
-              <span>{dataEntry.password}</span>
-            ) : (
-              <span>*******</span>
-            )}
-            <div onClick={togglePasswordVisibility}>
-              {showSecret ? (
-                <img style={{ width: '30px' }} src={hideIcon} alt={t('hide')} />
-              ) : (
-                <img style={{ width: '30px' }} src={showIcon} alt={t('show')} />
-              )}
-            </div>
-            <img
-              onClick={() => copyToClipboard(dataEntry.password)}
-              style={{ width: '30px' }}
-              src={copyIcon}
-              alt={t('copy')}
-            />
-            <span>{t('url')}:</span>
-            <div>{dataEntry.url}</div>
-            <span>{t('comment')}:</span>
-            <div>{dataEntry.comment}</div>
             {renderCustomTopics()}
             <div className='main_icons_bg'>
               <img
@@ -163,6 +178,7 @@ const copyToClipboard = (text) => {
               />
               
             </div>
+            </section>
           </>
         );
       case 'safenote':

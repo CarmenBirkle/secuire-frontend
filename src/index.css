@@ -94,6 +94,21 @@ button {
 .link:hover, link:active, .navlink:hover, .navlink:active, .active {
   color: #2454C4;
 }
+td {
+  width: 250px;
+  height: 2em;
+  padding: 0.5em 0;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+}
+tr {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+}
 
 /* layout grid */
 .container {
@@ -113,6 +128,11 @@ button {
   justify-content: center;
   align-content: center;
   align-items: center;
+}
+.entryflexbox {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 .row {
   flex-direction: row;
@@ -304,19 +324,35 @@ nav li.navlink.active a, nav li a:hover  {
     bottom: 50px;
     left:0;
   }
+  .icon_button, .icon_circle,  .icon_circle_blue, .icon_circle_white {
+    cursor: pointer;
+  }
   .icon_button{
     width: 35px;
     height: 35px;
-    background-repeat: no-repeat;
-    background-size: contain;
     margin: auto 2em;
-    cursor: pointer;
   }
-  .icon_circle_white {
-    border-radius: 100%;
-    border: 2px solid #ffffff;
+  .icon_circle {
     width: 30px;
     height: 30px;
+    margin-left: 1em;
+  }
+  .icon_circle_blue, .icon_circle_white {
+    width: 30px;
+    height: 30px;
+  }
+  .icon_circle_blue, .icon_circle_white {
+    width: 23px;
+    height: 23px;
+    padding: 2px;
+    border-radius: 100%;
+  }
+  .icon_circle_white{
+    border: 2px solid #ffffff;
+  }
+  .icon_circle_blue{
+    border: 2px solid #2454C4;
+    margin-left: 1em;
   }
   .submitButton {
     background-color: #2454C4;
@@ -370,7 +406,13 @@ nav li.navlink.active a, nav li a:hover  {
     border-radius: 10px;
     cursor: pointer;
   }
-
+  .singleEntry {
+    text-align: left;
+  }
+  .entryImage {
+    width: 35px;
+    height: auto;
+  }
 
   /* footer */
   footer {

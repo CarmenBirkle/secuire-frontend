@@ -2,7 +2,7 @@
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="600px" height="600px" viewBox="0 0 600 600" enable-background="new 0 0 600 600" xml:space="preserve">
+	 width="600px" height="600px" viewBox="0 0 600 600" enable-background="new 0 0 600 600" xml:space="preserve" fill="#2454C4">
 <path d="M300.174,588.621c-77.682,0-150.714-30.251-205.645-85.181C39.601,448.511,9.35,375.479,9.35,297.796
 	c0-77.683,30.251-150.715,85.18-205.645c54.93-54.929,127.963-85.18,205.645-85.18c77.681,0,150.714,30.251,205.644,85.18
 	c54.929,54.93,85.181,127.962,85.181,205.645c0,77.682-30.252,150.714-85.181,205.644
@@ -13,9 +13,9 @@
 		C396,454.69,385.646,465,372.882,465z M194,439h176v-31H266.566C253.801,408,243,397.244,243,384.48V201h-49V439z"/>
 	<g>
 		
-			<line stroke="#FFFFFF" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" x1="389.625" y1="112.016" x2="389.625" y2="112.016"/>
+			<line stroke="#2454C4" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" x1="389.625" y1="112.016" x2="389.625" y2="112.016"/>
 		
-			<line stroke="#FFFFFF" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" x1="485.214" y1="225.935" x2="485.214" y2="225.935"/>
+			<line stroke="#2454C4" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" x1="485.214" y1="225.935" x2="485.214" y2="225.935"/>
 		<path d="M446.019,158.909l-13.014-15.272L411.292,118h-11.816h-9.851h-6.932H266.566C253.801,118,243,128.217,243,140.981V384.48
 			c0,12.764,10.801,23.52,23.566,23.52h181.767C461.098,408,472,397.244,472,384.48V229.577V220.7v-10.792v-20.346L446.019,158.909z
 			 M446,382H270V144h129.3l46.7,54.923V382z"/>
