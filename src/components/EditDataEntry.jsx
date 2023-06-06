@@ -268,15 +268,6 @@ const EditDataEntry = ({
                 {t('dataLeak')}{errMsg}
               </p>
             )}
-            {/* <input
-              type="password"
-              id="password"
-              name="password"
-              required
-              placeholder={t('password')}
-              value={state.password}
-              onChange={(e) => handleInputChange('password', e.target.value)}
-            /> */}
 
             <input
               type="password"
