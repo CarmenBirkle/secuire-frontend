@@ -46,9 +46,9 @@ const Header = () => {
    */
   const languageChangeClick = (event) => {
     if (!toggleLang) {
-      i18next.changeLanguage('de');
-    } else {
       i18next.changeLanguage('en');
+    } else {
+      i18next.changeLanguage('de');
     }
     setLangToggled(!toggleLang);
   };
