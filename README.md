@@ -1,6 +1,6 @@
 # SecUIre Passwordmanager 
 
-##This is a software project within the module of the computer science / business informatics studies in the module ISEF software development.
+This is a software project within the module of the computer science / business informatics studies in the module ISEF software development.
 
 ## General Information
 Project configuration is for the web-app (frontent) react based.
@@ -15,8 +15,6 @@ Web site created using create-react-app, with following packages among others:
 
 Due to a multitude of user data, users lose track of their passwords and data worth protecting. The password manager offers the possibility to use login data securely and centralized. This is based on encryption and the zero-knowlege principle. 
 It is possible to manage login data, payment data, IDs and encrypted notes.
-
-This is a software project within the module of the computer science / business informatics studies in the module ISEF software development.
 
 ## Technologies Used
 

@@ -1,3 +1,15 @@
 {
-  "placeholder": " Dummy text Imprint"
+  "imprint": " Imprint",
+  "tmg": "Information according to § 5 TMG:",
+  "contact": "Contact",
+  "phone":"Phone",
+  "text": "This is a software project within the scope of the computer science/business informatics studies in the ISEF software development module. It is not a commercial offering at the prototype stage.",
+  "note": "Website notes",
+  "copyright": "Copyright notice",
+  "VSBG": "Information according to § 36 VSBG",
+  "VSBG content": "Gemäß § 36 VSBG (Verbraucherstreitbeilegungsgesetz – Gesetz über die alternative Streitbeilegung in Verbrauchersachen) erklärt der Betreiber dieser Website:",
+  "VSBG content2": "We are neither willing nor obligated to participate in dispute resolution proceedings before a consumer arbitration board.",
+  "create": "The imprint was created with the",
+  "link": " Impressums-Generator der activeMind AG",
+  "create2": "erstellt."
 }
