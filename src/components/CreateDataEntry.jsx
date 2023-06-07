@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { encryptObject } from './helperSites/Encrypt';
 import { icons } from './helperSites/IconsDataEntry'; 
+import cancelIcon from './../img/icon-close.svg';
+import deleteIcon from './../img/icon_delete_blue.svg';
+import addIcon from './../img/icon_add_blue.svg';
 import { placeholderIcon} from './helperSites/IconsDataEntry';
 import {
   createDataEntry,
@@ -152,15 +155,15 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
    const IconSelectionModal = () => {
      return (
        <div>
-         <h4>Wähle ein Icon:</h4>
-         <div>
+         <h2 className='subheadline'>Wähle ein Icon:</h2>
+         <div className='entryImageCenter'>
            {icons.map((icon, index) => (
              <div
                key={index}
                onClick={() => handleIconSelect(index)}
                style={{ cursor: 'pointer' }}
              >
-               <img style={{ width: '30px' }} src={icon} alt={icon} />
+               <img className='entryImage' src={icon} alt={icon} />
              </div>
            ))}
          </div>
@@ -172,7 +175,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
    const renderSelectedIcon = () => {
      return (
        <img
-         style={{ width: '30px' }}
+        className='entryImage'
          src={selectedIcon !== null ? icons[selectedIcon] : placeholderIcon}
          alt={selectedIcon !== null ? `Icon ${selectedIcon}` : 'Choose Icon'}
        />
@@ -202,10 +205,12 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
             handleFieldChange(index, 'fieldValue', e.target.value)
           }
         />
-
-        <button type="button" onClick={() => handleRemoveField(index)}>
-          {t('remove')}
-        </button>
+        <img
+          className='icon_button'
+          src={deleteIcon}
+          alt={t('remove')}
+          onClick={() => handleRemoveField(index)}
+        />
       </div>
     ));
   };
@@ -220,24 +225,26 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
 
   return (
     <>
-      <select
-        name="category"
-        id="category"
-        onChange={(e) => setCategory(e.target.value)}
-      >
-        <option value="login">{t('login')}</option>
-        <option value="safenote">{t('safenotes')}</option>
-        <option value="paymentcard">{t('paymentcards')} </option>
-      </select>
+    <div className='custom-select'>
+        <select
+          name="category"
+          id="category"
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value="login">{t('login')}</option>
+          <option value="safenote">{t('safenotes')}</option>
+          <option value="paymentcard">{t('paymentcards')} </option>
+        </select>
+      </div>
 
       {showIconSelection && (
         <IconSelectionModal handleIconSelect={handleIconSelect} />
       )}
-      <form onSubmit={handleSubmit}>
+      <form className='dataentry' onSubmit={handleSubmit}>
         {/* form-elements for login-type */}
         {category === 'login' && (
           <fieldset>
-            <div onClick={() => setShowIconSelection(true)}>
+            <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
             </div>
             <label htmlFor="favourite">{t('favourite')}</label>
@@ -311,16 +318,19 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               onChange={(e) => setComment(e.target.value)}
             />
             {renderFields()}
-            <button type="button" onClick={handleAddField}>
-              {t('addField')}
-            </button>
+            <img
+              className='icon_button'
+              src={addIcon}
+              alt={t('addField')}
+              onClick={handleAddField}
+            />
           </fieldset>
         )}
 
         {/* form-elements for safenote-type */}
         {category === 'safenote' && (
           <fieldset>
-            <div onClick={() => setShowIconSelection(true)}>
+            <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
             </div>
             <label htmlFor="favourite">{t('favourite')}</label>
@@ -358,15 +368,18 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               onChange={(e) => setComment(e.target.value)}
             />
             {renderFields()}
-            <button type="button" onClick={handleAddField}>
-              {t('addField')}
-            </button>
+            <img
+              className='icon_button'
+              src={addIcon}
+              alt={t('addField')}
+              onClick={handleAddField}
+            />
           </fieldset>
         )}
         {/* form-elements for paymentcard-type */}
         {category === 'paymentcard' && (
           <fieldset>
-            <div onClick={() => setShowIconSelection(true)}>
+            <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
             </div>
             <label htmlFor="favourite">{t('favourite')}</label>
@@ -444,18 +457,27 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               onChange={(e) => setComment(e.target.value)}
             />
             {renderFields()}
-            <button type="button" onClick={handleAddField}>
-              {t('addField')}
-            </button>
+            <img
+              className='icon_button'
+              src={addIcon}
+              alt={t('addField')}
+              onClick={handleAddField}
+            />
           </fieldset>
         )}
-        <button type="button" onClick={() => setShowCreateDataEntry(false)}>
-          {t('cancel')}
-        </button>
+        <div className='main_icons_bg'>
+          <img
+            className='icon_button'           
+            src={cancelIcon}
+            alt={t('cancel')}
+            onClick={() => setShowCreateDataEntry(false)}
+          />
+          
+          <button className="icon_button icon_save" type="submit">
+          {/*{t('submit')}*/}
+          </button>
+        </div>
 
-        <button className="submitButton" type="submit">
-          {t('submit')}
-        </button>
       </form>
     </>
   );

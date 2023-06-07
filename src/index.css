@@ -274,7 +274,7 @@ nav li.navlink.active a, nav li a:hover  {
     opacity: 0;
   }
   #nav.open {
-   height: 100%;
+   height: calc(100% - 125px);
    top:0;
    padding-top: 90px;
    opacity: 1;
@@ -291,7 +291,7 @@ nav li.navlink.active a, nav li a:hover  {
   /* main style */
   #root {
     position: relative;
-    min-height: calc(100vh-60px);
+    min-height: calc(100vh - 60px);
     height: 100%;
     padding-bottom: 60px;
   }
@@ -337,6 +337,7 @@ nav li.navlink.active a, nav li a:hover  {
     background-color: transparent;
     border:none;
   }
+
   /* buttons */
   .submitButton {
     background-color: #2454C4;
@@ -359,6 +360,14 @@ nav li.navlink.active a, nav li a:hover  {
     color: #2454C4;
     border: 2px solid #2454C4;
   }
+
+  /* custom select */
+  .custom-select{
+    position: relative;
+    font-family: 'Poppins',Arial, sans-serif;
+    margin-bottom: 1em;
+  }
+ 
   /* login and signup */
   .loginLink, .signupLink {
     display: block;
@@ -387,7 +396,7 @@ nav li.navlink.active a, nav li a:hover  {
   }
   .dataEntry {
     background-color: #ffffff;
-    width: 80%;
+    max-width: 100%;
     min-height: 80px;
     height: auto;
     padding: 2em 1em;

@@ -322,11 +322,11 @@ const EditDataEntry = ({
             />
             {renderFields()}
             <img
-                  className='icon_button'
-                  src={addIcon}
-                  alt={t('addField')}
-                  onClick={handleAddField}
-                />
+              className='icon_button'
+              src={addIcon}
+              alt={t('addField')}
+              onClick={handleAddField}
+            />
             {/*<button type="button" onClick={handleAddField}>
               {t('addField')}
             </button>*/}
@@ -336,7 +336,7 @@ const EditDataEntry = ({
         {/* form-elements for safenotes */}
         {state.category === 'safenote' && (
           <fieldset>
-            <div onClick={() => setShowIconSelection(true)}>
+            <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
             </div>
             <label htmlFor="favourite">{t('favourite')}</label>
@@ -375,14 +375,17 @@ const EditDataEntry = ({
             />
 
             {renderFields()}
-            <button type="button" onClick={handleAddField}>
-              {t('addField')}
-            </button>
+            <img
+              className='icon_button'
+              src={addIcon}
+              alt={t('addField')}
+              onClick={handleAddField}
+            />
           </fieldset>
         )}
         {state.category === 'paymentcard' && (
           <fieldset>
-            <div onClick={() => setShowIconSelection(true)}>
+            <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
             </div>
             <label htmlFor="favourite">{t('favourite')}</label>
@@ -470,9 +473,12 @@ const EditDataEntry = ({
               onChange={(e) => handleInputChange('comment', e.target.value)}
             />
             {renderFields()}
-            <button type="button" onClick={handleAddField}>
-              {t('addField')}
-            </button>
+            <img
+              className='icon_button'
+              src={addIcon}
+              alt={t('addField')}
+              onClick={handleAddField}
+            />
           </fieldset>
         )}
         <div className='main_icons_bg'>
