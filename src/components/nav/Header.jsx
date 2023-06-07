@@ -18,26 +18,22 @@ import imgEN from '../../img/united-kingdom.png';
 const Header = () => {
   const i18n = useTranslation(['header']);
   const currentLang = localStorage.getItem('i18nextLng');
-  const [toggleLang, setLangToggled] = useState(false);
+  const [toggleLang, setLangToggled] = useState(true);
 
+  /**
+   * Get menu button and navigation element by id
+   */
   const navbutton = React.useRef(document.getElementById('mobile_button'));
   const navigation = React.useRef(document.getElementById('nav'));
 
   /**
    * Effect to set initial language to english if no language is set
    */
-  
-  // useEffect(() => {
-  //   if (localStorage.getItem('i18nextLng')?.length > 2 && !toggleLang) {
-  //     i18next.changeLanguage('de');
-  //   } else {
-  //     i18next.changeLanguage('en');
-  //   }
-  // }, []);
-
    useEffect(() => {
      if (localStorage.getItem('i18nextLng')?.length > 2 && !toggleLang) {
        i18next.changeLanguage('en');
+     }else {
+      i18next.changeLanguage('de');
      }
    }, []);
 
@@ -60,6 +56,9 @@ const Header = () => {
     setLangToggled(!toggleLang);
   };
 
+  /**
+   * Open/Close navigation on menu button click
+   */
   const menuButtonClick = (event) => {
     if (navbutton.current.classList.contains('open')) {
       navbutton.current.classList.replace('open', 'closed');
@@ -69,6 +68,9 @@ const Header = () => {
       navigation.current.classList.add('open');
     }
   };
+  /**
+   * Close navigation on home button click
+   */
   const homeButtonClick = (event) => {
     navbutton.current.classList.replace('open', 'closed');
     navigation.current.classList.remove('open');
