@@ -10,6 +10,7 @@ import { encryptedDataEntrys, useFetchData } from '../components/helperSites/Axi
 import { AppContext } from '../components/helperSites/AppContext';
 import SingleDataEntryDetail from '../components/SingleDataEntryDetail';
 import addIcon from '../img/icon-add.svg'
+import searchIcon from './../img/icon-search.svg';
 
 
 
@@ -121,6 +122,15 @@ const Main = ({user}) => {
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
+  const searchBar = React.useRef(document.getElementById('searchBar'));
+
+  const searchIconClick = (event) => {
+    if (searchBar.current.classList.contains('open')) {
+      searchBar.current.classList.replace('open', 'closed');
+    } else {
+      searchBar.current.classList.replace('closed', 'open');
+    }
+  };
 
 
 return (
@@ -158,7 +168,15 @@ return (
       <>
         {!showCreateDataEntry && (
           <>
-            <SearchBar handleSearch={handleSearch} />
+          <img
+            className='icon_button search_button'           
+            src={searchIcon}
+            
+            onClick={() => searchIconClick()}
+          />
+          <section id='searchBar' className='closed' ref={searchBar}>
+            <SearchBar handleSearch={handleSearch}  />
+            </section>
             <h1>
               {t('welcome')} {user?.email},
             </h1>

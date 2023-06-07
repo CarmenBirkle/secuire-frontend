@@ -174,11 +174,11 @@ header>div.flexbox {
 }
 #langSelect span {
   display: block;
-  height: 25px;
-  width: 25px;
+  height: 30px;
+  width: 30px;
   background-repeat: no-repeat;
   background-size: contain;
-  border: 1px solid #ffffff;
+  border: 2px solid #ffffff;
   border-radius: 50%;
 }
 
@@ -340,6 +340,11 @@ nav li.navlink.active a, nav li a:hover  {
     background-color: transparent;
     border:none;
   }
+  .search_button{
+    position: absolute;
+    top: 22px;
+    left: calc(50% - 45px);
+  }
 
   /* buttons */
   .submitButton {
@@ -370,7 +375,13 @@ nav li.navlink.active a, nav li a:hover  {
     font-family: 'Poppins',Arial, sans-serif;
     margin-bottom: 1em;
   }
- 
+  /* search */
+  #searchBar.open {
+    display: block
+  }
+  #searchBar.closed {
+    display: none;
+  }
   /* login and signup */
   .loginLink, .signupLink {
     display: block;
