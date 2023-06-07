@@ -301,7 +301,8 @@ nav li.navlink.active a, nav li a:hover  {
   main>div.container {
     min-height: 73vh;
   }
-  /* main icon menu bottom */
+
+  /* icon buttons */
   .main_icons_bg {
     background-color: #2454C4;
     width: 99vw;
@@ -327,6 +328,14 @@ nav li.navlink.active a, nav li a:hover  {
     height: 30px;
     margin:5px; 
   }
+  .icon_save {
+    background-image: url(/src/img/icon-save.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: transparent;
+    border:none;
+  }
+  /* buttons */
   .submitButton {
     background-color: #2454C4;
     color: #ffffff;
@@ -348,6 +357,7 @@ nav li.navlink.active a, nav li a:hover  {
     color: #2454C4;
     border: 2px solid #2454C4;
   }
+  /* login and signup */
   .loginLink, .signupLink {
     display: block;
     padding-top: 0.25em;
@@ -364,9 +374,11 @@ nav li.navlink.active a, nav li a:hover  {
     border: 2px solid #000000;
     color: #000000;
   }
+  /* data entries */
   .gridContainer {
     display: grid;
-    gap: 1%;
+    column-gap: 1%;
+    row-gap: 40px;
     grid-template-columns: 33% 33% 33%;
     justify-content: space-evenly;
     padding-bottom: 100px;
@@ -387,6 +399,7 @@ nav li.navlink.active a, nav li a:hover  {
   .entryImage {
     width: 50px;
     height: auto;
+    margin: 0 1em;
   }
   .entryImageCenter {
     display: flex;
@@ -475,6 +488,9 @@ nav li.navlink.active a, nav li a:hover  {
   form select {
     padding: 0.25em 0 0.25em 1em ;
     cursor: pointer;
+  }
+form>fieldset>div {
+    width: 100%;
   }
   #remember {
     width: 100px;

@@ -41,13 +41,13 @@ const SingleDataEntry = ({
               checked={dataEntry.favourite ? true : false}
               readOnly
             /> */}
-            <div>
+            <div className='entryImageCenter'>
               <img
-                style={{ width: '30px' }}
+                className='entryImage'
                 src={icons[dataEntry.selectedIcon] || dummyIcon}
               />
             </div>
-            <div>{t('subject')}:</div>
+            {/* <div>{t('subject')}:</div>*/}
             <div>{dataEntry.subject}</div>
           </>
         );
@@ -61,13 +61,13 @@ const SingleDataEntry = ({
               checked={dataEntry.favourite ? true : false}
               readOnly
             /> */}
-            <div>
+            <div className='entryImageCenter'>
               <img
-                style={{ width: '30px' }}
+                className='entryImage'
                 src={icons[dataEntry.selectedIcon] || dummyIcon}
               />
             </div>
-            <div>{t('subject')}:</div>
+            {/* <div>{t('subject')}:</div>*/}
             <div>{dataEntry.subject}</div>
           </>
         );
@@ -81,13 +81,13 @@ const SingleDataEntry = ({
               checked={dataEntry.favourite ? true : false}
               readOnly
             /> */}
-            <div>
+            <div className='entryImageCenter'>
               <img
-                style={{ width: '30px' }}
+                className='entryImage'
                 src={icons[dataEntry.selectedIcon] || dummyIcon}
               />
             </div>
-            <div>{t('subject')}:</div>
+            {/* <div>{t('subject')}:</div>*/}
             <div>{dataEntry.subject}</div>
           </>
         );

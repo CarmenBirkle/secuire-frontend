@@ -3,6 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { encryptObject } from './helperSites/Encrypt';
 import { dummyIcon } from './helperSites/IconsDataEntry';
 import { icons } from './helperSites/IconsDataEntry';
+import cancelIcon from './../img/icon-close.svg';
+import deleteIcon from './../img/icon_delete_blue.svg';
+import addIcon from './../img/icon_add_blue.svg';
 import { updatedDataEntry,checkPasswordSecurity, } from './helperSites/Axios.jsx';
  
 
@@ -138,10 +141,16 @@ const EditDataEntry = ({
            handleFieldChange(index, 'fieldValue', e.target.value)
          }
        />
+       <img
+          className='icon_button'
+          src={deleteIcon}
+          alt={t('remove')}
+          onClick={() => handleRemoveField(index)}
+        />
 
-       <button type="button" onClick={() => handleRemoveField(index)}>
+       {/*<button type="button" onClick={() => handleRemoveField(index)}>
          {t('remove')}
-       </button>
+        </button>*/}
      </div>
    ));
  };
@@ -173,7 +182,7 @@ const EditDataEntry = ({
   const renderSelectedIcon = () => {
     return (
       <img
-        style={{ width: '30px' }}
+        className='entryImage'
         src={
           state.selectedIcon !== null && state.selectedIcon !== undefined
             ? icons[state.selectedIcon]
@@ -192,15 +201,15 @@ const EditDataEntry = ({
   const IconSelectionModal = () => {
     return (
       <div>
-        <h4>{t('chooseIcon')}</h4>
-        <div>
+        <h2 className='subheadline'>{t('chooseIcon')}</h2>
+        <div className='entryImageCenter'>
           {icons.map((icon, index) => (
             <div
               key={index}
               onClick={() => handleIconSelect(index)}
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: 'pointer'}}
             >
-              <img style={{ width: '30px' }} src={icon} alt={icon} />
+              <img className='entryImage' src={icon} alt={icon} />
             </div>
           ))}
         </div>
@@ -231,7 +240,7 @@ const EditDataEntry = ({
         {/* form-elements for login */}
         {state.category === 'login' && (
           <fieldset>
-            <div onClick={() => setShowIconSelection(true)}>
+            <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
             </div>
             <label htmlFor="favourite">{t('favourite')}</label>
@@ -312,9 +321,15 @@ const EditDataEntry = ({
               onChange={(e) => handleInputChange('comment', e.target.value)}
             />
             {renderFields()}
-            <button type="button" onClick={handleAddField}>
+            <img
+                  className='icon_button'
+                  src={addIcon}
+                  alt={t('addField')}
+                  onClick={handleAddField}
+                />
+            {/*<button type="button" onClick={handleAddField}>
               {t('addField')}
-            </button>
+            </button>*/}
           </fieldset>
         )}
 
@@ -461,14 +476,18 @@ const EditDataEntry = ({
           </fieldset>
         )}
         <div className='main_icons_bg'>
-        <button type="button" onClick={() => handleCancel()}>
-          {t('cancel')}
-        </button>
-
-        <button className="submitButton" type="submit">
-          {t('submit')}
+          <img
+            className='icon_button'           
+            src={cancelIcon}
+            alt={t('cancel')}
+            onClick={() => handleCancel()}
+          />
+          
+          <button className="icon_button icon_save" type="submit">
+          {/*{t('submit')}*/}
         </button>
         </div>
+
       </form>
     </>
   );
