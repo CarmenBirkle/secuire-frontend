@@ -1,10 +1,14 @@
-import test1 from '../../img/icons_DataEntrys/1.png';
-import test2 from '../../img/icons_DataEntrys/2.png';
-import placeholder from '../../img/icons_DataEntrys/dummy-icon.png';
-import dummy from '../../img/icons_DataEntrys/padlock.png';
+import fb from '../../img/icons_DataEntrys/facebook.svg';
+import insta from '../../img/icons_DataEntrys/instagram.svg';
+import yt from '../../img/icons_DataEntrys/youtube.svg';
+import card from '../../img/icons_DataEntrys/icon_card.svg';
+import note from '../../img/icons_DataEntrys/icon_note.svg';
+import pw from '../../img/icons_DataEntrys/icon_password.svg';
+import star from '../../img/icons_DataEntrys/icon_star.svg';
+import placeholder from '../../img/icons_DataEntrys/icon_image.svg';
 
-export const icons = [test1, test2];
+export const icons = [fb, insta, yt, card, note, pw, star];
 export const placeholderIcon = placeholder;
-export const dummyIcon = dummy;
+export const dummyIcon = star;
 
 

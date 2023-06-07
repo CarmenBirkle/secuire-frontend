@@ -78,7 +78,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="container flexbox">
+      <div className="container flexbox allignCenter">
         <div id="logo" onClick={homeButtonClick}>
           <Link to="/">
             <img src={logo} alt="Seciure" />

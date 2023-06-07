@@ -65,7 +65,7 @@ useEffect(() => {
          required
          onChange={(e) => setPassword(e.target.value)}
        />
-       <div className="flexbox_checkbox">
+       <div className="flexbox row-reverse allignCenter">
          <input
            type="checkbox"
            id="remember"

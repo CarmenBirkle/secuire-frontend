@@ -4,11 +4,12 @@ import { dummyIcon } from './helperSites/IconsDataEntry';
 import { useTranslation } from 'react-i18next';
 import deleteIcon from './../img/icon-delete.svg';
 import editIcon from './../img/icon-work.svg';
-import arrowIcon from './../img/arrow.svg';
-import copyIcon from './../img/icon-copy.svg'
-import hideIcon from './../img/hide.png'
-import showIcon from './../img/show.png'
+import arrowIcon from './../img/icon_back.svg';
+import copyIcon from './../img/icon-copy.svg';
+import hideIcon from './../img/icon_hide.svg';
+import showIcon from './../img/icon_show.svg';
 import { deleteDataEntry } from './helperSites/Axios.jsx';
+import { Link } from 'react-router-dom';
 /**
  * Display Single DataEntry Overview component with Name
  * @returns for each DataEntry an Overview component
@@ -88,213 +89,242 @@ const copyToClipboard = (text) => {
       case 'login':
         return (
           <>
-          <section className='singleEntry'>
-            <table>
-              <tr>
-                <td><label htmlFor="favourite">{t('favourite')}:</label></td>
-                <td><input 
-                  id="favourite"
-                  type="checkbox"
-                  checked={dataEntry.favourite ? true : false}
-                  readOnly/>
-                </td>
-              </tr>
-              <tr>
-                <td colSpan={2}><img className='entryImage' src={icons[dataEntry.selectedIcon] || dummyIcon} />
-                </td>
-              </tr>
-              <tr>
-                <td>{t('subject')}:</td>
-                <td>{dataEntry.subject}</td>
-              </tr>
-              <tr>
-                <td>{t('username')}:</td>
-                <td>
-                  {dataEntry.username}
+            <section>
+              <div className='entryImageCenter'>
+                <img className='entryImage' src={icons[dataEntry.selectedIcon] || dummyIcon} />
+              </div>
+              <div className='singleEntry'>
+              <label htmlFor="favourite">{t('favourite')}: </label>
+              <input 
+                    id="favourite"
+                    type="checkbox"
+                    checked={dataEntry.favourite ? true : false}
+                    readOnly/>
+              </div>
+              <div className='singleEntry'>
+                <p>{t('subject')}:</p>
+                <p>{dataEntry.subject}</p>
+              </div>
+              <div className='singleEntry'>
+                <p>{t('username')}:</p>
+                <div className='flexbox allignCenter'>
+                  <p>{dataEntry.username}</p>
                   <img
-                    className='icon_circle'
-                    onClick={() => copyToClipboard(dataEntry.username)}
-                    src={copyIcon}
-                    alt={t('copy')}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>{t('password')}:</td>
-                <td>
-                  {showSecret ? (<p>{dataEntry.password}</p>) : ( <p> *******</p>)}
-                  <div onClick={togglePasswordVisibility}>
-                    {showSecret ? (
-                      <img className='icon_circle_blue' src={hideIcon} alt={t('hide')} />
-                    ) : (
-                      <img className='icon_circle_blue' src={showIcon} alt={t('show')} />
-                    )}
-                  </div>
-                  <div>
-                    <img
                       className='icon_circle'
-                      onClick={() => copyToClipboard(dataEntry.password)}
+                      onClick={() => copyToClipboard(dataEntry.username)}
                       src={copyIcon}
                       alt={t('copy')}
                     />
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>{t('url')}:</td>
-                <td>{dataEntry.url}</td>
-              </tr>
-              <tr>
-                <td>{t('comment')}:</td>
-                <td>{dataEntry.comment}</td>
-              </tr>
-            </table>
+                </div>
+              </div>
+              <div className='singleEntry'>
+                <p>{t('password')}:</p>
+                
+                  {showSecret ? (<p>{dataEntry.password}</p>) : ( <p> *******</p>)}
+                  <div className='flexbox allignCenter'>
+                    <div onClick={togglePasswordVisibility}>
+                      {showSecret ? (
+                        <img className='icon_circle' src={hideIcon} alt={t('hide')} />
+                      ) : (
+                        <img className='icon_circle' src={showIcon} alt={t('show')} />
+                      )}
+                    </div>
+                    <div>
+                      <img
+                          className='icon_circle'
+                          onClick={() => copyToClipboard(dataEntry.password)}
+                          src={copyIcon}
+                          alt={t('copy')}
+                        />
+                    </div>
+                </div>
+              </div>
+              <div className='singleEntry'>
+                <p>{t('url')}:</p>
+                <a href={dataEntry.url}>{dataEntry.url}</a>
+              </div>
+              <div className='singleEntry'>
+                <p>{t('comment')}:</p>
+                <p>{dataEntry.comment}</p>
+              </div>
 
-            {renderCustomTopics()}
-            <div className='main_icons_bg'>
-              <img
-                className='icon_button icon_circle_white'           
-                src={arrowIcon}
-                alt={t('back')}
-                onClick={handleCloseClick}
-              />
-              <img
-                className='icon_button'
-                src={deleteIcon}
-                alt={t('remove')}
-                onClick={handleDeleteClick}
-              />
-              <img
-                className='icon_button'
-                src={editIcon}
-                alt={t('edit')}
-                onClick={handleEditClick}
-              />
-              
-            </div>
+              {renderCustomTopics()}
+              <div className='main_icons_bg'>
+                <img
+                  className='icon_button'           
+                  src={arrowIcon}
+                  alt={t('back')}
+                  onClick={handleCloseClick}
+                />
+                <img
+                  className='icon_button'
+                  src={deleteIcon}
+                  alt={t('remove')}
+                  onClick={handleDeleteClick}
+                />
+                <img
+                  className='icon_button'
+                  src={editIcon}
+                  alt={t('edit')}
+                  onClick={handleEditClick}
+                />
+                
+              </div>
             </section>
           </>
         );
       case 'safenote':
         return (
           <>
-            <label htmlFor="favourite">{t('favourite')}:</label>
-            <input
-              id="favourite"
-              type="checkbox"
-              checked={dataEntry.favourite ? true : false}
-              readOnly
-            />
-            <div>
-              <img
-                style={{ width: '30px' }}
-                src={icons[dataEntry.selectedIcon] || dummyIcon}
-              />
-            </div>
-            <span>{t('subject')}:</span>
-            <div>{dataEntry.subject}</div>
-            <span>{t('note')}:</span>
-            <div>{dataEntry.note}</div>
-            <span>{t('comment')}:</span>:<div>{dataEntry.comment}</div>
+            <section>
+              <div className='entryImageCenter'>
+                  <img className='entryImage' src={icons[dataEntry.selectedIcon] || dummyIcon} />
+              </div>
+              <div className='singleEntry'>
+                <label htmlFor="favourite">{t('favourite')}: </label>
+                <input 
+                      id="favourite"
+                      type="checkbox"
+                      checked={dataEntry.favourite ? true : false}
+                      readOnly/>
+              </div>
+              <div className='singleEntry'>
+                <p>{t('subject')}:</p>
+                <p>{dataEntry.subject}</p>
+              </div>
+              <div className='singleEntry'>
+                <p>{t('note')}:</p>
+                <p>{dataEntry.note}</p>
+              </div>
+              <div className='singleEntry'>
+                <p>{t('comment')}:</p>
+                <p>{dataEntry.comment}</p>
+              </div>
+
             {renderCustomTopics()}
             <div className='main_icons_bg'>
-            <img
-                className='icon_button icon_circle_white'           
-                src={arrowIcon}
-                alt={t('back')}
-                onClick={handleCloseClick}
-              />
-              <img
-                className='icon_button'
-                src={deleteIcon}
-                alt={t('remove')}
-                onClick={handleDeleteClick}
-              />
-              <img
-              className='icon_button'
-                src={editIcon}
-                alt={t('edit')}
-                onClick={handleEditClick}
-              />
-            </div>
+                <img
+                  className='icon_button'           
+                  src={arrowIcon}
+                  alt={t('back')}
+                  onClick={handleCloseClick}
+                />
+                <img
+                  className='icon_button'
+                  src={deleteIcon}
+                  alt={t('remove')}
+                  onClick={handleDeleteClick}
+                />
+                <img
+                  className='icon_button'
+                  src={editIcon}
+                  alt={t('edit')}
+                  onClick={handleEditClick}
+                />
+              </div>
+          </section>
           </>
         );
       case 'paymentcard':
         return (
           <>
-            <label htmlFor="favourite">{t('favourite')}:</label>
-            <input
-              id="favourite"
-              type="checkbox"
-              checked={dataEntry.favourite ? true : false}
-              readOnly
-            />
-            <div>
-              <img
-                style={{ width: '30px' }}
-                src={icons[dataEntry.selectedIcon] || dummyIcon}
-              />
+          <section>
+            <div className='entryImageCenter'>
+                <img className='entryImage' src={icons[dataEntry.selectedIcon] || dummyIcon} />
             </div>
-            <span>{t('subject')}:</span>
-            <div>{dataEntry.subject}</div>
-            <span>{t('cardtype')}:</span>
-            <div>{dataEntry.cardtype}</div>
-            <span>{t('owner')}:</span>
-            <div>{dataEntry.owner}</div>
-            <span>{t('cardnumber')}:</span>
-            <div>{dataEntry.cardnumber}</div>
-            <img
-              onClick={() => copyToClipboard(dataEntry.cardnumber)}
-              style={{ width: '30px' }}
-              src={copyIcon}
-              alt={t('copy')}
-            />
-            <span>{t('expirationdate')}:</span>
-            <div>{dataEntry.expirationdate}</div>
-            <span>{t('pin')}:</span>
-             {showSecret ? (
-              <span>{dataEntry.pin}</span>
-            ) : (
-              <span>****</span>
-            )}
-            <div onClick={togglePasswordVisibility}>
+            <div className='singleEntry'>
+              <label htmlFor="favourite">{t('favourite')}: </label>
+              <input 
+                id="favourite"
+                type="checkbox"
+                checked={dataEntry.favourite ? true : false}
+                readOnly/>
+            </div>
+            <div className='singleEntry'>
+              <p>{t('subject')}:</p>
+              <p>{dataEntry.subject}</p>
+            </div>
+            <div className='singleEntry'>
+              <p>{t('cardtype')}:</p>
+              <p>{dataEntry.cardtype}</p>
+            </div>
+            <div className='singleEntry'>
+              <p>{t('owner')}:</p>
+              <p>{dataEntry.owner}</p>
+            </div>
+            <div className='singleEntry'>
+              <p>{t('cardnumber')}:</p>
+              <div className='flexbox allignCenter'>
+                <p>{dataEntry.cardnumber}</p>
+                <img
+                  onClick={() => copyToClipboard(dataEntry.cardnumber)}
+                  className='icon_circle'
+                  src={copyIcon}
+                  alt={t('copy')}
+                />
+              </div>
+            </div>
+            <div className='singleEntry'>
+              <p>{t('expirationdate')}:</p>
+              <p>{dataEntry.expirationdate}</p>
+            </div>
+            <div className='singleEntry'>
+              <p>{t('pin')}:</p>
               {showSecret ? (
-                <img style={{ width: '30px' }} src={hideIcon} alt={t('hide')} />
+                <p>{dataEntry.pin}</p>
               ) : (
-                <img style={{ width: '30px' }} src={showIcon} alt={t('show')} />
+                <p>****</p>
               )}
+              <div className='flexbox allignCenter'>
+                <div onClick={togglePasswordVisibility}>
+                  {showSecret ? (
+                    <img className='icon_circle' src={hideIcon} alt={t('hide')} />
+                  ) : (
+                    <img className='icon_circle' src={showIcon} alt={t('show')} />
+                  )}
+                </div>
+                <div>
+                  <img
+                    onClick={() => copyToClipboard(dataEntry.pin)}
+                    className='icon_circle'
+                    src={copyIcon}
+                    alt={t('copy')}
+                  />
+                </div>
+              </div>
+              <div className='singleEntry'>
+                <p>{t('cvv')}:</p>
+                <p>{dataEntry.cvv}</p>
+              </div>
+              <div className='singleEntry'>
+                <p>{t('comment')}:</p>
+                <p>{dataEntry.comment}</p>
+              </div>
             </div>
-            <img
-              onClick={() => copyToClipboard(dataEntry.pin)}
-              style={{ width: '30px' }}
-              src={copyIcon}
-              alt={t('copy')}
-            />
-            <span>{t('cvv')}:</span>
-            <div>{dataEntry.cvv}:</div>
-            <span>{t('comment')}:</span>
-            <div>{dataEntry.comment}</div>
+
             {renderCustomTopics()}
             <div className='main_icons_bg'>
-            <img
-                className='icon_button icon_circle_white'           
-                src={arrowIcon}
-                alt={t('back')}
-                onClick={handleCloseClick}
-              />
-              <img
-                className='icon_button'
-                src={deleteIcon}
-                alt={t('remove')}
-                onClick={handleDeleteClick}
-              />
-              <img
-              className='icon_button'
-                src={editIcon}
-                alt={t('edit')}
-                onClick={handleEditClick}
-              />
-            </div>
+                <img
+                  className='icon_button'           
+                  src={arrowIcon}
+                  alt={t('back')}
+                  onClick={handleCloseClick}
+                />
+                <img
+                  className='icon_button'
+                  src={deleteIcon}
+                  alt={t('remove')}
+                  onClick={handleDeleteClick}
+                />
+                <img
+                  className='icon_button'
+                  src={editIcon}
+                  alt={t('edit')}
+                  onClick={handleEditClick}
+                />
+                
+              </div>
+              </section>
           </>
         );
       default:

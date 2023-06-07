@@ -38,7 +38,7 @@
        url('./fonts/poppins-v20-latin-900.svg#Poppins') format('svg');
 }
 
-/* main styles */
+/* basic styles */
 * {
   padding: 0;
   margin: 0;
@@ -50,6 +50,7 @@ body{
   color: #000000;
   background-color: #DDDDDD;
   text-align: center;
+  hyphens: auto;
 }
 html, body {
   scroll-behavior: smooth;
@@ -82,6 +83,7 @@ h4, .subheadline {
 }
 a {
   text-decoration: none;
+  color: #2454C4;
 }
 button {
   font-family: 'Poppins',Arial, sans-serif;
@@ -94,21 +96,6 @@ button {
 .link:hover, link:active, .navlink:hover, .navlink:active, .active {
   color: #2454C4;
 }
-td {
-  width: 250px;
-  height: 2em;
-  padding: 0.5em 0;
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  align-items: center;
-}
-tr {
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  align-items: center;
-}
 
 /* layout grid */
 .container {
@@ -118,27 +105,25 @@ tr {
 }
 .flexbox {
   display: flex;
-  justify-content: space-between;
-  align-content: center;
-  align-items: center;
-}
-.flexbox_checkbox {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-}
-.entryflexbox {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
 }
 .row {
   flex-direction: row;
 }
+.row-reverse {
+  flex-direction: row-reverse;
+}
 .column {
   flex-direction: column;
+}
+.allignCenter {
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+.spaceBetween {
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
 }
 .onecol {
   width: 100%;
@@ -190,12 +175,6 @@ header>div.flexbox {
   background-size: contain;
   border: 1px solid #ffffff;
   border-radius: 50%;
-}
-.errorMessage {
-  color: #be0231;
-}
-.errorField {
-  border: 2px solid #be0231;
 }
 
 /* navigation */
@@ -298,6 +277,15 @@ nav li.navlink.active a, nav li a:hover  {
    padding-top: 90px;
    opacity: 1;
   }
+
+  /* error style */
+  .errorMessage {
+    color: #be0231;
+  }
+  .errorField {
+    border: 2px solid #be0231;
+  }
+
   /* main style */
   #root {
     position: relative;
@@ -307,14 +295,16 @@ nav li.navlink.active a, nav li a:hover  {
   }
   main {
     margin: 0 auto;
-    min-height: 81vh;
+    padding-bottom: 70px;
+    min-height: 73vh;
   }
   main>div.container {
-    min-height: 81vh;
+    min-height: 73vh;
   }
+  /* main icon menu bottom */
   .main_icons_bg {
     background-color: #2454C4;
-    width: 100vw;
+    width: 99vw;
     height:80px;
     display: flex;
     justify-content: center;
@@ -324,7 +314,7 @@ nav li.navlink.active a, nav li a:hover  {
     bottom: 50px;
     left:0;
   }
-  .icon_button, .icon_circle,  .icon_circle_blue, .icon_circle_white {
+  .icon_button, .icon_circle {
     cursor: pointer;
   }
   .icon_button{
@@ -335,24 +325,7 @@ nav li.navlink.active a, nav li a:hover  {
   .icon_circle {
     width: 30px;
     height: 30px;
-    margin-left: 1em;
-  }
-  .icon_circle_blue, .icon_circle_white {
-    width: 30px;
-    height: 30px;
-  }
-  .icon_circle_blue, .icon_circle_white {
-    width: 23px;
-    height: 23px;
-    padding: 2px;
-    border-radius: 100%;
-  }
-  .icon_circle_white{
-    border: 2px solid #ffffff;
-  }
-  .icon_circle_blue{
-    border: 2px solid #2454C4;
-    margin-left: 1em;
+    margin:5px; 
   }
   .submitButton {
     background-color: #2454C4;
@@ -396,6 +369,7 @@ nav li.navlink.active a, nav li a:hover  {
     gap: 1%;
     grid-template-columns: 33% 33% 33%;
     justify-content: space-evenly;
+    padding-bottom: 100px;
   }
   .dataEntry {
     background-color: #ffffff;
@@ -407,11 +381,20 @@ nav li.navlink.active a, nav li a:hover  {
     cursor: pointer;
   }
   .singleEntry {
-    text-align: left;
+    margin: 1.25em 0;
   }
+
   .entryImage {
-    width: 35px;
+    width: 50px;
     height: auto;
+  }
+  .entryImageCenter {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin: 1em 0 2em 0;
   }
 
   /* footer */
