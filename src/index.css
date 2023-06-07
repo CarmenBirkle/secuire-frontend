@@ -127,6 +127,9 @@ button {
   align-content: center;
   align-items: center;
 }
+.distanceBottom {
+  margin-bottom: 2em;;
+}
 .onecol {
   width: 100%;
   max-width: 100%;
@@ -406,7 +409,6 @@ nav li.navlink.active a, nav li a:hover  {
   .singleEntry {
     margin: 1.25em 0;
   }
-
   .entryImage {
     width: 50px;
     height: auto;
@@ -419,6 +421,24 @@ nav li.navlink.active a, nav li a:hover  {
     align-items: center;
     align-content: center;
     margin: 1em 0 2em 0;
+  }
+
+  /* nice2know*/
+  .safeInternet, .safeInternet h3{
+    text-align: left;
+  }
+  .safeInternet h2 {
+    margin-bottom: 1em;
+  }
+  .safeInternet h3 {
+    margin-bottom: 0.25em;
+  }
+  .safeInternet ol {
+    font-weight: bold;
+  }
+  .safeInternet p {
+    font-weight: normal;
+    margin-bottom: 1em;
   }
 
   /* footer */
