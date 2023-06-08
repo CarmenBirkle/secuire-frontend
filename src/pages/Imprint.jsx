@@ -11,7 +11,7 @@ const Imprint = () => {
         <br /> Claudia Barthel
       </p>
       <p>
-        Platzhalter Straße <br /> Platzhalter PLZ Ort <br />{' '}
+        Dorfstr. 37 <br /> 84051 Essenbach <br />{' '}
       </p>
       <p>
         <br /> Stephan Bienhüls
@@ -29,19 +29,19 @@ const Imprint = () => {
         <br /> Björn Dardemann
       </p>
       <p>
-        Platzhalter Straße <br /> Platzhalter PLZ Ort <br />{' '}
+        Wittekstraße 60 <br /> P25421 Pinneberg <br />{' '}
       </p>
       <p>
         <br /> Dominik Schlabs
       </p>
       <p>
-        Platzhalter Straße <br /> Platzhalter PLZ Ort <br />{' '}
+        Hans-Memling-Str. 7 <br /> 63853 Mömlingen <br />{' '}
       </p>
       <p>
         <br /> Carolin Walter
       </p>
       <p>
-        Platzhalter Straße <br /> Platzhalter PLZ Ort <br />{' '}
+        Bgm.-Gg.-Quick-Str. 6 <br /> 69483 Wald-Michelbach <br />{' '}
       </p>
       <h3>{t('contact')}:</h3>
       <p>

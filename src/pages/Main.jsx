@@ -200,7 +200,7 @@ return (
           />
         )}
 
-        {/* TODO + Icon */}
+      
         {!showCreateDataEntry && (
           <div className="main_icons_bg">
             {' '}
