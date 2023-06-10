@@ -9,19 +9,65 @@ const Signup = () => {
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [error, setError] = useState(false);
+  const [answer, setAnswer] = useState(null);
+  const [agbAcceptedAt, setAGBAcceptedAt] = useState(null);
+  const [selectedQuestion, setSelectedQuestion] = useState('1');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
+    setError(false);
+  
+   
     if (password !== confirmPassword) {
       setError(true);
       return;
     }
-    const hashedPassword = bcrypt.hashSync(password, 10);
-    console.log('username ', username);
-    console.log('email: ', email);
-    console.log('password: ', password);
-    console.log('confirm password: ', confirmPassword);
-    console.log('hashed password: ', hashedPassword);
+
+    try {
+      const saltRounds = 10;
+      const salt = await bcrypt.genSalt(saltRounds);
+      const hashedPassword = await bcrypt.hash(password, salt);
+//TODO console log entfernen
+      console.log('username ', username);
+      console.log('email: ', email);
+      console.log('password: ', password);
+      console.log('salt: ', salt);
+      console.log('confirm password: ', confirmPassword);
+      console.log('hashed password: ', hashedPassword);
+      console.log('agb accepted at: ', agbAcceptedAt);
+      console.log('selected question: ', selectedQuestion);
+      console.log('answer: ', answer);
+
+      const userData = {
+        username: username,
+        hashedPassword: hashedPassword,
+        question: selectedQuestion,
+        answer: answer,
+        salt: salt,
+        agbAcceptedAt: agbAcceptedAt,
+      };
+      console.log('userData: ', userData);
+      // sendToBackend(userData);
+      } catch (error) {
+      console.error('Fehler bei der Salzgenerierung und dem Hashen:', error);
+    }
+    
+  };
+
+  const handleCheckboxChange = (e) => {
+    if (e.target.checked) {
+      const currentDatetime = new Date();
+      // TODO console log entfernen
+      console.log('currentDatetime: ', currentDatetime);
+      setAGBAcceptedAt(currentDatetime);
+    } else {
+      setAGBAcceptedAt(null);
+    }
+  };
+
+  const handleQuestionChange = (e) => {
+    const selectedValue = e.target.value;
+    setSelectedQuestion(selectedValue);
   };
 
   return (
@@ -72,16 +118,16 @@ const Signup = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             className={error ? 'errorField' : ''}
           />
-          
         </fieldset>
         {error && <p className="errorMessage">{t('signup:passwordError')}</p>}
         <p>{t('signup:information')}</p>
-       
+
         <fieldset className="question">
-          <select>
-            {/* TODO what question to offer?, translation, maybe onchange function */}
-            <option value="1">Question1</option>
-            <option value="2">Question2</option>
+          <select value={selectedQuestion} onChange={handleQuestionChange}>
+            {/* TODO what question to offer?, translation, translate  */}
+
+            <option value="1">Wie ist der Mädchenname Deiner Mutter</option>
+            <option value="2">Wie ist Dein Spitzname</option>
           </select>
           <input
             type="text"
@@ -89,15 +135,25 @@ const Signup = () => {
             required
             id="signup-answer"
             placeholder={t('signup:answer')}
+            onChange={(e) => setAnswer(e.target.value)}
           />
         </fieldset>
         <div id="agbCheck">
-          <input type="checkbox" required name="agb" id="agb" />
+          <input
+            type="checkbox"
+            required
+            name="agb"
+            id="agb"
+            onChange={handleCheckboxChange}
+          />
           <label htmlFor="agb">{t('signup:agb')}:</label>
           {/* TODO link to AGBs */}
         </div>
-        <input className="submitButton" type="submit" value={t('common:signup')} />
-        
+        <input
+          className="submitButton"
+          type="submit"
+          value={t('common:signup')}
+        />
       </form>
     </>
   );

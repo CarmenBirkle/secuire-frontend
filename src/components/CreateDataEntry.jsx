@@ -31,6 +31,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
   const [owner, setOwner] = useState(null);
   const [cvv, setCvv] = useState(null);
   const [cardtype, setCardtype] = useState(null);
+  //TODO prüfen ob bei voreingestelltem cardtyp (fallback) der wert gespeichert wird
   const [customTopics, setCustomTopics] = useState([]);
   const [showIconSelection, setShowIconSelection] = useState(false);
   const [errMsg, setErrMsg] = useState('');

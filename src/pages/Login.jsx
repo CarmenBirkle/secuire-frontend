@@ -42,6 +42,28 @@ useEffect(() => {
     navigate('/main?type=favourites');
   };
 
+  //  basierend auf meine Lösung von Signup.jsx - noch anpassen! 
+
+  // const bcrypt = require('bcryptjs');
+
+  // // Beispiel für die Überprüfung des Passworts
+  // const checkPassword = async (password, hashedPassword, salt) => {
+  //   try {
+  //     const match = await bcrypt.compare(password, hashedPassword);
+
+  //     if (match) {
+  //       // Das Passwort ist korrekt
+  //       console.log('Passwort ist korrekt');
+  //     } else {
+  //       // Das Passwort ist falsch
+  //       console.log('Passwort ist falsch');
+  //     }
+  //   } catch (error) {
+  //     console.error('Fehler bei der Passwortüberprüfung:', error);
+  //   }
+  // };
+
+
   const inputRef = useRef(null);
 
  return (
