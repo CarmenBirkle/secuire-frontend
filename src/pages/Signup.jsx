@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import bcrypt from 'bcryptjs';
 
 const Signup = () => {
@@ -9,66 +10,91 @@ const Signup = () => {
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [error, setError] = useState(false);
-  const [answer, setAnswer] = useState(null);
+  const [passwortHint, setPasswortHint] = useState(null);
+  const [passwortHintError, setPasswortHintError] = useState(null);
   const [agbAcceptedAt, setAGBAcceptedAt] = useState(null);
-  const [selectedQuestion, setSelectedQuestion] = useState('1');
+  const [accountCreated, setAccountCreated] = useState(false);
+  const [accountCreatedError, setAccountCreatedError] = useState(null);
 
-  const handleSubmit = async(e) => {
+  /**
+   * This function is called when the signup form is submitted
+   * Checked if the password and the confirmPassword are the same
+   * Hashes the password and sends the data to the backend
+   * @param {object} userData
+   * @param {event} e Submit the Form
+   * @returns
+   */
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError(false);
-  
-   
     if (password !== confirmPassword) {
       setError(true);
       return;
-    }
-
-    try {
+    } try {
       const saltRounds = 10;
       const salt = await bcrypt.genSalt(saltRounds);
       const hashedPassword = await bcrypt.hash(password, salt);
-//TODO console log entfernen
-      console.log('username ', username);
-      console.log('email: ', email);
-      console.log('password: ', password);
-      console.log('salt: ', salt);
-      console.log('confirm password: ', confirmPassword);
-      console.log('hashed password: ', hashedPassword);
-      console.log('agb accepted at: ', agbAcceptedAt);
-      console.log('selected question: ', selectedQuestion);
-      console.log('answer: ', answer);
 
       const userData = {
         username: username,
         hashedPassword: hashedPassword,
-        question: selectedQuestion,
-        answer: answer,
+        email: email,
         salt: salt,
         agbAcceptedAt: agbAcceptedAt,
+        passwortHint: passwortHint,
       };
       console.log('userData: ', userData);
+      //TODO Backend connection and console log delete // function sendToBackend implement
       // sendToBackend(userData);
-      } catch (error) {
-      console.error('Fehler bei der Salzgenerierung und dem Hashen:', error);
+      setAccountCreated(true);
+      setAccountCreatedError('');
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        setAccountCreatedError(t('signup:userNameError'));
+      } else {
+        setAccountCreatedError(t('signup:accountCreatedError'));
+      }
     }
-    
   };
+  /**
+   * UseEffect to navigate to login page after account is created  with time delay
+   * @param {boolean} accountCreated
+   */
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (accountCreated) {
+      const timer = setTimeout(() => {
+        navigate('/login');
+      }, 5000); //TODO maybe adjust time
+      return () => clearTimeout(timer);
+    }
+  }, [accountCreated, navigate]);
 
   const handleCheckboxChange = (e) => {
     if (e.target.checked) {
       const currentDatetime = new Date();
-      // TODO console log entfernen
-      console.log('currentDatetime: ', currentDatetime);
       setAGBAcceptedAt(currentDatetime);
     } else {
       setAGBAcceptedAt(null);
     }
   };
 
-  const handleQuestionChange = (e) => {
-    const selectedValue = e.target.value;
-    setSelectedQuestion(selectedValue);
+/**
+ * shows error if password hint is in password
+ */
+  const handlePasswordHintChange = (e) => {
+    const hint = e.target.value;
+    if (password.includes(hint)) {
+      const errorMsg = t('signup:hintError');
+      setPasswortHintError(errorMsg);
+    } else {
+      setPasswortHint(hint);
+      setPasswortHintError(null);
+    }
   };
+
+  //TODO Video link
 
   return (
     <>
@@ -123,20 +149,18 @@ const Signup = () => {
         <p>{t('signup:information')}</p>
 
         <fieldset className="question">
-          <select value={selectedQuestion} onChange={handleQuestionChange}>
-            {/* TODO what question to offer?, translation, translate  */}
-
-            <option value="1">Wie ist der Mädchenname Deiner Mutter</option>
-            <option value="2">Wie ist Dein Spitzname</option>
-          </select>
+          <h3>{t('signup:hint')}</h3>
           <input
             type="text"
-            name="signup-answer"
+            name="passwortHint"
             required
-            id="signup-answer"
-            placeholder={t('signup:answer')}
-            onChange={(e) => setAnswer(e.target.value)}
+            id="passwortHint"
+            placeholder={t('signup:passwortHint')}
+            onChange={handlePasswordHintChange}
           />
+          {passwortHintError && (
+            <p className="errorMessage">{passwortHintError}</p>
+          )}
         </fieldset>
         <div id="agbCheck">
           <input
@@ -155,6 +179,11 @@ const Signup = () => {
           value={t('common:signup')}
         />
       </form>
+      {/* TODO speak with Caro about classes pop up or something  - info create account false or true */}
+      {accountCreated && <p>{t('signup:accountCreated')}</p>}
+      {accountCreatedError && (
+        <p className="errorMessage">{accountCreatedError}</p>
+      )}
     </>
   );
 };
