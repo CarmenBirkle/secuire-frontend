@@ -6,6 +6,7 @@ import cancelIcon from './../img/icon-close.svg';
 import deleteIcon from './../img/icon_delete_blue.svg';
 import addIcon from './../img/icon_add_blue.svg';
 import { placeholderIcon} from './helperSites/IconsDataEntry';
+import { useNavigate } from 'react-router-dom';
 import {
   createDataEntry,
   checkPasswordSecurity,
@@ -36,6 +37,8 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
   const [showIconSelection, setShowIconSelection] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const [countLeaks, setCountLeaks] = useState(null);
+  const navigate = useNavigate();
+
 
  const resetState = () => {
    setFavourite(false);
@@ -172,8 +175,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
      );
    };
    
-   // TODO Inline with wieder entfernen wenn classe definiert
-   const renderSelectedIcon = () => {
+  const renderSelectedIcon = () => {
      return (
        <img
         className='entryImage'
@@ -206,8 +208,11 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
             handleFieldChange(index, 'fieldValue', e.target.value)
           }
         />
+{/* TODO label wird nicht angezeigt - css ?  */}
+        <label htmlFor={`cancel-${index}`}>{t('deleteCF')}</label>
         <img
-          className='icon_button'
+          id={`cancel-${index}`}
+          className="icon_button"
           src={deleteIcon}
           alt={t('remove')}
           onClick={() => handleRemoveField(index)}
@@ -226,7 +231,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
 
   return (
     <>
-    <div className='custom-select'>
+      <div className="custom-select">
         <select
           name="category"
           id="category"
@@ -241,11 +246,14 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
       {showIconSelection && (
         <IconSelectionModal handleIconSelect={handleIconSelect} />
       )}
-      <form className='dataentry' onSubmit={handleSubmit}>
+      <form className="dataentry" onSubmit={handleSubmit}>
         {/* form-elements for login-type */}
         {category === 'login' && (
           <fieldset>
-            <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
+            <div
+              className="entryImageCenter"
+              onClick={() => setShowIconSelection(true)}
+            >
               {renderSelectedIcon()}
             </div>
             <label htmlFor="favourite">{t('favourite')}</label>
@@ -319,8 +327,10 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               onChange={(e) => setComment(e.target.value)}
             />
             {renderFields()}
+            {/* TODO warum wird das label nicht angezeigt ? CSS? */}
+            <label htmlFor="addIcon"> {t('createCF')}</label>
             <img
-              className='icon_button'
+              className="icon_button"
               src={addIcon}
               alt={t('addField')}
               onClick={handleAddField}
@@ -331,7 +341,10 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
         {/* form-elements for safenote-type */}
         {category === 'safenote' && (
           <fieldset>
-            <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
+            <div
+              className="entryImageCenter"
+              onClick={() => setShowIconSelection(true)}
+            >
               {renderSelectedIcon()}
             </div>
             <label htmlFor="favourite">{t('favourite')}</label>
@@ -369,8 +382,10 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               onChange={(e) => setComment(e.target.value)}
             />
             {renderFields()}
+            {/* TODO warum wird das label nicht angezeigt ? CSS? */}
+            <label htmlFor="addIcon"> {t('createCF')}</label>
             <img
-              className='icon_button'
+              className="icon_button"
               src={addIcon}
               alt={t('addField')}
               onClick={handleAddField}
@@ -380,7 +395,10 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
         {/* form-elements for paymentcard-type */}
         {category === 'paymentcard' && (
           <fieldset>
-            <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
+            <div
+              className="entryImageCenter"
+              onClick={() => setShowIconSelection(true)}
+            >
               {renderSelectedIcon()}
             </div>
             <label htmlFor="favourite">{t('favourite')}</label>
@@ -458,28 +476,32 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               onChange={(e) => setComment(e.target.value)}
             />
             {renderFields()}
+            {/* TODO warum wird das label nicht angezeigt ? CSS? */}
+            <label htmlFor="addIcon"> {t('createCF')}</label>
             <img
-              className='icon_button'
+              className="icon_button"
               src={addIcon}
               alt={t('addField')}
               onClick={handleAddField}
             />
           </fieldset>
         )}
-        <div className='main_icons_bg'>
+        <div className="main_icons_bg">
           <img
-            className='icon_button'           
+            className="icon_button"
             src={cancelIcon}
             alt={t('cancel')}
             onClick={() => setShowCreateDataEntry(false)}
           />
-          
+
           <button className="icon_button icon_save" type="submit">
-          {/*{t('submit')}*/}
+            {/*{t('submit')}*/}
           </button>
         </div>
-
       </form>
+      <button onClick={() => navigate('/pwgenerator')}>
+        {t('pwGenerator')}
+      </button>
     </>
   );
 };

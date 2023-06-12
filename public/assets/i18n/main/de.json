@@ -29,17 +29,21 @@
   "welcome": "Willkommen",
   "cancel": "Abbrechen",
 
-  "search": "Suchen im Titel ...", 
+  "search": "Suchen im Titel ...",
   "favourites": "Deine Favoriten",
   "safenote": "Sichere Notizen",
   "paymentcard": "Bezahlkarten",
   "main": "Gesamte Datenliste",
-  "edit":"Ändern",
+  "edit": "Ändern",
   "back": "Zurück",
   "chooseIcon:": "Wähle ein Icon",
   "hide": "verbergen",
   "show": "anzeigen",
   "copy": "in Zwischenablage kopieren",
   "createNew": "Neuer Eintrag anlegen",
-  "dataLeak":"Ihr gewähltes Passwort ist unsicher und wurde bereits in Datenlecks gefunden. Es hat den Bad Score:  "
+  "dataLeak": "Ihr gewähltes Passwort ist unsicher und wurde bereits in Datenlecks gefunden. Es hat den Bad Score:  ",
+  
+  "deleteCF": "Delete custom field",
+  "createCF": "Create custom field",
+  "pwGenerator": "Passwort Generator"
 }

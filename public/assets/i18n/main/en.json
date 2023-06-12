@@ -41,5 +41,10 @@
   "show": "show",
   "copy": "copy to clipboard",
   "createNew": "Generate new",
-  "dataLeak":"Your chosen password is insecure and has already been found in data leaks. It has the Bad Score: "
+  "dataLeak":"Your chosen password is insecure and has already been found in data leaks. It has the Bad Score: ",
+
+  "deleteCF":"Delete custom field",
+  "createCF":"Create custom field",
+  "pwGenerator":"Password Generator"
+
 }
