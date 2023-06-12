@@ -10,6 +10,8 @@ const Navbar = () => {
   
   const navbutton = React.useRef(document.getElementById("mobile_button"));
   const navigation = React.useRef(document.getElementById("nav"));
+  const { setShouldRenderCreateDataEntry } = useContext(AppContext);
+  const { setCalledFromNavbar } = useContext(AppContext);
   
   const navClick = event => {
     const links = document.querySelectorAll(".navlink"); 
@@ -19,12 +21,13 @@ const Navbar = () => {
     event.currentTarget.classList.add('active'); 
     navbutton.current.classList.replace('open', 'closed');   
     navigation.current.classList.remove('open');
+    setShouldRenderCreateDataEntry(false);
   };
   
 
   return (
     <ul>
-      <li id="navAccount" className="navlink" onClick={navClick} >
+      <li id="navAccount" className="navlink" onClick={navClick}>
         <NavLink to="account">{t('accountSettings')}</NavLink>
       </li>
       <li id="navMain" className="navlink" onClick={navClick}>
@@ -42,7 +45,14 @@ const Navbar = () => {
       <li id="navCards" className="navlink" onClick={navClick}>
         <NavLink to="/main?type=paymentcard">{t('paymentCards')}</NavLink>
       </li>
-      <li id="navPwGenerator" className="navlink" onClick={navClick}>
+      <li
+        id="navPwGenerator"
+        className="navlink"
+        onClick={(event) => {
+          navClick(event);
+          setCalledFromNavbar(true);
+        }}
+      >
         <NavLink to="pwgenerator">{t('passwordGenerator')}</NavLink>
       </li>
       <li id="navFAQ" className="navlink" onClick={navClick}>

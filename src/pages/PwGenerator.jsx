@@ -1,9 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useContext } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { AppContext } from './../components/helperSites/AppContext'; 
 import copyIcon from './../img/icon-copy.svg';
+import arrowIcon from './../img/icon_back.svg';
 
 const PwGenerator = () => {
   const { t } = useTranslation(['pwgenerator']);
+  // const { setShowCreateDataEntry } = useContext(AppContext);
+  const { setShouldRenderCreateDataEntry } = useContext(AppContext);
+  const { calledFromNavbar, setCalledFromNavbar } = useContext(AppContext);
+  const navigate = useNavigate();
+  //  const location = useLocation();
   const [password, setPassword] = useState('');
   const [passwordLength, setPasswordLength] = useState(8);
   const [lowercase, setLowercase] = useState(true);
@@ -12,6 +21,7 @@ const PwGenerator = () => {
   const [symbols, setSymbols] = useState(true);
   const [successUserFeedback, setSuccessUserFeedback] = useState(null);
   const [errorUserFeedback, setErrorUserFeedback] = useState(null);
+  //  const [previousPath, setPreviousPath] = useState('');
   const [selectedChoice, setSelectedChoice] = useState([
     'lowercase',
     'uppercase',
@@ -23,6 +33,15 @@ const PwGenerator = () => {
   const uppercaseList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const numbersList = '0123456789';
   const symbolsList = '!@#$%^&*()?-_=+[{]}';
+
+
+    //  useEffect(() => {
+    //    return () => {
+    //      // Speichern Sie den aktuellen Pfad, wenn Sie die Komponente verlassen
+    //      setPreviousPath(location.pathname);
+    //      console.log('location.pathname', location.pathname);
+    //    };
+    //  }, [location]);
 
   /**
    * Function to generate a password.
@@ -101,6 +120,27 @@ const PwGenerator = () => {
         setErrorUserFeedback(t('failedCopy'));
       });
   };
+
+  //  const handleBackClick = () => {
+  //   console.log('handleBackClick');
+  //     navigate('/main');
+  //    setShouldRenderCreateDataEntry(true);
+  //  };
+
+   const handleBackClick = () => {
+     console.log('handleBackClick');
+     if (calledFromNavbar) {
+       window.history.back();
+       // Set calledFromNavbar back to false
+       setCalledFromNavbar(false);
+       setShouldRenderCreateDataEntry(false);
+     } else {
+       navigate('/main');
+       setShouldRenderCreateDataEntry(true);
+       setCalledFromNavbar(false);
+
+     }
+   };
 
   return (
     <>
@@ -186,6 +226,14 @@ const PwGenerator = () => {
         <label htmlFor="symbols">{t('symbols')}</label>
         <button onClick={generatePassword}>Generate</button>
       </form>
+      <div className="main_icons_bg">
+        <img
+          className="icon_button"
+          src={arrowIcon}
+          alt={t('back')}
+          onClick={handleBackClick}
+        />
+      </div>
     </>
   );
 };
