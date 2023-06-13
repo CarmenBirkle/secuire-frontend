@@ -17,7 +17,7 @@ const Imprint = () => {
         <br /> Stephan Bienhüls
       </p>
       <p>
-        Platzhalter Straße <br /> Platzhalter PLZ Ort <br />{' '}
+        Stegge 23 <br /> 46325 Borken <br />{' '}
       </p>
       <p>
         <br /> Carmen Birkle

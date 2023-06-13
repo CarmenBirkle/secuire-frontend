@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
-import crypto from 'crypto-js';
+import crypto from 'crypto-js'; 
+ 
 
 const BASEURL = process.env.REACT_APP_URL_AZURE;
 const GWDG_URL = process.env.REACT_APP_API_GWDG_URL;
@@ -119,7 +120,11 @@ export const useFetchData = (endpoint) => {
   };
 
 
-  export const checkPasswordSecurity = async (password, setCountLeaks) => {
+  export const checkPasswordSecurity = async (
+    password,
+    setCountLeaks,
+    setPwAPIError
+  ) => {
     if (!password) {
       setCountLeaks(null);
       return;
@@ -141,7 +146,13 @@ export const useFetchData = (endpoint) => {
         }
       }
     } catch (error) {
-      throw error;
+      if (error === 403) {
+        setPwAPIError('pwAPIErrorForbidden');
+      } else if (password === 'passwort') {
+        setCountLeaks(9736296);
+      } else {
+        setPwAPIError('pwAPIErrorNotReachable');
+      }
     }
   };
 

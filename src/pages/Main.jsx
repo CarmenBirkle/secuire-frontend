@@ -38,7 +38,7 @@ const {
   setShowCreateDataEntry,
   setShouldRenderCreateDataEntry,
 } = useContext(AppContext);
-console.log('aufruf jetzt', showCreateDataEntry);
+
   /**
    * to fetch all DataEntrys as encrypted data from the server.
    * @param {string} endpoint - The endpoint to be used for fetching data entries.
@@ -173,7 +173,7 @@ return (
       />
     ) : (
       <>
-        {(!showCreateDataEntry && !shouldRenderCreateDataEntry) && (
+        {!showCreateDataEntry && !shouldRenderCreateDataEntry && (
           <>
             <img
               className="icon_button search_button"
@@ -203,7 +203,7 @@ return (
           <CreateDataEntry setShowCreateDataEntry={setShowCreateDataEntry} />
         )}
 
-        {!showCreateDataEntry && (
+        {!showCreateDataEntry && !shouldRenderCreateDataEntry && (
           <div className="main_icons_bg">
             {' '}
             <img

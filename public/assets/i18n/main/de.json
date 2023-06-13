@@ -45,5 +45,7 @@
   
   "deleteCF": "Delete custom field",
   "createCF": "Create custom field",
-  "pwGenerator": "Passwort Generator"
+  "pwGenerator": "Passwort Generator",
+  "pwAPIErrorForbidden":"Dein Passwort kann aktuell nicht auf Sicherheit geprüft werden.",
+  "pwAPIErrorNotReachable":"Der Service um Dein Passwort auf Sicherheit zu prüfen ist aktuell nicht erreichbar"
 }

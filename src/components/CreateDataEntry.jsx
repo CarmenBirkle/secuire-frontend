@@ -37,6 +37,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
   const [showIconSelection, setShowIconSelection] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const [countLeaks, setCountLeaks] = useState(null);
+  const [pwAPIError, setPwAPIError] = useState(null);
   const navigate = useNavigate();
 
 
@@ -289,6 +290,13 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
                 {errMsg}
               </p>
             )}
+            {pwAPIError && (
+              <p className="infoMessage">
+                {pwAPIError === 'pwAPIErrorForbidden'
+                  ? t('pwAPIErrorForbidden')
+                  : t('pwAPIErrorNotReachable')}
+              </p>
+            )}
             <input
               type="password"
               id="password"
@@ -301,12 +309,14 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               }}
               onBlur={(e) => {
                 if (e.target.value !== '') {
-                  checkPasswordSecurity(e.target.value, setCountLeaks).then(
-                    (isValid, count) => {
-                      if (!isValid) {
-                      }
+                  checkPasswordSecurity(
+                    e.target.value,
+                    setCountLeaks,
+                    setPwAPIError
+                  ).then((isValid, count) => {
+                    if (!isValid) {
                     }
-                  );
+                  });
                 }
               }}
             />

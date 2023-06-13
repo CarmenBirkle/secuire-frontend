@@ -291,6 +291,11 @@ nav li.navlink.active a, nav li a:hover  {
     border: 2px solid #be0231;
   }
 
+  /*info style*/
+  .infoMessage {
+    color: rgb(174, 141, 56);
+  }
+
   /* main style */
   #root {
     position: relative;
