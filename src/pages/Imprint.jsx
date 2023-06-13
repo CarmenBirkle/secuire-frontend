@@ -4,8 +4,9 @@ const Imprint = () => {
   const { t } = useTranslation(['imprint']);
   return (
     <>
-    <section id="imprint">
-      <h1>{t('imprint')}</h1>
+       <section id="imprint">
+        <h1>{t('imprint')}</h1>
+        <h2>{t('tmg')}</h2>
       <div className='flexbox row start'>
         <div className='twocols'>
           <h2 className='subheadline'>{t('tmg')}</h2>
@@ -15,7 +16,7 @@ const Imprint = () => {
             <p>Claudia Barthel<br />Dorfstr. 37 <br /> 84051 Essenbach <br />{' '}</p>
             </div>
             <div className='twocols'>
-              <p>Stephan Bienhüls<br />Platzhalter Straße <br /> Platzhalter PLZ Ort <br />{' '}</p>
+              <p>Stephan Bienhüls<br />Stegge 23 <br /> 46325 Borken <br />{' '}</p>
             </div>
           </div>
           <div className='flexbox row start'>
@@ -60,11 +61,7 @@ const Imprint = () => {
             </em>
           </p>
         </div>
-
       </div>
-      
-      
-      
       </section>
     </>
   );
