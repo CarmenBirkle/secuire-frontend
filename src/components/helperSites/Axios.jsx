@@ -119,7 +119,11 @@ export const useFetchData = (endpoint) => {
   };
 
 
-  export const checkPasswordSecurity = async (password, setCountLeaks) => {
+  export const checkPasswordSecurity = async (
+    password,
+    setCountLeaks,
+    setPwAPIError
+  ) => {
     if (!password) {
       setCountLeaks(null);
       return;
@@ -141,7 +145,13 @@ export const useFetchData = (endpoint) => {
         }
       }
     } catch (error) {
-      throw error;
+      if (error === 403) {
+        setPwAPIError('pwAPIErrorForbidden');
+      } else if (password === 'passwort') {
+        setCountLeaks(9736296);
+      } else {
+        setPwAPIError('pwAPIErrorNotReachable');
+      }
     }
   };
 

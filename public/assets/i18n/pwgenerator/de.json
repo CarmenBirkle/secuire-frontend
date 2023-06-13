@@ -1,3 +1,12 @@
 {
-  "placeholder": "--- Dummytext: Inhalt der Seite PwGenerator ---"
+  "pwgenerator": "Passwort Generator",
+  "successCopy": "Passwort wurde in die Zwischenablage kopiert",
+  "failedCopy": "Fehler beim Kopieren des Passworts",
+  "clickme": "Klick mich - wenn Du zufrieden bist",
+  "length": "Passwort Länge",
+  "lowercase": "Kleinbuchstaben verwenden (a-z)",
+  "uppercase": "Großbuchstaben verwenden (A-Z)",
+  "numbers": "Zahlen verwenden (0-9)",
+  "symbols": "Symbole verwenden (&-#)",
+  "generate": "Generieren"
 }

@@ -27,12 +27,17 @@ const Main = ({user}) => {
   const [selectedId, setSelectedId] = useState(null);
   const [showDetail, setShowDetail] = useState(false);
   const [editMode, setEditMode] = useState(false);
+ 
 
   /**
    * showCreateDataEntry and setShowCreateDataEntry get from AppContext
    */
-  const { showCreateDataEntry, setShowCreateDataEntry } =
-    useContext(AppContext);
+const {
+  showCreateDataEntry,
+  shouldRenderCreateDataEntry,
+  setShowCreateDataEntry,
+  setShouldRenderCreateDataEntry,
+} = useContext(AppContext);
 
   /**
    * to fetch all DataEntrys as encrypted data from the server.
@@ -99,9 +104,11 @@ const Main = ({user}) => {
       setSelectedId(null);
       setShowCreateDataEntry(false);
       setEditMode(false);
+
     };
     handleCloseClick();
   }, [ENTRY_TYPE]); 
+
 
   /**
    * Is triggered when the user clicks on the + Icon.
@@ -166,16 +173,15 @@ return (
       />
     ) : (
       <>
-        {!showCreateDataEntry && (
+        {!showCreateDataEntry && !shouldRenderCreateDataEntry && (
           <>
-          <img
-            className='icon_button search_button'           
-            src={searchIcon}
-            
-            onClick={() => searchIconClick()}
-          />
-          <section id='searchBar' className='closed' ref={searchBar}>
-            <SearchBar handleSearch={handleSearch}  />
+            <img
+              className="icon_button search_button"
+              src={searchIcon}
+              onClick={() => searchIconClick()}
+            />
+            <section id="searchBar" className="closed" ref={searchBar}>
+              <SearchBar handleSearch={handleSearch} />
             </section>
             <h1>
               {t('welcome')} {user?.email},
@@ -193,15 +199,11 @@ return (
           </>
         )}
 
-        {showCreateDataEntry && (
-          <CreateDataEntry
-            setShowCreateDataEntry={setShowCreateDataEntry}
-         
-          />
+        {(showCreateDataEntry || shouldRenderCreateDataEntry) && (
+          <CreateDataEntry setShowCreateDataEntry={setShowCreateDataEntry} />
         )}
 
-      
-        {!showCreateDataEntry && (
+{!showCreateDataEntry && !shouldRenderCreateDataEntry && (
           <div className="main_icons_bg">
             {' '}
             <img
