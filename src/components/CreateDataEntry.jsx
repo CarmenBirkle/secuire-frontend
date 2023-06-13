@@ -6,10 +6,12 @@ import cancelIcon from './../img/icon-close.svg';
 import deleteIcon from './../img/icon_delete_blue.svg';
 import addIcon from './../img/icon_add_blue.svg';
 import { placeholderIcon} from './helperSites/IconsDataEntry';
+import { useNavigate } from 'react-router-dom';
 import {
   createDataEntry,
   checkPasswordSecurity,
 } from './helperSites/Axios.jsx';
+import PwGenerator from '../pages/PwGenerator';
 
 
 
@@ -31,10 +33,18 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
   const [owner, setOwner] = useState(null);
   const [cvv, setCvv] = useState(null);
   const [cardtype, setCardtype] = useState(null);
+   //TODO prüfen ob bei voreingestelltem cardtyp (fallback) der wert gespeichert wird
   const [customTopics, setCustomTopics] = useState([]);
   const [showIconSelection, setShowIconSelection] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const [countLeaks, setCountLeaks] = useState(null);
+  const [pwAPIError, setPwAPIError] = useState(null);
+  const navigate = useNavigate();
+  
+  const [buttonPopup, setButtonPopup] = useState(false);
+  const togglePopup = () => {
+    setButtonPopup(!buttonPopup)
+  }
 
  const resetState = () => {
    setFavourite(false);
@@ -171,7 +181,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
      );
    };
    
-   // TODO Inline with wieder entfernen wenn classe definiert
+  
    const renderSelectedIcon = () => {
      return (
        <img
@@ -205,7 +215,10 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
             handleFieldChange(index, 'fieldValue', e.target.value)
           }
         />
+        {/* TODO label wird nicht angezeigt - css ?  */}
+        <label htmlFor={`cancel-${index}`}>{t('deleteCF')}</label>
         <img
+          id={`cancel-${index}`}
           className='icon_button'
           src={deleteIcon}
           alt={t('remove')}
@@ -225,6 +238,8 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
 
   return (
     <>
+    
+    
     <div className='custom-select'>
         <select
           name="category"
@@ -280,6 +295,13 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
                 {errMsg}
               </p>
             )}
+            {pwAPIError && (
+              <p className="infoMessage">
+                {pwAPIError === 'pwAPIErrorForbidden'
+                  ? t('pwAPIErrorForbidden')
+                  : t('pwAPIErrorNotReachable')}
+              </p>
+            )}
             <input
               type="password"
               id="password"
@@ -292,12 +314,14 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               }}
               onBlur={(e) => {
                 if (e.target.value !== '') {
-                  checkPasswordSecurity(e.target.value, setCountLeaks).then(
-                    (isValid, count) => {
+                  checkPasswordSecurity(
+                    e.target.value,
+                    setCountLeaks,
+                    setPwAPIError
+                  ).then((isValid, count) => {
                       if (!isValid) {
                       }
-                    }
-                  );
+                    });
                 }
               }}
             />
@@ -318,6 +342,8 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               onChange={(e) => setComment(e.target.value)}
             />
             {renderFields()}
+             {/* TODO warum wird das label nicht angezeigt ? CSS? */}
+             <label htmlFor="addIcon"> {t('createCF')}</label>
             <img
               className='icon_button'
               src={addIcon}
@@ -368,6 +394,8 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               onChange={(e) => setComment(e.target.value)}
             />
             {renderFields()}
+             {/* TODO warum wird das label nicht angezeigt ? CSS? */}
+             <label htmlFor="addIcon"> {t('createCF')}</label>
             <img
               className='icon_button'
               src={addIcon}
@@ -457,6 +485,8 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               onChange={(e) => setComment(e.target.value)}
             />
             {renderFields()}
+             {/* TODO warum wird das label nicht angezeigt ? CSS? */}
+             <label htmlFor="addIcon"> {t('createCF')}</label>
             <img
               className='icon_button'
               src={addIcon}
@@ -479,6 +509,9 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
         </div>
 
       </form>
+      <button onClick={() => navigate('/pwgenerator')}>
+        {t('pwGenerator')}
+      </button>
     </>
   );
 };
