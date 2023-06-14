@@ -393,6 +393,61 @@ nav li.navlink.active a, nav li a:hover  {
     cursor: pointer;
   }
 
+  /* checkbox */
+  .check {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .check input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 4px;
+    border: 1px solid #2454C4;
+  }
+  .check:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  .check input:checked ~ .checkmark {
+    background-color: #2454C4;
+  }
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  .check input:checked ~ .checkmark:after {
+    display: block;
+  }
+  .check .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
   /* search */
   #searchBar {
     -webkit-transition: .25s ease-in-out;
@@ -571,7 +626,24 @@ nav li.navlink.active a, nav li a:hover  {
   #imprint p {
     margin-bottom: 1em;
   }
+  /* pw generator */
+  form.pw-generator input {
+    text-align: left;
+    width: 40px;
+  }
+  form.pw-generator input#myRange {
+    width: 100%;
+  }
 
+  .pw-generator fieldset label {
+    display: block;
+    width: calc(100% - 50px);
+    padding-left: 1em;
+  }
+  .pw-generator fieldset.myRange label {
+    width: 200px;
+    padding-left: 0;
+  }
   /* footer */
   footer {
     position: absolute;
@@ -613,10 +685,15 @@ nav li.navlink.active a, nav li a:hover  {
   .popup-inner {
     position: relative;
     padding: 2em;
+    padding-top: 5em;
     width: 100%;
-    height: 90%;
-    max-width: 810px;
+    max-width: 1280px;
+    height: calc(90% - 4em);
     background-color: #ffffff;
+  }
+  .popup-inner .main_icons_bg {
+    bottom: 0;
+    display: none;
   }
   .popup-inner .close-button {
     position: absolute;

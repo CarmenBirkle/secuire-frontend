@@ -131,7 +131,7 @@ const PwGenerator = () => {
 
   return (
     <>
-      <h2>{t('pwgenerator')}</h2>
+      <h1>{t('pwgenerator')}</h1>
       <p>{t('clickme')}</p>
       <p type="text" value={password}>
         {password}
@@ -148,70 +148,94 @@ const PwGenerator = () => {
       )}
       {errorUserFeedback && <p className="errorMessage">{errorUserFeedback}</p>}
 
-      <form action="">
-        <label htmlFor="myRange">{t('length')}</label>
-        <p>{passwordLength}</p>
-        <input
-          type="range"
-          min="8"
-          max="30"
-          defaultValue={passwordLength}
-          id="myRange"
-          onChange={(event) => setPasswordLength(event.currentTarget.value)}
-        />
-        <input
-          type="checkbox"
-          id="lowercase"
-          checked={lowercase}
-          disabled={
-            selectedChoice.length === 1 && selectedChoice.includes('lowercase')
-          }
-          onChange={() => {
-            setLowercase(!lowercase);
-            handleCheckbox('lowercase');
-          }}
-        />
-        <label htmlFor="lowercase">{t('lowercase')}</label>
-        <input
-          type="checkbox"
-          id="uppercase"
-          disabled={
-            selectedChoice.length === 1 && selectedChoice.includes('uppercase')
-          }
-          checked={uppercase}
-          onChange={() => {
-            setUppercase(!uppercase);
-            handleCheckbox('uppercase');
-          }}
-        />
-        <label htmlFor="uppercase">{t('uppercase')}</label>
-        <input
-          type="checkbox"
-          id="numbers"
-          disabled={
-            selectedChoice.length === 1 && selectedChoice.includes('numbers')
-          }
-          checked={numbers}
-          onChange={() => {
-            setNumbers(!numbers);
-            handleCheckbox('numbers');
-          }}
-        />
-        <label htmlFor="numbers">{t('numbers')}</label>
-        <input
-          type="checkbox"
-          id="symbols"
-          disabled={
-            selectedChoice.length === 1 && selectedChoice.includes('symbols')
-          }
-          checked={symbols}
-          onChange={() => {
-            setSymbols(!symbols);
-            handleCheckbox('symbols');
-          }}
-        />
-        <label htmlFor="symbols">{t('symbols')}</label>
-        <button onClick={generatePassword}>Generate</button>
+      <form action="" className='pw-generator'>
+        <fieldset className='myRange'>
+          <label htmlFor="myRange">{t('length')}</label>
+            <p>{passwordLength}</p>
+            <input
+              type="range"
+              min="8"
+              max="30"
+              defaultValue={passwordLength}
+              id="myRange"
+              onChange={(event) => setPasswordLength(event.currentTarget.value)}
+          />
+        </fieldset>
+        <fieldset className='check'>
+          <label htmlFor="lowercase">
+            <input
+              type="checkbox"
+              id="lowercase"
+              checked={lowercase}
+              disabled={
+                selectedChoice.length === 1 && selectedChoice.includes('lowercase')
+              }
+              onChange={() => {
+                setLowercase(!lowercase);
+                handleCheckbox('lowercase');
+              }}
+            />
+            {t('lowercase')}
+            <span class="checkmark"></span>
+          </label>
+        </fieldset>
+        <fieldset className='check'>
+          <label htmlFor="uppercase">
+            <input
+              type="checkbox"
+              id="uppercase"
+              disabled={
+                selectedChoice.length === 1 && selectedChoice.includes('uppercase')
+              }
+              checked={uppercase}
+              onChange={() => {
+                setUppercase(!uppercase);
+                handleCheckbox('uppercase');
+              }}
+            />
+            {t('uppercase')}
+            <span class="checkmark"></span>
+          </label>
+        </fieldset>
+        <fieldset className='check'>
+          <label htmlFor="numbers">
+            <input
+              type="checkbox"
+              id="numbers"
+              disabled={
+                selectedChoice.length === 1 && selectedChoice.includes('numbers')
+              }
+              checked={numbers}
+              onChange={() => {
+                setNumbers(!numbers);
+                handleCheckbox('numbers');
+              }}
+            />
+            {t('numbers')}
+            <span class="checkmark"></span>
+          </label>
+        </fieldset>
+        <fieldset className='check'>
+         <label htmlFor="symbols">
+            <input
+              type="checkbox"
+              id="symbols"
+              disabled={
+                selectedChoice.length === 1 && selectedChoice.includes('symbols')
+              }
+              checked={symbols}
+              onChange={() => {
+                setSymbols(!symbols);
+                handleCheckbox('symbols');
+              }}
+            />
+            {t('symbols')}
+            <span class="checkmark"></span>
+          </label>
+        </fieldset>
+        
+        
+        <button className="submitButton" onClick={generatePassword}>Generate</button>
       </form>
       <div className="main_icons_bg">
         <img

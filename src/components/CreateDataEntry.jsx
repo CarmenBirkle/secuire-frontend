@@ -509,9 +509,24 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
         </div>
 
       </form>
-      <button onClick={() => navigate('/pwgenerator')}>
+
+      <button className="popup-button submitButton" onClick={togglePopup}>
         {t('pwGenerator')}
       </button>
+      {buttonPopup && (
+          <div className="popup">
+            <div className="popup-inner">
+                <button className="close-button" onClick={togglePopup}></button>
+                <PwGenerator />
+            </div>
+          
+          </div>
+        )
+      }
+
+      {/*<button onClick={() => navigate('/pwgenerator')}>
+        {t('pwGenerator')}
+    </button>*/}
     </>
   );
 };
