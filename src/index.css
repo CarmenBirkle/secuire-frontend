@@ -645,8 +645,18 @@ nav li.navlink.active a, nav li a:hover  {
   #imprint h2.distance {
     margin-top: 2em;
   }
-  #imprint p {
+  #imprint p,  .datapolicy p, .datapolicy ul {
     margin-bottom: 1em;
+  }
+  .datapolicy {
+    margin-top: 2em;
+  }
+  .datapolicy, .datapolicy h1, .datapolicy h2, .datapolicy h3 {
+    text-align: left;
+  }
+  .datapolicy ul {
+    list-style-position: inside;
+    list-style-type: "-  ";
   }
   /* pw generator */
   form.pw-generator input {
@@ -656,7 +666,6 @@ nav li.navlink.active a, nav li a:hover  {
   form.pw-generator input#myRange {
     width: 100%;
   }
-
   .pw-generator fieldset label {
     display: block;
     width: calc(100% - 50px);
@@ -666,6 +675,7 @@ nav li.navlink.active a, nav li a:hover  {
     width: 200px;
     padding-left: 0;
   }
+
   /* footer */
   footer {
     position: absolute;
@@ -730,6 +740,31 @@ nav li.navlink.active a, nav li a:hover  {
   }
   .popup-button {
     cursor: pointer;
+  }
+
+  /* accordion */
+  .acc {
+    cursor: pointer;
+    padding: 20px 20px 20px 3em;
+    
+    transition: all 0.5s ease;
+    background: #fff url("./img/down.svg") no-repeat 97% 30px;
+    background-size: 15px;
+    color: #2454C4;
+    text-align: left;
+  }
+  .acc.active {
+    background: #fff url("./img/totop.svg") no-repeat 97% 30px;
+    background-size: 15px;
+  }
+  .panel {
+    padding: 0 3em;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #fff;
+    text-align: left;
+    
   }
 
   @media only screen and (max-width: 820px) {
