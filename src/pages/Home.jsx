@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const baseUrl = process.env.REACT_APP_URL_AZURE;
-const url = `${baseUrl}/dataentry/dataentry/all`;
+const url = `${baseUrl}DataEntry/all`;
 //TODO remove in production
 console.log('url', url);
 

@@ -1,7 +1,19 @@
+/**
+ * @fileOverview This Page presents the signup form with the following fields:
+ * username, email, password, confirmPassword, passwordHint, agb
+ * The user can submit the form and is then navigated to the login page
+ * Validation is setting the error state to true if the password and confirmPassword 
+ * are not the same, also if the password hint is in the password.
+ * The password is hashed and send to the backend with the salt. 
+ * The hashing is done with bcrypt, using 10 rounds.
+ */
+
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import bcrypt from 'bcryptjs';
+import { registerUser } from './../components/helperSites/Axios.jsx';
+
 
 const Signup = () => {
   const { t } = useTranslation(['common', 'signup']);
@@ -24,18 +36,21 @@ const Signup = () => {
    * @param {event} e Submit the Form
    * @returns
    */
-
+  //TODO delete all console logs -> search
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('handleSubmit aufgerufen');
     setError(false);
     if (password !== confirmPassword) {
       setError(true);
       return;
-    } try {
+    }
+
+    try {
       const saltRounds = 10;
       const salt = await bcrypt.genSalt(saltRounds);
       const hashedPassword = await bcrypt.hash(password, salt);
-//Todo registration data 
+
       const userData = {
         username: username,
         hashedPassword: hashedPassword,
@@ -44,57 +59,65 @@ const Signup = () => {
         agbAcceptedAt: agbAcceptedAt,
         passwordHint: passwordHint,
       };
-      console.log('userData: ', userData);
-      //TODO Backend connection and console log delete // function sendToBackend implement
-      // sendToBackend(userData);
+
+      console.log('vorher', userData);
+      const response = await registerUser(userData);
+       console.log('danach', response);
       setAccountCreated(true);
       setAccountCreatedError('');
     } catch (error) {
-      if (error.response && error.response.status === 409) {
-        setAccountCreatedError(t('signup:userNameError'));
+      if (error.DuplicateEmail) {
+        setAccountCreatedError(`Email '${email}' is already taken.`);
+      } else if (error.DuplicateUserName) {
+        setAccountCreatedError(`Username '${username}' is already taken.`);
       } else {
-        setAccountCreatedError(t('signup:accountCreatedError'));
+        setAccountCreatedError('Error occurred during user registration.');
+        console.log(error);
+      }
     }
-  }
-};
-/**
- * UseEffect to navigate to login page after account is created  with time delay
- * @param {boolean} accountCreated
- */
-const navigate = useNavigate();
-useEffect(() => {
-  if (accountCreated) {
-    const timer = setTimeout(() => {
-      navigate('/login');
-    }, 5000); //TODO maybe adjust time
-    return () => clearTimeout(timer);
-  }
-}, [accountCreated, navigate]);
-
-const handleCheckboxChange = (e) => {
-  if (e.target.checked) {
-    const currentDatetime = new Date();
-    setAGBAcceptedAt(currentDatetime);
-  } else {
-    setAGBAcceptedAt(null);
-  }
-};
-
-/**
-* shows error if password hint is in password
-*/
-const handlePasswordHintChange = (e) => {
-  const hint = e.target.value;
-  if (password.includes(hint)) {
-    const errorMsg = t('signup:hintError');
-    setPasswordHintError(errorMsg);
-  } else {
-    setPasswordHint(hint);
-    setPasswordHintError(null);
-  }
   };
 
-   //TODO Video link
+  /**
+   * UseEffect to navigate to login page after account is created  with time delay
+   * @param {boolean} accountCreated
+   */
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (accountCreated) {
+      const timer = setTimeout(() => {
+        navigate('/login');
+      }, 5000); //TODO maybe ajust time
+      return () => clearTimeout(timer);
+    }
+  }, [accountCreated, navigate]);
+
+  /**
+   * This function is called when the user checks the agb checkbox,
+   * if the checkbox is checked the current datetime is set to agbAcceptedAt
+   */
+ const handleCheckboxChange = (e) => {
+   if (e.target.checked) {
+     const currentDatetime = new Date().toLocaleDateString();
+     setAGBAcceptedAt(currentDatetime);
+   } else {
+     setAGBAcceptedAt(null);
+   }
+ };
+
+
+  /**
+   * Shows error if password hint is in password
+   */
+  const handlePasswordHintChange = (e) => {
+    const hint = e.target.value;
+    if (password.includes(hint)) {
+      const errorMsg = t('signup:hintError');
+      setPasswordHintError(errorMsg);
+    } else {
+      setPasswordHint(hint);
+      setPasswordHintError(null);
+    }
+  };
 
   return (
     <>
@@ -147,9 +170,9 @@ const handlePasswordHintChange = (e) => {
         </fieldset>
         {error && <p className="errorMessage">{t('signup:passwordError')}</p>}
         <p>{t('signup:information')}</p>
-       
+
         <fieldset className="question">
-        <h3>{t('signup:hint')}</h3>
+          <h3>{t('signup:hint')}</h3>
           <input
             type="text"
             name="passwordHint"
@@ -163,7 +186,7 @@ const handlePasswordHintChange = (e) => {
           )}
         </fieldset>
         <div id="agbCheck">
-        <input
+          <input
             type="checkbox"
             required
             name="agb"
