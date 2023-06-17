@@ -16,10 +16,7 @@ const Login = ({setUser}) => {
   //TODO: console.log entfernen
   //TODO: wrongPassword erhöhen wenn falscher Nutzerdaten
   //TODO: wrongPassword zurücksetzen wenn richtige Nutzerdaten
-  //TODO: Nutzerdaten in localStorage speichern wenn remember true
-  //TODO: Nutzerdaten aus localStorage laden wenn remember true
-  //TODO: Nutzerdaten aus localStorage löschen wenn remember false
-  //TODO: Nutzerdaten - speziell Passwort mit Backend abgleichen, verschlüsslt speichern
+   //TODO: Nutzerdaten - speziell Passwort mit Backend abgleichen, verschlüsslt speichern
 
  useEffect(() => {
    if (inputRef.current) {

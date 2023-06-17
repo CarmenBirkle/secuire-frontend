@@ -42,18 +42,16 @@ const Home = () => {
     <>
       <h1> {t('home:Seciure')}</h1>
       <p>{t('home:content')}</p>
-      <br/>
+      <br />
       <p>{t('home:video')}</p>
 
-      <iframe
-        src="https://iubhfs-my.sharepoint.com/personal/stephan_bienhuels_iu-study_org/_layouts/15/embed.aspx?UniqueId=3445481e-3d30-41f8-8f91-469b41f8501e&embed=%7B%22hvm%22%3Atrue%2C%22ust%22%3Atrue%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create"
-        width="560"
-        height="315"
-        frameBorder="0"
-        scrolling="no"
-        allowFullScreen
-        title="20230315_Projektvideo_Seciure_5min.mp4"
-      ></iframe>
+      <a
+        href="https://docsend.com/view/pavrpu9fch822waa"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Placeholder Klickbares Bild
+      </a>
 
       <Link to="/login" className="submitButton loginLink">
         {t('home:login')}
@@ -61,7 +59,7 @@ const Home = () => {
       <Link to="/signup" className="submitButton signupLink">
         {t('common:signupLink')}
       </Link>
-      </>
+    </>
   );
 };
 

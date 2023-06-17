@@ -10,8 +10,8 @@ const Signup = () => {
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [error, setError] = useState(false);
-  const [passwortHint, setPasswortHint] = useState(null);
-  const [passwortHintError, setPasswortHintError] = useState(null);
+  const [passwordHint, setPasswordHint] = useState(null);
+  const [passwordHintError, setPasswordHintError] = useState(null);
   const [agbAcceptedAt, setAGBAcceptedAt] = useState(null);
   const [accountCreated, setAccountCreated] = useState(false);
   const [accountCreatedError, setAccountCreatedError] = useState(null);
@@ -35,14 +35,14 @@ const Signup = () => {
       const saltRounds = 10;
       const salt = await bcrypt.genSalt(saltRounds);
       const hashedPassword = await bcrypt.hash(password, salt);
-
+//Todo registration data 
       const userData = {
         username: username,
         hashedPassword: hashedPassword,
         email: email,
         salt: salt,
         agbAcceptedAt: agbAcceptedAt,
-        passwortHint: passwortHint,
+        passwordHint: passwordHint,
       };
       console.log('userData: ', userData);
       //TODO Backend connection and console log delete // function sendToBackend implement
@@ -87,10 +87,10 @@ const handlePasswordHintChange = (e) => {
   const hint = e.target.value;
   if (password.includes(hint)) {
     const errorMsg = t('signup:hintError');
-    setPasswortHintError(errorMsg);
+    setPasswordHintError(errorMsg);
   } else {
-    setPasswortHint(hint);
-    setPasswortHintError(null);
+    setPasswordHint(hint);
+    setPasswordHintError(null);
   }
   };
 
@@ -152,14 +152,14 @@ const handlePasswordHintChange = (e) => {
         <h3>{t('signup:hint')}</h3>
           <input
             type="text"
-            name="passwortHint"
+            name="passwordHint"
             required
-            id="passwortHint"
-            placeholder={t('signup:passwortHint')}
+            id="passwordHint"
+            placeholder={t('signup:passwordHint')}
             onChange={handlePasswordHintChange}
           />
-          {passwortHintError && (
-            <p className="errorMessage">{passwortHintError}</p>
+          {passwordHintError && (
+            <p className="errorMessage">{passwordHintError}</p>
           )}
         </fieldset>
         <div id="agbCheck">
