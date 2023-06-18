@@ -4,7 +4,7 @@
   "confirmPassword": "Confirm Password",
   "email": "E-mail",
   "hint":"Enter your password hint here",
-  "passwortHint": "Passwort-Hint",
+  "passwordHint": "Password-Hint",
   "hintError":"Re-entering the password is not allowed, this field serves to store a reminder.",
   "information": "In our secure password manager you are the key master! We can neither recover nor reset your password, because your privacy and security are important to us. The secret of your password is in your hands. But don't worry, if you ever forget your password, you can leave a little hint. A little secret that only you know and that will help you to remember your password. But remember: keep your password safe, it is the key to your data. We're here to help you do that, but the final control is always yours",
   "question": "Choose Hint Question",

@@ -16,7 +16,7 @@
   "cookies": "Cookies",
   "cookiesInfo": "Like many other websites, we also use so-called 'cookies.' Cookies are small text files that are stored on your device (laptop, tablet, smartphone, etc.) when you visit our website.",
   "storageDuration": "Storage duration and used cookies:",
-  "cookiesUsed": "If you allow us to use cookies through your browser settings or consent, the following cookies may be used on our websites:",
+  "cookiesUsed": "If you allow us to use cookies through your browser settings or consent, the following cookies may be used on our websites: Auth-Token stored for Database-Access, If you check the remember Checkbox, your Email will be stored in a cookie for 7 days.",
   "necessaryCookies": "Necessary Cookies",
   "processingPurpose": "Type and purpose of processing:",
   "necessaryCookiesInfo": "We use cookies to make our website more user-friendly. Some elements of our website require that the requesting browser can still be identified even after a page change.",

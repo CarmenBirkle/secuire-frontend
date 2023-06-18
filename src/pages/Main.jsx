@@ -142,13 +142,6 @@ const {
 
 return (
   <>
-    {/* TODO Searchbar display fixed or dynamic ? */}
-    {/* <SearchBar handleSearch={handleSearch} /> */}
-    {/* TODO: Username (Begrüßung) ausgeben, wenn später gefetcht */}
-    {/* <h3>
-      {t('welcome')} {user?.email},
-    </h3> */}
-
     {searchTerm && (
       <div>
         <h4>Search Result</h4>
@@ -184,7 +177,9 @@ return (
               <SearchBar handleSearch={handleSearch} />
             </section>
             <h1>
-              {t('welcome')} {user?.email},
+              {/* TODO Ansprache ändern */}
+              {t('welcome')} Carmen,
+              {/* {t('welcome')} {user?.email}, */}
             </h1>
             <h2 className="subheadline">
               {t(ENTRY_TYPE ? ENTRY_TYPE : 'main')}
@@ -203,7 +198,7 @@ return (
           <CreateDataEntry setShowCreateDataEntry={setShowCreateDataEntry} />
         )}
 
-{!showCreateDataEntry && !shouldRenderCreateDataEntry && (
+        {!showCreateDataEntry && !shouldRenderCreateDataEntry && (
           <div className="main_icons_bg">
             {' '}
             <img

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
+import  videoPic  from './../img/thumbnail-video.png';
 import axios from 'axios';
 
 const baseUrl = process.env.REACT_APP_URL_AZURE;
@@ -38,6 +38,11 @@ const Home = () => {
     pushData();
   }, []);
 
+ const handleImageClick = () => {
+   const url = 'https://docsend.com/view/pavrpu9fch822waa';
+   window.open(url, '_blank', 'noopener noreferrer');
+ };
+
   return (
     <>
       <h1> {t('home:Seciure')}</h1>
@@ -45,13 +50,12 @@ const Home = () => {
       <br />
       <p>{t('home:video')}</p>
 
-      <a
-        href="https://docsend.com/view/pavrpu9fch822waa"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Placeholder Klickbares Bild
-      </a>
+      <img
+        className="video-pic"
+        src={videoPic}
+        alt="Videolink"
+        onClick={handleImageClick}
+      />
 
       <Link to="/login" className="submitButton loginLink">
         {t('home:login')}
