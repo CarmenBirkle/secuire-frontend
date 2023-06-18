@@ -46,7 +46,7 @@ const App = () => {
             <Route
               path="account"
               element={
-                <ProtectedRoute user={user}>
+                <ProtectedRoute user={user} setUser={setUser}>
                   <AccountSettings user={user} />
                 </ProtectedRoute>
               }
@@ -79,7 +79,7 @@ const App = () => {
             <Route path="imprint" element={<Imprint />} />
             <Route path="legalnotice" element={<LegalNotice />} />
             <Route path="signup" element={<Signup />} />
-            <Route path="login" element={<Login setUser={setUser} />} />
+            <Route path="login" element={<Login setUser={setUser} user={user} />} />
             <Route path="forgotpassword" element={<ForgotPassword />} />
             <Route path="*" element={<Error />} />
           </Route>

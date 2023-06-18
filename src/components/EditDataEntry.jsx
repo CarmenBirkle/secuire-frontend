@@ -164,20 +164,6 @@ const EditDataEntry = ({
     setShowIconSelection(false);
   };
 
-  // TODO Inline with wieder entfernen wenn classe definiert
-  // const renderSelectedIcon = () => {
-  //   return (
-  //     <img
-  //       style={{ width: '30px' }}
-  //       src={state.selectedIcon !== null ? icons[state.selectedIcon] : dummyIcon}
-  //       alt={
-  //         state.selectedIcon !== null
-  //           ? `Icon ${state.selectedIcon}`
-  //           : 'Choose Icon'
-  //       }
-  //     />
-  //   );
-  // };
 
   const renderSelectedIcon = () => {
     return (
@@ -201,15 +187,15 @@ const EditDataEntry = ({
   const IconSelectionModal = () => {
     return (
       <div>
-        <h2 className='subheadline'>{t('chooseIcon')}</h2>
-        <div className='entryImageCenter'>
+        <h2 className="subheadline">Icon:</h2>
+        <div className="entryImageCenter">
           {icons.map((icon, index) => (
             <div
               key={index}
               onClick={() => handleIconSelect(index)}
-              style={{ cursor: 'pointer'}}
+              style={{ cursor: 'pointer' }}
             >
-              <img className='entryImage' src={icon} alt={icon} />
+              <img className="entryImage" src={icon} alt={icon} />
             </div>
           ))}
         </div>

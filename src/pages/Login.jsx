@@ -18,7 +18,7 @@ import { getSalt, loginUser } from './../components/helperSites/Axios.jsx';
 import bcrypt from 'bcryptjs';
 
 
-const Login = ({setUser}) => {
+const Login = ({setUser, user}) => {
   const { t } = useTranslation(['forgotpassword', 'login']);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -80,17 +80,26 @@ const Login = ({setUser}) => {
        remember,
        'WrongPassword: ',
        wrongPassword
+            
      );
      if (!email || !password) return;
      const hashedPassword = await handleLogin(email, password);
      setUser({
+       id:1,
        email: email,
        password: hashedPassword,
        remember: remember,
        wrongPassword: wrongPassword,
+       username: 'Carmen Birkle',
+       passwordHint: 'ich bin voll kreativ',
      });
      navigate('/main?type=favourites');
    };
+
+   //TODO kann später gelöscht werden
+   useEffect(() => {
+     console.log('user: ', user);
+   }, [user]);
 
 async function handleLogin(email, password) {
   try {

@@ -1,3 +1,6 @@
 {
-  "placeholder": "--- Dummytext: Inhalt der Seite AccountSettings ---"
+  "account": "Benutzer-Einstellungen",
+  "username":"Benutzername",
+  "email":"E-Mail",
+  "passwordHint":"Passwort Hinweis"
 }

@@ -176,7 +176,7 @@ const PwGenerator = () => {
               }}
             />
             {t('lowercase')}
-            <span class="checkmark"></span>
+            <span className="checkmark"></span>
           </label>
         </fieldset>
         <fieldset className='check'>
@@ -194,7 +194,7 @@ const PwGenerator = () => {
               }}
             />
             {t('uppercase')}
-            <span class="checkmark"></span>
+            <span className="checkmark"></span>
           </label>
         </fieldset>
         <fieldset className='check'>
@@ -212,7 +212,7 @@ const PwGenerator = () => {
               }}
             />
             {t('numbers')}
-            <span class="checkmark"></span>
+            <span className="checkmark"></span>
           </label>
         </fieldset>
         <fieldset className='check'>
@@ -230,7 +230,7 @@ const PwGenerator = () => {
               }}
             />
             {t('symbols')}
-            <span class="checkmark"></span>
+            <span className="checkmark"></span>
           </label>
         </fieldset>
         

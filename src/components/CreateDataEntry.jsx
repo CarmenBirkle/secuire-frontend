@@ -165,15 +165,15 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
    const IconSelectionModal = () => {
      return (
        <div>
-         <h2 className='subheadline'>Wähle ein Icon:</h2>
-         <div className='entryImageCenter'>
+         <h2 className="subheadline">Icon:</h2>
+         <div className="entryImageCenter">
            {icons.map((icon, index) => (
              <div
                key={index}
                onClick={() => handleIconSelect(index)}
                style={{ cursor: 'pointer' }}
              >
-               <img className='entryImage' src={icon} alt={icon} />
+               <img className="entryImage" src={icon} alt={icon} />
              </div>
            ))}
          </div>
@@ -215,7 +215,6 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
             handleFieldChange(index, 'fieldValue', e.target.value)
           }
         />
-        {/* TODO label wird nicht angezeigt - css ?  */}
         <label htmlFor={`cancel-${index}`}>{t('deleteCF')}</label>
         <img
           id={`cancel-${index}`}
@@ -394,7 +393,6 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               onChange={(e) => setComment(e.target.value)}
             />
             {renderFields()}
-             {/* TODO warum wird das label nicht angezeigt ? CSS? */}
              <label htmlFor="addIcon"> {t('createCF')}</label>
             <img
               className='icon_button'
@@ -504,7 +502,6 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
           />
           
           <button className="icon_button icon_save" type="submit">
-          {/*{t('submit')}*/}
           </button>
         </div>
 
