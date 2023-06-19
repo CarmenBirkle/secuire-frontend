@@ -12,16 +12,30 @@ const FAQ = () => {
   const { t } = useTranslation(['faq']);
 
   const faqs = Array.from(document.querySelectorAll(".acc"));
+  const faqActive = Array.from(document.getElementsByClassName("acc active"));
+  const faqPanel = Array.from(document.getElementsByClassName("panel"));
 
   console.log(faqs);
 
   const faqClick = event =>{
-    event.target.classList.toggle("active");
       var panel = event.target.nextElementSibling;
+      if (event.target.classList.contains("active")){
+				panel.style.maxHeight = panel.scrollHeight + "px";
+			}
       if (panel.style.maxHeight) {
         panel.style.maxHeight = null;
+        event.target.classList.remove("active");
       } else {
+        for (var j = 0; j < faqActive.length; j++) {
+					faqActive[j].classList.remove("active");
+				}
+        for (var k = 0; k < faqPanel.length; k++) {
+					event.target.classList.remove("active");
+					faqPanel[k].style.maxHeight = null;
+				}
+
         panel.style.maxHeight = panel.scrollHeight + "px";
+        event.target.classList.add("active");
       } 
   }
 
@@ -82,8 +96,11 @@ const FAQ = () => {
         {t('FAQ8')}
       </div>
       <div className="panel">
-        <p>{t('FAQ8-A')}</p>
-        <img className="panel-img" src={faq8} alt="Login" />
+        <div className='flexbox column allignCenter'>
+          <p>{t('FAQ8-A')}</p>
+          <img className="panel-img" src={faq8} alt="Login" />
+        </div>
+        
       </div>
 
       <div className="titel acc" onClick={faqClick}>
@@ -111,40 +128,50 @@ const FAQ = () => {
         {t('FAQ12')}
       </div>
       <div className="panel">
-        <p>{t('FAQ12-A')}</p>
-        <img className="panel-img" src={faq12} alt="add" />
+        <div className='flexbox column allignCenter'>
+          <p>{t('FAQ12-A')}</p>
+          <img className="panel-img" src={faq12} alt="add" />
+        </div>
       </div>
 
       <div className="titel acc" onClick={faqClick}>
         {t('FAQ13')}
       </div>
       <div className="panel">
-        <p>{t('FAQ13-A')}</p>
-        <img className="panel-img" src={faq13} alt="change" />
+        <div className='flexbox column allignCenter'>
+          <p>{t('FAQ13-A')}</p>
+          <img className="panel-img" src={faq13} alt="change" />
+        </div>
       </div>
 
       <div className="titel acc" onClick={faqClick}>
         {t('FAQ14')}
       </div>
       <div className="panel">
-        <p>{t('FAQ14-A')}</p>
-        <img className="panel-img" src={faq14} alt="delete" />
+        <div className='flexbox column allignCenter'>
+          <p>{t('FAQ14-A')}</p>
+          <img className="panel-img" src={faq14} alt="delete" />
+        </div>
       </div>
 
       <div className="titel acc" onClick={faqClick}>
         {t('FAQ15')}
       </div>
       <div className="panel">
-        <p>{t('FAQ15-A')}</p>
-        <img className="panel-img" src={faq15} alt="search" />
+        <div className='flexbox column allignCenter'>
+          <p>{t('FAQ15-A')}</p>
+          <img className="panel-img" src={faq15} alt="search" />
+        </div>
       </div>
 
       <div className="titel acc" onClick={faqClick}>
         {t('FAQ16')}
       </div>
       <div className="panel">
-        <p>{t('FAQ16-A')}</p>
-        <img className="panel-img" src={faq16} alt="PW Manager" />
+        <div className='flexbox column allignCenter'>
+          <p>{t('FAQ16-A')}</p>
+          <img className="panel-img" src={faq16} alt="PW Manager" />
+        </div>
       </div>
     </>
   );

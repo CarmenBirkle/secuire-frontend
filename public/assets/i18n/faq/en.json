@@ -10,7 +10,7 @@
   "FAQ4-A":"The password manager can be used completely free of charge by all persons studying at IU or employed by IU (lecturers, tutors).",
   "FAQ5": "How can I reach the customer support? Where can I complain/feedback?",
   "FAQ5-A":"The password manager is a group project and non-commercial, so we cannot provide usual customer support. However, we are of course available for your questions and also welcome feedback. Please note that we may not be able to answer immediately. You can reach us at birkle@carmenbirkle.de",
-  "FAQ6": "WHow safe is it to use Seciure??",
+  "FAQ6": "How safe is it to use Seciure?",
   "FAQ6-A":"Encryption: Seciure uses a modern encryption algorithm to protect the stored passwords and data. Your data is encrypted on your device and then sent to our database, ensuring that we do not know your data and it is not accessible to unauthorized persons. The master password you use to access the password manager is crucial. Choose a strong, unique password that is difficult to guess. Avoid common passwords and use a combination of upper and lower case letters, numbers and special characters. Keep the master password safe and never share it with others. Note that we do not know this master password and cannot decrypt it.  Security awareness: it is important to be generally aware when dealing with passwords and personal information. Avoid clicking on suspicious links or downloading questionable attachments. Keep your devices and software up to date to minimize security vulnerabilities. Overall, using Seciure is a safer alternative for managing passwords compared to reused or weak passwords.",
   "FAQ7": "Who is Seciure intended for?",
   "FAQ7-A":"The password manager can be used completely free of charge by all persons studying at IU or employed by IU (lecturers, tutors).",
@@ -30,7 +30,7 @@
   "FAQ14-A":"To delete your records log in and then navigate to Favorites, All Data, Secure Notes or Payment Cards. Select the record you want and open it in the detail view by clicking on the map. Then you will find the function to delete the record in the lower blue bar. ",
   "FAQ15": "How can I access my data / passwords to be protected?",
   "FAQ15-A":"Log in and then navigate to the Favorites, Passwords, Secure Notes or Pay Cards page. In each of these pages you will find your cards filtered by the page section. So in the favorites only your favorites etc.  If you want to search within this grouping, you will find a magnifying glass icon in the menu bar, which will show you the search bar. With this you can search for the title of your passwords. ",
-  "FAQ16":"How to use the password generator",
+  "FAQ16":"How to use the password generator?",
   "FAQ16-A":"You can reach our password generator via the menu above the mask for creating a password. There you can set the length of your password, which letters, numbers and special characters are included and thus customize your password. If the length is changed directly, the suggested password is immediately regenerated. If you change the checkboxes, please also click on -Generate- so that your password is correctly adjusted. You can use the copy symbol to copy the password to the clipboard and then use it."
 }
 
