@@ -6,7 +6,7 @@ import arrowIcon from './../img/icon_back.svg';
 import copyIcon from './../img/icon-copy.svg';
 import hideIcon from './../img/icon_hide.svg';
 import showIcon from './../img/icon_show.svg';
-import PwGenerator from './PwGenerator';
+import EditAccount from '../components/EditAccount';
 
 
 
@@ -14,10 +14,7 @@ import PwGenerator from './PwGenerator';
 
 const AccountSettings = ({ user, setUser }) => {
   const { t } = useTranslation(['account']);
-   const [buttonPopup, setButtonPopup] = useState(false);
-   const togglePopup = () => {
-     setButtonPopup(!buttonPopup);
-   };
+  const [editMode, setEditMode] = useState(false);
 
   const handleCloseClick = () => {
     console.log('close');
@@ -29,8 +26,13 @@ const AccountSettings = ({ user, setUser }) => {
 
   const handleEditClick = () => {
     console.log ('edit');
-    togglePopup();
+    // togglePopup();
+    setEditMode(true);
   }
+
+   if (editMode) {
+     return <EditAccount user={user} setUser={setUser} setEditMode={setEditMode}/>;
+   }
 
   return (
     <>
@@ -71,15 +73,6 @@ const AccountSettings = ({ user, setUser }) => {
             onClick={handleEditClick}
           />
         </div>
-
-        {buttonPopup && (
-          <div className="popup">
-            <div className="popup-inner">
-                <button className="close-button" onClick={togglePopup}></button>
-                <PwGenerator />
-            </div>
-          
-          </div>)}
       </section>
     </>
   ); 

@@ -283,24 +283,52 @@ export const registerUser = async (userData) => {
   }
 };
 
-export const getSalt = async (email) => {
-  try {
-    const response = await axios.get(
-      `${BASEURL}Authorization/salt?email=${email}`
-    );
-    return response.data.salt;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
+
+
+   export const getSalt = async (email) => {
+     const url = `${BASEURL}Authorization/salt?email=${email}`;
+     try {
+       const response = await axios.get(url);
+       console.log('fetch:', response);
+       const salt = response.data;
+       console.log('salt', salt);
+       return salt;
+     } catch (error) {
+       console.log(error.response);
+     }
+   };
+
+// export const loginUser = async (email, hashedPassword) => {
+//   try {
+//     const response = await axios.post(`${BASEURL}Authorization/login`, {
+//       email: email,
+//       hashedPassword: hashedPassword,
+//     });
+
+//     if (response.status !== 200) {
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
+//     return response.data; // Return the Information: Token and User-Object
+//   } catch (error) {
+//     console.log('Fehler beim Login: ', error);
+//     throw error; // Fehler weitergeben, um ihn in der `handleSubmit` Funktion zu behandeln
+//   }
+// };
 
 export const loginUser = async (email, hashedPassword) => {
+  email = email;
+  hashedPassword = hashedPassword;
+  email = 'stephan@test.de'; // nur für Daten-Test
+  hashedPassword = '$2a$10$2ixOEaEG9AJOw9lgMcVxteFMWTF2hRymByPf3e2CT4qTGThtGIYWG'; // nur für Datentest
+  const url = `${BASEURL}Authorization/login?mail=${email}&passwordHash=${hashedPassword}`;
+
+ console.log('url Login', url);
   try {
-    const response = await axios.post(`${BASEURL}Authorization/login`, {
-      email: email,
-      hashedPassword: hashedPassword,
-    });
+    const response = await axios.post(
+      // `${BASEURL}Authorization/login?mail=${email}&passwordHash=${hashedPassword}`,
+      `${BASEURL}Authorization/login?mail=tester@test.de&passwordHash=df7ccf18bfa1627600e08b8c67c4be97bb85b57d3716f1a69b9d3fd20b974b6e`
+    );
+    console.log('response Login', response);
 
     if (response.status !== 200) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -311,3 +339,5 @@ export const loginUser = async (email, hashedPassword) => {
     throw error; // Fehler weitergeben, um ihn in der `handleSubmit` Funktion zu behandeln
   }
 };
+
+

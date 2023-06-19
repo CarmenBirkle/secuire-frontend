@@ -21,6 +21,18 @@ const Home = () => {
     }
   };
 
+  //TODO rauswerfen
+ const testemail =   'test@test.de'
+ const url2 = `${baseUrl}Authorization/salt?email=test@test.de`;
+ const fetchDatalogin = async () => {
+    try {
+      const response = await axios.get(url2);
+      console.log('fetch:', response);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
   const pushData = async () => {
     try {
       const response = await axios.post(url, {
@@ -36,6 +48,7 @@ const Home = () => {
   useEffect(() => {
     fetchData();
     pushData();
+    fetchDatalogin();
   }, []);
 
  const handleImageClick = () => {

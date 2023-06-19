@@ -13,9 +13,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import bcrypt from 'bcryptjs';
 import { registerUser } from './../components/helperSites/Axios.jsx';
+import axios from 'axios';
 
 
 const Signup = () => {
+  const BASEURL = process.env.REACT_APP_URL_AZURE;
   const { t } = useTranslation(['common', 'signup']);
   const [username, setUsername] = useState(null);
   const [email, setEmail] = useState(null);
@@ -61,7 +63,8 @@ const Signup = () => {
       };
 
       console.log('vorher', userData);
-      const response = await registerUser(userData);
+      // const response = await registerUser(userData);
+      const response = await registerUserTest(userData);
        console.log('danach', response);
       setAccountCreated(true);
       setAccountCreatedError('');
@@ -76,6 +79,37 @@ const Signup = () => {
       }
     }
   };
+
+  //<-------------Testarea---------------->
+
+ const registerUserTest = async (userData) => {
+  const url = `${BASEURL}Authorization/register`;
+  console.log('url', url);
+  try {
+    const response = await axios.post(
+      `${BASEURL}Authorization/register`, 
+      userData,
+      {
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+    return response.data;
+  } catch (error) {
+     if (error.response && error.response.data) {
+      const responseData = error.response.data;
+      if (responseData.DuplicateEmail) {
+      } else if (responseData.DuplicateUserName) {
+        console.log('Username already taken.', error);
+      } else {
+        console.log(error);
+      }
+    } else {
+      console.log(error);
+    }
+  }
+};
+  //<-------------Testarea---------------->
+
 
   /**
    * UseEffect to navigate to login page after account is created  with time delay

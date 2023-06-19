@@ -16,6 +16,8 @@ import { Link, useNavigate} from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { getSalt, loginUser } from './../components/helperSites/Axios.jsx'; 
 import bcrypt from 'bcryptjs';
+import axios from 'axios';
+
 
 
 const Login = ({setUser, user}) => {
@@ -96,21 +98,27 @@ const Login = ({setUser, user}) => {
      navigate('/main?type=favourites');
    };
 
+
    //TODO kann später gelöscht werden
    useEffect(() => {
      console.log('user: ', user);
    }, [user]);
 
+  //  const baseUrl = process.env.REACT_APP_URL_AZURE;
+
 async function handleLogin(email, password) {
+  console.log('aus handlelogin: email',email, 'password', password)
   try {
     const salt = await getSalt(email);
+     console.log('Salt aus handlelogin: ', salt);
     const hashedPassword = await bcrypt.hash(password, salt);
+    console.log('Hashed Password: ', hashedPassword )
     const loginResponse = await loginUser(email, hashedPassword);
-
+    console.log('loginResponse: ', loginResponse);
     // Daten aus loginResponse verarbeiten. Unklar wie das Objekt aussieht, daher erstmal Aonsolenausgabe
     // z.b. über setzen des Cookies
    
-    console.log('Erfolgreiche Anmeldung. Daten:', loginResponse);
+   //console.log('Erfolgreiche Anmeldung. Daten:', loginResponse);
     // Cookies.set( 'authToken', 'Token hier, wahrscheinlich Variable aus loginResponse');
 
     // setSuccess(true);
