@@ -265,23 +265,23 @@ export const registerUser = async (userData) => {
     );
     return response.data;
   } catch (error) {
-    //     throw error.response.data;
-    //   }
-    // };
-    //TODO unterer Teil löschen wenn service läuft, oben wieder aktivieren
-    if (error.response && error.response.data) {
-      const responseData = error.response.data;
-      if (responseData.DuplicateEmail) {
-      } else if (responseData.DuplicateUserName) {
-        console.log('Username already taken.', error);
-      } else {
-        console.log(error);
+        throw error.response.data;
       }
-    } else {
-      console.log(error);
-    }
-  }
-};
+    };
+    //TODO unterer Teil löschen wenn service läuft, oben wieder aktivieren
+    // if (error.response && error.response.data) {
+    //   const responseData = error.response.data;
+    //   if (responseData.DuplicateEmail) {
+    //   } else if (responseData.DuplicateUserName) {
+    //     console.log('Username already taken.', error);
+    //   } else {
+    //     console.log(error);
+    //   }
+    // } else {
+    //   console.log(error);
+    // }
+ // }
+//};
 
 
 
