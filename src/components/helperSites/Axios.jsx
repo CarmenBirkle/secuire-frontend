@@ -51,7 +51,7 @@ export default api;
  * @throws {Error} - If an error occurs during the data fetching process.
  */
 
-export const useFetchData = (endpoint) => {
+export const useFetchData = () => {
   const [encryptedDataEntrys, setEncryptedDataEntrys] = useState([
     // Initialzustand TODO später entfernen.
     {
@@ -136,20 +136,27 @@ export const useFetchData = (endpoint) => {
   ]);
 
   const fetchData = async () => {
-    const url = `/${endpoint}`;
+    const token = Cookies.get('token');
+    const url = `${BASEURL}DataEntry/all`;  
+    console.log('token aus fetchdata', token);
     try {
-      const responseDataEntrys = await api.get(url);
-      console.log('fetch from main side:', responseDataEntrys);
-      console.log('nur gefetchte daten', responseDataEntrys.data);
-      // setEncryptedDataEntrys(responseDataEntrys.data);
-    } catch (error) {
-      console.log(error.response);
-      throw error;
-    }
-  };
+      const responseDataEntrys = await api.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+    console.log('fetch from main side:', responseDataEntrys);
+    console.log('nur gefetchte daten', responseDataEntrys.data);
+  // setEncryptedDataEntrys(responseDataEntrys.data);
+  } catch (error) {
+    console.log(error.response);
+    throw error;
+  }
+    };
 
-  return { encryptedDataEntrys, fetchData };
-};
+    return { encryptedDataEntrys, fetchData };
+  };
 
 /**
  * Checks the security of a password using an external API.
@@ -252,9 +259,15 @@ export const deleteDataEntry = async (id) => {
 };
 
 //<-- Axios Functions without token handling -->
+
+/**
+ * Registers a user by sending a POST request to the specified URL with the provided user data.
+ *
+ * @param {Object} userData - The user data to be sent in the request body.
+ * @returns {Promise<Object>} - A Promise that resolves to the response data upon successful registration.
+ * @throws {Object} - An error object containing the response data if the registration fails.
+ */
 export const registerUser = async (userData) => {
-  const url = `${BASEURL}Authorization/register`;
-  console.log('url', url);
   try {
     const response = await axios.post(
       `${BASEURL}Authorization/register`,
@@ -265,33 +278,17 @@ export const registerUser = async (userData) => {
     );
     return response.data;
   } catch (error) {
-        throw error.response.data;
-      }
-    };
-    //TODO unterer Teil löschen wenn service läuft, oben wieder aktivieren
-    // if (error.response && error.response.data) {
-    //   const responseData = error.response.data;
-    //   if (responseData.DuplicateEmail) {
-    //   } else if (responseData.DuplicateUserName) {
-    //     console.log('Username already taken.', error);
-    //   } else {
-    //     console.log(error);
-    //   }
-    // } else {
-    //   console.log(error);
-    // }
- // }
-//};
-
-
+      throw error.response.data;
+  }
+};
 
    export const getSalt = async (email) => {
      const url = `${BASEURL}Authorization/salt?email=${email}`;
      try {
        const response = await axios.get(url);
-       console.log('fetch:', response);
+       console.log('fetchausgetSaltAxios:', response);
        const salt = response.data;
-       console.log('salt', salt);
+       console.log('salt aus getSaltAxios', salt);
        return salt;
      } catch (error) {
        console.log(error.response);
@@ -318,15 +315,21 @@ export const registerUser = async (userData) => {
 export const loginUser = async (email, hashedPassword) => {
   email = email;
   hashedPassword = hashedPassword;
-  email = 'stephan@test.de'; // nur für Daten-Test
-  hashedPassword = '$2a$10$2ixOEaEG9AJOw9lgMcVxteFMWTF2hRymByPf3e2CT4qTGThtGIYWG'; // nur für Datentest
+  // email = 'stephan@test.de'; // nur für Daten-Test
+  // hashedPassword = '$2a$10$2ixOEaEG9AJOw9lgMcVxteFMWTF2hRymByPf3e2CT4qTGThtGIYWG'; // nur für Datentest
   const url = `${BASEURL}Authorization/login?mail=${email}&passwordHash=${hashedPassword}`;
 
  console.log('url Login', url);
   try {
     const response = await axios.post(
       // `${BASEURL}Authorization/login?mail=${email}&passwordHash=${hashedPassword}`,
-      `${BASEURL}Authorization/login?mail=tester@test.de&passwordHash=df7ccf18bfa1627600e08b8c67c4be97bb85b57d3716f1a69b9d3fd20b974b6e`
+      `${BASEURL}Authorization/login`,{
+        email: email,
+        hashedPassword: hashedPassword
+      },
+      {
+        headers: { 'Content-Type': 'application/json' },
+      }
     );
     console.log('response Login', response);
 

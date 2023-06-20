@@ -56,6 +56,7 @@ const Signup = () => {
         agbAcceptedAt: agbAcceptedAt,
         passwordHint: passwordHint,
       };
+      console.log('userData:', userData, 'klartextpw:',password);
       const response = await registerUser(userData);
       setAccountCreated(true);
       setAccountCreatedError('');

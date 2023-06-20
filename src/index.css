@@ -360,6 +360,7 @@ nav li.navlink.active a, nav li a:hover  {
     top: 22px;
     left: calc(50% - 45px);
     z-index:999;
+    position: fixed;
   }
 
   /* buttons */
