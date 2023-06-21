@@ -302,6 +302,11 @@ nav li.navlink.active a, nav li a:hover  {
     color: rgb(174, 141, 56);
   }
 
+  /* success style */
+  .successMessage{
+    color:green;
+  }
+
   /* main style */
   #root {
     position: relative;
