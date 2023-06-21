@@ -162,7 +162,7 @@ header {
   background-color: #000000;
   position: fixed;
   width: 100%;
-  z-index: 999;
+  z-index: 900;
 }
 header>div.flexbox {
   justify-content: flex-start;
@@ -318,6 +318,9 @@ nav li.navlink.active a, nav li a:hover  {
   main>div.container {
     min-height: 73vh;
   }
+  .front {
+    z-index:999;
+  }
 
   /* icon buttons */
   .main_icons_bg {
@@ -354,7 +357,7 @@ nav li.navlink.active a, nav li a:hover  {
     position: absolute;
     top: 22px;
     left: calc(50% - 45px);
-    z-index:999;
+    z-index:990;
   }
 
   /* buttons */

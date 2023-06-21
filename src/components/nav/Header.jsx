@@ -25,7 +25,6 @@ const Header = () => {
    */
   const navbutton = React.useRef(document.getElementById('mobile_button'));
   const navigation = React.useRef(document.getElementById('nav'));
-
   /**
    * Effect to set initial language to english if no language is set
    */
@@ -59,15 +58,21 @@ const Header = () => {
   /**
    * Open/Close navigation on menu button click
    */
+  const headerElement = document.getElementById('header');
+  console.log(headerElement);
   const menuButtonClick = (event) => {
     if (navbutton.current.classList.contains('open')) {
       navbutton.current.classList.replace('open', 'closed');
-      navigation.current.classList.remove('open');
+      navigation.current.classList.remove('open'); 
+      headerElement.parentElement.classList.remove('front');
+
+
     } else {
       navbutton.current.classList.replace('closed', 'open');
       navigation.current.classList.add('open');
+      headerElement.parentElement.classList.add('front');
     }
-  };
+ };
   /**
    * Close navigation on home button click
    */
@@ -76,9 +81,10 @@ const Header = () => {
     navigation.current.classList.remove('open');
   };
 
+
   return (
     <>
-      <div className="container flexbox allignCenter">
+      <div className="container flexbox allignCenter" id="header">
         <div id="logo" onClick={homeButtonClick}>
           <Link to="/">
             <img src={logo} alt="Seciure" />
