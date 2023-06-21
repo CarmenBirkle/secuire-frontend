@@ -129,8 +129,12 @@ const {
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
-  const searchBar = React.useRef(document.getElementById('searchBar'));
 
+  const searchBar = React.useRef(document.getElementById('searchBar'));
+  /**
+   * Function to show and hide searchbar on icon click.
+   * @param {event} event - checks if Searchbar is already opened and replaces classes 'open' and 'closed' depending on result
+   */
   const searchIconClick = (event) => {
     if (searchBar.current.classList.contains('open')) {
       searchBar.current.classList.replace('open', 'closed');
@@ -138,6 +142,9 @@ const {
       searchBar.current.classList.replace('closed', 'open');
     }
   };
+
+  
+
 
 
 return (
@@ -211,6 +218,7 @@ return (
         )}
       </>
     )}
+    
   </>
 );
 };
