@@ -13,14 +13,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import bcrypt from 'bcryptjs';
 import { registerUser } from './../components/helperSites/Axios.jsx';
-import axios from 'axios';
-
 
 const Signup = () => {
-  const BASEURL = process.env.REACT_APP_URL_AZURE;
   const { t } = useTranslation(['common', 'signup']);
-  const [username, setUsername] = useState(null);
-  const [email, setEmail] = useState(null);
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [error, setError] = useState(false);
@@ -29,6 +26,7 @@ const Signup = () => {
   const [agbAcceptedAt, setAGBAcceptedAt] = useState(null);
   const [accountCreated, setAccountCreated] = useState(false);
   const [accountCreatedError, setAccountCreatedError] = useState(null);
+   const navigate = useNavigate();
 
   /**
    * This function is called when the signup form is submitted
@@ -38,16 +36,13 @@ const Signup = () => {
    * @param {event} e Submit the Form
    * @returns
    */
-  //TODO delete all console logs -> search
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('handleSubmit aufgerufen');
     setError(false);
     if (password !== confirmPassword) {
       setError(true);
       return;
     }
-
     try {
       const saltRounds = 10;
       const salt = await bcrypt.genSalt(saltRounds);
@@ -61,66 +56,30 @@ const Signup = () => {
         agbAcceptedAt: agbAcceptedAt,
         passwordHint: passwordHint,
       };
-
-      console.log('vorher', userData);
-      // const response = await registerUser(userData);
-      const response = await registerUserTest(userData);
-       console.log('danach', response);
+      console.log('userData:', userData, 'klartextpw:',password);
+      const response = await registerUser(userData);
       setAccountCreated(true);
       setAccountCreatedError('');
     } catch (error) {
-      if (error.DuplicateEmail) {
-        setAccountCreatedError(`Email '${email}' is already taken.`);
-      } else if (error.DuplicateUserName) {
-        setAccountCreatedError(`Username '${username}' is already taken.`);
-      } else {
-        setAccountCreatedError('Error occurred during user registration.');
-        console.log(error);
-      }
+    if(error === "EMail Adress already taken") {
+      setAccountCreatedError(`Email '${email}' is already taken.`);
+    } else if (error.DuplicateUserName) {
+      setAccountCreatedError(`Username '${username}' is already taken.`);
+    } else {
+      setAccountCreatedError('Error occurred during user registration. Please try again later.');
+    }
     }
   };
-
-  //<-------------Testarea---------------->
-
- const registerUserTest = async (userData) => {
-  const url = `${BASEURL}Authorization/register`;
-  console.log('url', url);
-  try {
-    const response = await axios.post(
-      `${BASEURL}Authorization/register`, 
-      userData,
-      {
-        headers: { 'Content-Type': 'application/json' },
-      }
-    );
-    return response.data;
-  } catch (error) {
-     if (error.response && error.response.data) {
-      const responseData = error.response.data;
-      if (responseData.DuplicateEmail) {
-      } else if (responseData.DuplicateUserName) {
-        console.log('Username already taken.', error);
-      } else {
-        console.log(error);
-      }
-    } else {
-      console.log(error);
-    }
-  }
-};
-  //<-------------Testarea---------------->
-
 
   /**
    * UseEffect to navigate to login page after account is created  with time delay
    * @param {boolean} accountCreated
    */
-  const navigate = useNavigate();
-  useEffect(() => {
+    useEffect(() => {
     if (accountCreated) {
       const timer = setTimeout(() => {
         navigate('/login');
-      }, 5000); //TODO maybe ajust time
+      }, 4000); //TODO maybe ajust time
       return () => clearTimeout(timer);
     }
   }, [accountCreated, navigate]);
@@ -131,13 +90,12 @@ const Signup = () => {
    */
  const handleCheckboxChange = (e) => {
    if (e.target.checked) {
-     const currentDatetime = new Date().toLocaleDateString();
+     const currentDatetime = new Date().toISOString();;
      setAGBAcceptedAt(currentDatetime);
    } else {
      setAGBAcceptedAt(null);
    }
  };
-
 
   /**
    * Shows error if password hint is in password
@@ -153,6 +111,24 @@ const Signup = () => {
     }
   };
 
+  /**
+   * Resets the error message if the user changes the username
+   */
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+    setAccountCreatedError(''); 
+  };
+
+  /**
+   * Resets the error message if the user changes the email
+   */ 
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    setAccountCreatedError(''); 
+  };
+
+  //<------Render the signup form------>
+
   return (
     <>
       <h1>{t('common:signup')}</h1>
@@ -165,7 +141,8 @@ const Signup = () => {
             name="signup-username"
             required
             placeholder={t('signup:username')}
-            onChange={(e) => setUsername(e.target.value)}
+            value={username}
+            onChange={handleUsernameChange}
           />
         </fieldset>
         <fieldset>
@@ -176,7 +153,8 @@ const Signup = () => {
             name="signup-email"
             required
             placeholder={t('signup:email')}
-            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            onChange={handleEmailChange}
           />
         </fieldset>
         <fieldset>
@@ -236,10 +214,12 @@ const Signup = () => {
           value={t('common:signup')}
         />
       </form>
-      {/* TODO speak with Caro about classes pop up or something  - info create account false or true */}
-      {accountCreated && <p>{t('signup:accountCreated')}</p>}
+
       {accountCreatedError && (
         <p className="errorMessage">{accountCreatedError}</p>
+      )}
+      {accountCreated && (
+        <p className="successMessage">{t('signup:success')}</p>
       )}
     </>
   );

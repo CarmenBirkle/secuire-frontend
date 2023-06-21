@@ -12,5 +12,6 @@
   "passwordError": "Stelle sicher, dass die Passwörter übereinstimmen!",
   "accountCreated": "Dein Account wurde erfolgreich erstellt!",
   "errorAccountCreated": "Account could not be created! Please try again later.",
-  "userNameError": "Username already exists!"
+  "userNameError": "Der Username exististiert schon",
+  "success":"Registrierung erfolgreich, du wirst zur Anmeldeseite weitergeleitet.  "
 }
