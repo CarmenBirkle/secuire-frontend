@@ -212,9 +212,13 @@ export const checkPasswordSecurity = async (
  * @throws {Error} - If an error occurs during the creation process.
  */
 export const createDataEntry = async (data, setErrMsg) => {
+   const token = Cookies.get('token');
   try {
-    const response = await api.post(`/createdataentry`, data, {
-      headers: { 'Content-Type': 'application/json' },
+    const response = await api.post(`DataEntry`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
     });
     return response.data;
   } catch (error) {
@@ -258,6 +262,7 @@ export const deleteDataEntry = async (id) => {
   }
 };
 
+
 //<-- Axios Functions without token handling -->
 
 /**
@@ -282,47 +287,36 @@ export const registerUser = async (userData) => {
   }
 };
 
+
+  /**
+  Retrieves the salt for a given email from the server.
+  * @param {string} email - The email address for which to retrieve the salt.
+  * @returns {Promise<string>} A promise that resolves with the salt value.
+  * @throws {Error} If an error occurs during the retrieval of the salt.
+  */
    export const getSalt = async (email) => {
      const url = `${BASEURL}Authorization/salt?email=${email}`;
      try {
        const response = await axios.get(url);
-       console.log('fetchausgetSaltAxios:', response);
        const salt = response.data;
-       console.log('salt aus getSaltAxios', salt);
        return salt;
      } catch (error) {
        console.log(error.response);
      }
    };
 
-// export const loginUser = async (email, hashedPassword) => {
-//   try {
-//     const response = await axios.post(`${BASEURL}Authorization/login`, {
-//       email: email,
-//       hashedPassword: hashedPassword,
-//     });
-
-//     if (response.status !== 200) {
-//       throw new Error(`HTTP error! status: ${response.status}`);
-//     }
-//     return response.data; // Return the Information: Token and User-Object
-//   } catch (error) {
-//     console.log('Fehler beim Login: ', error);
-//     throw error; // Fehler weitergeben, um ihn in der `handleSubmit` Funktion zu behandeln
-//   }
-// };
-
+   /**
+  * Logs in a user with the provided email and hashed password.
+  * @param {string} email - The user's email.
+  * @param {string} hashedPassword - The user's hashed password.
+  * @returns {Promise<Object>} A promise that resolves with the response data.
+  * @throws {Error} If an error occurs during the login process.
+  */
 export const loginUser = async (email, hashedPassword) => {
   email = email;
   hashedPassword = hashedPassword;
-  // email = 'stephan@test.de'; // nur für Daten-Test
-  // hashedPassword = '$2a$10$2ixOEaEG9AJOw9lgMcVxteFMWTF2hRymByPf3e2CT4qTGThtGIYWG'; // nur für Datentest
-  const url = `${BASEURL}Authorization/login?mail=${email}&passwordHash=${hashedPassword}`;
-
- console.log('url Login', url);
   try {
     const response = await axios.post(
-      // `${BASEURL}Authorization/login?mail=${email}&passwordHash=${hashedPassword}`,
       `${BASEURL}Authorization/login`,{
         email: email,
         hashedPassword: hashedPassword
@@ -332,14 +326,14 @@ export const loginUser = async (email, hashedPassword) => {
       }
     );
     console.log('response Login', response);
+    //TODO kann raus console log
 
     if (response.status !== 200) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    return response.data; // Return the Information: Token and User-Object
+    return response.data; 
   } catch (error) {
-    console.log('Fehler beim Login: ', error);
-    throw error; // Fehler weitergeben, um ihn in der `handleSubmit` Funktion zu behandeln
+    throw error; 
   }
 };
 

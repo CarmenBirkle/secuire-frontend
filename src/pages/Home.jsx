@@ -13,14 +13,7 @@ console.log('url', url);
 const Home = () => {
   const { t } = useTranslation(['common', 'home']);
 
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get(url);
-  //     console.log('fetch:', response);
-  //   } catch (error) {
-  //     console.log(error.response);
-  //   }
-  // };
+//// <------- Testarea for fetching data from backend --------->
 const api = axios.create({
   baseURL: baseUrl,
 });
@@ -44,7 +37,7 @@ const fetchData = async () => {
     throw error;
   }
 };
-
+//// <------- Testarea for fetching data from backend --------->
 
 
    useEffect(() => {

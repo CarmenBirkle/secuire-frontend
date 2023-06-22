@@ -10,6 +10,7 @@ import hideIcon from './../img/icon_hide.svg';
 import showIcon from './../img/icon_show.svg';
 import { deleteDataEntry } from './helperSites/Axios.jsx';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
 /**
  * Display Single DataEntry Overview component with Name
  * @returns for each DataEntry an Overview component
@@ -63,15 +64,15 @@ const copyToClipboard = (text) => {
   //TODO: complete delete function when backend is ready
 
   const handleDeleteClick = async () => {
+    
     console.log('Try Delete DataEntry with id: ', dataEntry.id);
-    const response = await deleteDataEntry(dataEntry.id);
-     if (response) {
-     console.log('Dateneintrag erfolgreich gelöscht');
-     // TODO Seite aktualisieren ggf. neues fetch ausführen,
-   
-   } else {
-     console.log('Fehler beim Löschen des Dateneintrags');
-   }
+    try {
+      const response = await deleteDataEntry(dataEntry.id);
+      console.log('Dateneintrag erfolgreich gelöscht');
+      // TODO Seite aktualisieren ggf. neues fetch ausführen,
+    } catch (error) {
+      console.log('Fehler beim Löschen des Dateneintrags: ', error);
+    }
   };
 
   /**
