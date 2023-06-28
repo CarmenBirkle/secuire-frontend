@@ -132,7 +132,7 @@ const PwGenerator = () => {
   return (
     <>
       <h1>{t('pwgenerator')}</h1>
-      <p>{t('clickme')}</p>
+      {/*<p>{t('clickme')}</p>*/}
       <p type="text" value={password}>
         {password}
       </p>
