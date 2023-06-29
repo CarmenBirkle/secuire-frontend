@@ -258,6 +258,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
         {/* form-elements for login-type */}
         {category === 'login' && (
           <fieldset>
+            <p className='noSpace'>{t('chooseIcon')}</p>
             <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
             </div>
@@ -354,6 +355,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
         {/* form-elements for safenote-type */}
         {category === 'safenote' && (
           <fieldset>
+            <p className='noSpace'>{t('chooseIcon')}</p>
             <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
             </div>
@@ -404,6 +406,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
         {/* form-elements for paymentcard-type */}
         {category === 'paymentcard' && (
           <fieldset>
+            <p className='noSpace'>{t('chooseIcon')}</p>
             <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
             </div>

@@ -36,7 +36,7 @@
   "main": "Entire Data List ",
   "edit": "Edit",
   "back": "Back",
-  "chooseIcon:": "Chosse an icon:",
+  "chooseIcon:": "Choose an icon",
   "hide": "hide",
   "show": "show",
   "copy": "copy to clipboard",
@@ -45,6 +45,7 @@
 
   "deleteCF": "Delete custom field",
   "createCF": "Create custom field",
+  "chooseIcon": "Choose icon",
   "pwGenerator": "Password Generator",
   "pwAPIErrorForbidden": "Your password cannot be checked for security at the moment.",
   "pwAPIErrorNotReachable": "The service to check your password for security is currently unavailable."

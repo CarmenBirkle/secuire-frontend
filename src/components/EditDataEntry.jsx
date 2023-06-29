@@ -226,6 +226,7 @@ const EditDataEntry = ({
         {/* form-elements for login */}
         {state.category === 'login' && (
           <fieldset>
+            <p className='noSpace'>{t('chooseIcon')}</p>
             <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
             </div>
@@ -321,6 +322,7 @@ const EditDataEntry = ({
         {/* form-elements for safenotes */}
         {state.category === 'safenote' && (
           <fieldset>
+            <p className='noSpace'>{t('chooseIcon')}</p>
             <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
             </div>
@@ -371,6 +373,7 @@ const EditDataEntry = ({
         )}
         {state.category === 'paymentcard' && (
           <fieldset>
+            <p className='noSpace'>{t('chooseIcon')}</p>
             <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
             </div>
