@@ -24,7 +24,7 @@ const Imprint = () => {
               <p>Carmen Birkle<br />Kurze-Geismar-Str. 45 <br /> 37073 Göttingen <br />{' '}</p>
             </div>
             <div className='twocols'>
-              <p> Björn Dardemann<br />Wittekstraße 60 <br /> P25421 Pinneberg <br />{' '}</p>
+              <p> Björn Dardemann<br />Wittekstraße 60 <br /> 25421 Pinneberg <br />{' '}</p>
             </div>
           </div>
           <div className='flexbox row start'>
