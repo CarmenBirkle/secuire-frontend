@@ -308,7 +308,7 @@ const EditDataEntry = ({
               onChange={(e) => handleInputChange('comment', e.target.value)}
             />
             {renderFields()} 
-            <p className='noSpace'>{t('addField')}</p>
+            <p className='noSpace'>{t('createCF')}</p>
             <img
               className='icon_button'
               src={addIcon}
@@ -360,7 +360,7 @@ const EditDataEntry = ({
             />
 
             {renderFields()}
-            <p className='noSpace'>{t('addField')}</p>
+            <p className='noSpace'>{t('createCF')}</p>
             <img
               className='icon_button'
               src={addIcon}
@@ -459,7 +459,7 @@ const EditDataEntry = ({
               onChange={(e) => handleInputChange('comment', e.target.value)}
             />
             {renderFields()}
-            <p className='noSpace'>{t('addField')}</p>
+            <p className='noSpace'>{t('createCF')}</p>
             <img
               className='icon_button'
               src={addIcon}

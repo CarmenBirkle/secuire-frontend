@@ -261,7 +261,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
             <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
             </div>
-            <label htmlFor="favourite">{t('favourite')}</label>
+            <label className="visible-label" htmlFor="favourite">{t('favourite')}</label>
             <input
               type="checkbox"
               id="favourite"
@@ -341,8 +341,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               onChange={(e) => setComment(e.target.value)}
             />
             {renderFields()}
-             {/* TODO warum wird das label nicht angezeigt ? CSS? */}
-             <label htmlFor="addIcon"> {t('createCF')}</label>
+             <p className='noSpace'>{t('createCF')}</p>
             <img
               className='icon_button'
               src={addIcon}
@@ -358,7 +357,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
             <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
             </div>
-            <label htmlFor="favourite">{t('favourite')}</label>
+            <label className="visible-label" htmlFor="favourite">{t('favourite')}</label>
             <input
               type="checkbox"
               id="favourite"
@@ -393,7 +392,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               onChange={(e) => setComment(e.target.value)}
             />
             {renderFields()}
-             <label htmlFor="addIcon"> {t('createCF')}</label>
+            <p className='noSpace'>{t('createCF')}</p>
             <img
               className='icon_button'
               src={addIcon}
@@ -408,7 +407,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
             <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
             </div>
-            <label htmlFor="favourite">{t('favourite')}</label>
+            <label className="visible-label" htmlFor="favourite">{t('favourite')}</label>
             <input
               type="checkbox"
               id="favourite"
@@ -483,8 +482,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
               onChange={(e) => setComment(e.target.value)}
             />
             {renderFields()}
-             {/* TODO warum wird das label nicht angezeigt ? CSS? */}
-             <label htmlFor="addIcon"> {t('createCF')}</label>
+            <p className='noSpace'>{t('createCF')}</p>
             <img
               className='icon_button'
               src={addIcon}
