@@ -12,6 +12,7 @@ const Navbar = () => {
   const navigation = React.useRef(document.getElementById("nav"));
   const { setShouldRenderCreateDataEntry } = useContext(AppContext);
   const { setCalledFromNavbar } = useContext(AppContext);
+  const headerElement = document.getElementById('header');
   
   const navClick = event => {
     const links = document.querySelectorAll(".navlink"); 
@@ -21,6 +22,7 @@ const Navbar = () => {
     event.currentTarget.classList.add('active'); 
     navbutton.current.classList.replace('open', 'closed');   
     navigation.current.classList.remove('open');
+    headerElement.parentElement.classList.remove('front');
     setShouldRenderCreateDataEntry(false);
   };
   

@@ -79,6 +79,7 @@ const Header = () => {
   const homeButtonClick = (event) => {
     navbutton.current.classList.replace('open', 'closed');
     navigation.current.classList.remove('open');
+    headerElement.parentElement.classList.remove('front');
   };
 
 

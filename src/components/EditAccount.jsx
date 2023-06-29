@@ -1,12 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 
+import cancelIcon from './../img/icon-close.svg';
+
 const EditAccount = ({user, setUser}) => {
   const { t } = useTranslation(['account']);
    const [username, setUsername] = useState(user.username);
    const [email, setEmail] = useState(user.email);
    const [passwordHint, setPasswordHint] = useState(user.passwordHint);
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,8 +27,9 @@ const EditAccount = ({user, setUser}) => {
               placeholder={t('username')}
               value={username}
               onChange={(e) => setUsername('username', e.target.value)}
-            />{' '}
-            <br />
+            />
+          </fieldset>
+          <fieldset>
             <input
               type="email"
               id="email"
@@ -37,6 +39,8 @@ const EditAccount = ({user, setUser}) => {
               value={email}
               onChange={(e) => setEmail('email', e.target.value)}
             />
+          </fieldset>
+          <fieldset>
             <input
               type="text"
               id="pwhint"
@@ -47,6 +51,18 @@ const EditAccount = ({user, setUser}) => {
               onChange={(e) => setPasswordHint('passwortHint', e.target.value)}
             />
           </fieldset>
+          <div className='main_icons_bg'>
+          <img
+            className='icon_button'           
+            src={cancelIcon}
+            alt={t('cancel')}
+            
+          />
+          
+          <button className="icon_button icon_save" type="submit">
+          {/*{t('submit')}*/}
+        </button>
+        </div>
         </form>
       </section>
     </>

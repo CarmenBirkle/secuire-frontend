@@ -229,15 +229,16 @@ const EditDataEntry = ({
             <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
             </div>
-            <label htmlFor="favourite">{t('favourite')}</label>
-            <input
-              type="checkbox"
-              id="favourite"
-              name="favourite"
-              value={state.favourite}
-              placeholder={t('favourite')}
-              onChange={(e) => handleInputChange('favourite', e.target.checked)}
-            />
+              <label className="visible-label" htmlFor="favourite">{t('favourite')}</label>
+              <input
+                type="checkbox"
+                id="favourite"
+                name="favourite"
+                value={state.favourite}
+                placeholder={t('favourite')}
+                onChange={(e) => handleInputChange('favourite', e.target.checked)}
+              />
+            
 
             <input
               type="text"
@@ -306,16 +307,14 @@ const EditDataEntry = ({
               value={state.comment}
               onChange={(e) => handleInputChange('comment', e.target.value)}
             />
-            {renderFields()}
+            {renderFields()} 
+            <p className='noSpace'>{t('addField')}</p>
             <img
               className='icon_button'
               src={addIcon}
               alt={t('addField')}
               onClick={handleAddField}
             />
-            {/*<button type="button" onClick={handleAddField}>
-              {t('addField')}
-            </button>*/}
           </fieldset>
         )}
 
@@ -325,7 +324,7 @@ const EditDataEntry = ({
             <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
             </div>
-            <label htmlFor="favourite">{t('favourite')}</label>
+            <label className="visible-label" htmlFor="favourite">{t('favourite')}</label>
             <input
               type="checkbox"
               id="favourite"
@@ -361,6 +360,7 @@ const EditDataEntry = ({
             />
 
             {renderFields()}
+            <p className='noSpace'>{t('addField')}</p>
             <img
               className='icon_button'
               src={addIcon}
@@ -374,7 +374,7 @@ const EditDataEntry = ({
             <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
               {renderSelectedIcon()}
             </div>
-            <label htmlFor="favourite">{t('favourite')}</label>
+            <label className="visible-label" htmlFor="favourite">{t('favourite')}</label>
             <input
               type="checkbox"
               id="favourite"
@@ -459,6 +459,7 @@ const EditDataEntry = ({
               onChange={(e) => handleInputChange('comment', e.target.value)}
             />
             {renderFields()}
+            <p className='noSpace'>{t('addField')}</p>
             <img
               className='icon_button'
               src={addIcon}
