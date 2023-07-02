@@ -1,4 +1,6 @@
 {
   "forgotPW": "Passwort vergessen?",
-  "placeholder": "Dummytext Seite Passwort vergessen"
+  "placeholder": "Dummytext Seite Passwort vergessen",
+  "showPWHint": "Bitte gib Deine E-Mail-Adresse ein, um Deinen Passwort Hint anzuzeigen",
+  "showPWHintButton": "Zeige meinen Passwort Hinweis"
 }

@@ -2,5 +2,6 @@
   "account": "Account Settings",
   "username": "Username",
   "email": "E-Mail",
-  "passwordHint": "Password Hint"
+  "passwordHint": "Password Hint",
+  "chanceAccount": "Change your Account"
 }

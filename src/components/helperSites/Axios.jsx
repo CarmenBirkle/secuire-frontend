@@ -53,7 +53,7 @@ export default api;
 
 export const useFetchData = () => {
   const [encryptedDataEntrys, setEncryptedDataEntrys] = useState([
-    // Initialzustand TODO später entfernen.
+    // TODO Initialzustand TODO später entfernen.
     {
       id: 1,
       category: 'safenote',
@@ -261,6 +261,31 @@ export const deleteDataEntry = async (id) => {
     throw error;
   }
 };
+
+/**
+ * Updates the user with the specified ID using the provided data.
+ *
+ * @param {string} id - The ID of the user to be updated.
+ * @param {object} userData - The updated data for the user.
+ * @returns {Promise<any>} - A promise that resolves to the updated user data.
+ * @throws {Error} - If an error occurs during the update process.
+ */
+//TODO - geht das so ?? 
+export const updateUser = async (id, userData) => {
+  try {
+    const token = Cookies.get('authToken');
+    const response = await api.put(`Authorization/${id}`, userData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 
 
 //<-- Axios Functions without token handling -->

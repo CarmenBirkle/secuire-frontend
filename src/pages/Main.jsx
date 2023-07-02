@@ -13,8 +13,6 @@ import addIcon from '../img/icon-add.svg'
 import searchIcon from './../img/icon-search.svg';
 
 
-
-
 const Main = ({user}) => {
   const { t } = useTranslation(['main']);
   const location = useLocation();
@@ -28,16 +26,15 @@ const Main = ({user}) => {
   const [showDetail, setShowDetail] = useState(false);
   const [editMode, setEditMode] = useState(false);
  
-
   /**
-   * showCreateDataEntry and setShowCreateDataEntry get from AppContext
-   */
-const {
-  showCreateDataEntry,
-  shouldRenderCreateDataEntry,
-  setShowCreateDataEntry,
-  setShouldRenderCreateDataEntry,
-} = useContext(AppContext);
+  * showCreateDataEntry and setShowCreateDataEntry get from AppContext
+  */
+  const {
+    showCreateDataEntry,
+    shouldRenderCreateDataEntry,
+    setShowCreateDataEntry,
+    setShouldRenderCreateDataEntry,
+  } = useContext(AppContext);
 
   /**
    * to fetch all DataEntrys as encrypted data from the server.
@@ -184,8 +181,6 @@ return (
               <SearchBar handleSearch={handleSearch} />
             </section>
             <h1>
-              {/* TODO Ansprache ändern */}
-              {/* {t('welcome')} Carmen, */}
               {t('welcome')} {user?.username},
             </h1>
             <h2 className="subheadline">
@@ -193,7 +188,7 @@ return (
             </h2>
             <DataEntry
               filteredDataEntries={filteredDataEntries}
-              // removeDataEntry={removeDataEntry} TODO: unklar ob noch benötigt, auf Service warten
+              // TODO: removeDataEntry={removeDataEntry} TODO: unklar ob noch benötigt, auf Service warten
               selectedId={selectedId}
               setSelectedId={setSelectedId}
               setShowDetail={setShowDetail}

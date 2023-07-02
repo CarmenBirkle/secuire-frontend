@@ -25,8 +25,6 @@ const AccountSettings = ({ user, setUser }) => {
   }
 
   const handleEditClick = () => {
-    console.log ('edit');
-    // togglePopup();
     setEditMode(true);
   }
 

@@ -53,17 +53,18 @@ const fetchData = async () => {
   return (
     <>
       <h1> {t('home:Seciure')}</h1>
-      <p>{t('home:content')}</p>
+      <p>{t('home:content1')}</p> <br />
+      <p>{t('home:content2')}</p>
+      <p>{t('home:content3')}</p>
+      <p>{t('home:content4')}</p>
       <br />
       <p>{t('home:video')}</p>
-
       <img
         className="video-pic"
         src={videoPic}
         alt="Videolink"
         onClick={handleImageClick}
       />
-
       <Link to="/login" className="submitButton loginLink">
         {t('home:login')}
       </Link>
