@@ -1,7 +1,11 @@
 {
   "account": "Benutzer-Einstellungen",
-  "username":"Benutzername",
-  "email":"E-Mail",
-  "passwordHint":"Passwort Hinweis",
-  "chanceAccount":"Ändere Deinen Benutzer"
+  "username": "Benutzername",
+  "email": "E-Mail",
+  "passwordHint": "Passwort Hinweis",
+  "chanceAccount": "Ändere Deinen Benutzer",
+  "passwordError": "Stelle sicher, dass die Passwörter übereinstimmen!",
+  "changePW": "Ändere Dein Passwort",
+  "confirmPassword": "Passwort bestätigen",
+  "password": "Passwort"
 }

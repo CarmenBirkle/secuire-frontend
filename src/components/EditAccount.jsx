@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
+import bcrypt from 'bcryptjs';
+import { updateUser } from './helperSites/Axios.jsx';
 
 import cancelIcon from './../img/icon-close.svg';
 
@@ -8,29 +10,68 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
   const [username, setUsername] = useState(user.username);
   const [email, setEmail] = useState(user.email);
   const [passwordHint, setPasswordHint] = useState(user.passwordHint);
+  const [changePassword, setChangePassword] = useState(false);
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState(false);
+  const [newHashedPassword, setNewHashedPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // setUser({ ...user, username: username, email: email, passwordHint: passwordHint });
     console.log('submit');
+
+    if (changePassword && password !== confirmPassword) {
+      setError(true);
+      return;
+    }
+  console.log('salt',user.salt);
+  console.log('password', password);
+  if (password){
+    const hashedPassword = await bcrypt.hash(password, user.salt);
+    setNewHashedPassword(hashedPassword);
+  } else {
+    setNewHashedPassword('');
+  }
+  
+  console.log('password', password);
+  console.log('hashedNewPassword', newHashedPassword);
+
     const updatedUser = {
-      ...user,
+      // ...user,
       username: username,
+      hashedPassword: user.password,
+      newHashedPassword: newHashedPassword,
       email: email,
+      salt: user.salt,
+      agbAcceptedAt: user.agbAcceptedAt,
       passwordHint: passwordHint,
     };
-    // setUser(updatedUser);
-    console.log('typeof:', typeof setUser);
-    console.log('user:', user);
+     console.log('submit', updatedUser);
+   try {
+    await updateUser(updatedUser);
+   } catch (error) {
+    console.log(error);
+   }
 
-    console.log('submit', updatedUser);
+   
+    updateUser(user)
     setEditMode(false);
   };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    setError(false);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+    setError(false);
+  };
+
   return (
     <>
       <section>
         <h1>{t('chanceAccount')}</h1>
-        <h2>PW Ändern Funktion?</h2>
         <form action="" onSubmit={handleSubmit}>
           <fieldset>
             <input
@@ -43,6 +84,7 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
               onChange={(e) => setUsername(e.target.value)}
             />
           </fieldset>
+
           <fieldset>
             <input
               type="email"
@@ -54,6 +96,7 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </fieldset>
+
           <fieldset>
             <input
               type="text"
@@ -65,6 +108,47 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
               onChange={(e) => setPasswordHint(e.target.value)}
             />
           </fieldset>
+
+          {!changePassword && (
+            <button
+              className="submitButton"
+              onClick={() => setChangePassword(true)}
+            >
+              {t('changePW')}
+            </button>
+          )}
+
+          {changePassword && (
+            <>
+              <fieldset>
+                <input
+                  type="password"
+                  id="signup-password"
+                  name="signup-password"
+                  required
+                  placeholder={t('password')}
+                  value={password}
+                  onChange={handlePasswordChange}
+                />
+              </fieldset>
+              <fieldset>
+                <input
+                  type="password"
+                  id="pwCheck"
+                  name="pwCheck"
+                  required
+                  placeholder={t('confirmPassword')}
+                  value={confirmPassword}
+                  onChange={handleConfirmPasswordChange}
+                  className={error ? 'errorField' : ''}
+                />
+              </fieldset>
+            </>
+          )}
+
+          {error && (
+            <p className="errorMessage ">{t('passwordError')}</p>
+          )}
 
           <div className="main_icons_bg">
             <img
@@ -81,4 +165,7 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
     </>
   );
 };
+
+
+
 export default EditAccount;

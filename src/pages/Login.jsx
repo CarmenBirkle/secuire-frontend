@@ -105,17 +105,19 @@ async function handleLogin(email, password) {
   console.log('aus handlelogin: email',email, 'password', password)
   try {
     const salt = await getSalt(email);
-    console.log('Salt aus handlelogin: ', salt);
+    console.log('Salt aus handlelogin: ', salt); 
     const hashedPassword = await bcrypt.hash(password, salt);
     console.log('Hashed Password: ', hashedPassword);
     const loginResponse = await loginUser(email, hashedPassword);
      setUser({
        id: loginResponse.identityUserId,
        email: email,
-       password: hashedPassword, 
+       password: hashedPassword,
+       salt: salt,
        wrongPassword: wrongPassword,
        username: loginResponse.identityUser.userName,
        passwordHint: loginResponse.passwordHint,
+       agbAcceptedAt: loginResponse.agbAcceptedAt,
      });
      Cookies.set('token', loginResponse.jwtToken);
      //TODO dataentrys speichern aus response

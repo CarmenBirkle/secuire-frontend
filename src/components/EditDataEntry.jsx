@@ -183,7 +183,6 @@ const EditDataEntry = ({
     );
   };
 
-  // TODO: Inline Style wieder entfernen
   const IconSelectionModal = () => {
     return (
       <div>

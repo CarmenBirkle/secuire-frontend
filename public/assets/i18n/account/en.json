@@ -3,5 +3,9 @@
   "username": "Username",
   "email": "E-Mail",
   "passwordHint": "Password Hint",
-  "chanceAccount": "Change your Account"
+  "chanceAccount": "Change your Account",
+  "passwordError": "Make sure passwords match!",
+  "changePW": "Change Password",
+  "confirmPassword": "Confirm New Password",
+  "password": "New Password"
 }

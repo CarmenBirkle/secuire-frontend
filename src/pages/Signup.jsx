@@ -55,6 +55,7 @@ const Signup = () => {
         salt: salt,
         agbAcceptedAt: agbAcceptedAt,
         passwordHint: passwordHint,
+        newHashedPassword: ''
       };
       console.log('userData:', userData, 'klartextpw:',password);
       const response = await registerUser(userData);

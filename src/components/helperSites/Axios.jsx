@@ -271,10 +271,10 @@ export const deleteDataEntry = async (id) => {
  * @throws {Error} - If an error occurs during the update process.
  */
 //TODO - geht das so ?? 
-export const updateUser = async (id, userData) => {
+export const updateUser = async (userData) => {
   try {
-    const token = Cookies.get('authToken');
-    const response = await api.put(`Authorization/${id}`, userData, {
+    const token = Cookies.get('token');
+    const response = await api.put(`Authorization`, userData, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
