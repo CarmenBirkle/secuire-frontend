@@ -185,8 +185,8 @@ return (
             </section>
             <h1>
               {/* TODO Ansprache ändern */}
-              {t('welcome')} Carmen,
-              {/* {t('welcome')} {user?.email}, */}
+              {/* {t('welcome')} Carmen, */}
+              {t('welcome')} {user?.username},
             </h1>
             <h2 className="subheadline">
               {t(ENTRY_TYPE ? ENTRY_TYPE : 'main')}
