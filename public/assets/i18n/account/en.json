@@ -7,5 +7,8 @@
   "passwordError": "Make sure passwords match!",
   "changePW": "Change Password",
   "confirmPassword": "Confirm New Password",
-  "password": "New Password"
+  "password": "New Password",
+  "deleteUser": "Are you sure you want to delete the user account ? This will also delete all your saved passwords, payment cards and secure notes! ",
+  "yes": "Yes",
+  "no": "No"
 }

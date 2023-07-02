@@ -2,5 +2,8 @@
   "forgotPW": "Forgot my Password",
   "placeholder": "Dumm text Side ForgotPassword",
   "showPWHint": "Please enter your email address to view your password hint",
-  "showPWHintButton": "Show Password Hint"
+  "showPWHintButton": "Show Password Hint",
+  "showHint":"Your stored password hint is:",
+  "error":"An error has occurred, try again later "
+
 }

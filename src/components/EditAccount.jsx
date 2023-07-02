@@ -37,7 +37,6 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
   console.log('hashedNewPassword', newHashedPassword);
 
     const updatedUser = {
-      // ...user,
       username: username,
       hashedPassword: user.password,
       newHashedPassword: newHashedPassword,
@@ -49,12 +48,10 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
      console.log('submit', updatedUser);
    try {
     await updateUser(updatedUser);
+    setUser(updatedUser); 
    } catch (error) {
     console.log(error);
    }
-
-   
-    updateUser(user)
     setEditMode(false);
   };
 

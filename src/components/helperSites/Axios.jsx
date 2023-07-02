@@ -286,6 +286,24 @@ export const updateUser = async (userData) => {
   }
 };
 
+//<----- Delete Test 
+
+export const deleteUser = async () => {
+  console.log('aufgerufen');
+  try {
+    const token = Cookies.get('token');
+    const url=`${BASEURL}Authorization`;
+    const response = await axios.delete(`${BASEURL}Authorization`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 
 //<-- Axios Functions without token handling -->
@@ -309,6 +327,22 @@ export const registerUser = async (userData) => {
     return response.data;
   } catch (error) {
       throw error.response.data;
+  }
+};
+
+/**
+ * Retrieves the password hint for a given email.
+ * @param {string} email - The email for which to retrieve the password hint.
+ * @returns {Promise<string>} A promise that resolves to the password hint.
+ */
+export const getHint = async (email) => {
+  const url = `${BASEURL}Authorization/hint?email=${email}`;
+  try {
+    const response = await axios.get(url);
+    const hint = response.data;
+    return hint;
+  } catch (error) {
+    throw error;
   }
 };
 
