@@ -18,7 +18,7 @@ const Decrypt = (encryptedData, secretPass) => {
     if (encryptedData.hasOwnProperty(key)) {
       const encryptedValue = encryptedData[key];
 
-      if (key === 'category' || key === 'id') {
+      if (key === 'category' || key === 'id' || key === 'userId') {
         decryptedData[key] = encryptedValue;
       } else if (encryptedValue !== null) {
         let decryptedValue = CryptoJS.AES.decrypt(

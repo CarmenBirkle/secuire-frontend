@@ -1,7 +1,5 @@
-import { Suspense } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
-import { useEffect } from 'react';
 
 // components
 import Home from './pages/Home';
@@ -19,6 +17,7 @@ import Login from './pages/Login';
 import Error from './pages/Error';
 import LegalNotice from './pages/LegalNotice';
 import ProtectedRoute from './components/helperSites/ProtectedRoute';
+import Cookies from 'js-cookie';
 import './fonts/poppins-v20-latin-700.eot';
 import './fonts/poppins-v20-latin-700.svg';
 import './fonts/poppins-v20-latin-700.ttf';
@@ -38,7 +37,7 @@ import './fonts/poppins-v20-latin-regular.woff2';
 import  logo_icon  from './img/logo_icon.svg';
 
 const App = () => {
-  const [user, setUser]= useState(null);
+  const [user, setUser] = useState(null);
 
   /**
    * Create loading animation.
@@ -51,6 +50,39 @@ const App = () => {
       setLoading(false);
     }, 2000);
   }, []);
+
+  //Autologaut functions
+  let logoutTimeout;
+  const events = [
+    'load',
+    'mousemove',
+    'mousedown',
+    'click',
+    'scroll',
+    'keypress',
+  ];
+
+  const logout = () => {
+    Cookies.remove('token');
+    window.location.href = '/?loggedout=1';
+    setUser(null);
+  };
+
+  const resetTimeout = () => {
+    clearTimeout(logoutTimeout);
+    logoutTimeout = setTimeout(logout, 300000); // 5 Minuten
+  };
+
+  useEffect(() => {
+    events.forEach((event) => window.addEventListener(event, resetTimeout));
+    resetTimeout(); // Initialen Timeout setzen, falls keine Aktionen ausgeführt werden
+    return () => {
+      clearTimeout(logoutTimeout);
+      events.forEach((event) =>
+        window.removeEventListener(event, resetTimeout)
+      );
+    };
+  }, []); 
 
   return (
     <Suspense fallback={null}>

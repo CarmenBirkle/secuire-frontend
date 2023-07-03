@@ -5,5 +5,7 @@
   "content3":"Mit Seciure behältst Du den Überblick über all Deine Zugangsdaten. Unsere browserbasierte Webanwendung ermöglicht es Dir, verschiedenste Anmeldedaten sicher zu speichern und mobile darauf zuzugreifen.",
   "content4":"Mit Seciure kannst du Dich auf ein sicheres und stressfreies Passwortmanagement verlassen. Viel Spass mit unserem verlässlichen Begleiter für all Deine Zugangsdaten!",
   "video": "Neugierig ? Schau unser Promo-Video",
-  "login": "Einloggen"
+  "login": "Einloggen",
+  "autologout":"Du wurdest wegen Inaktiviät ausgeloggt",
+  "deleteuser":"Dein Benutzeraccount wurde erfolgreich gelöscht. Alle Deine Daten wurden unwiederruflich gelöscht."
 }

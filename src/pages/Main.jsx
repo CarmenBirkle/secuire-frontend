@@ -57,12 +57,10 @@ const Main = ({user}) => {
    */
   useEffect(() => {
     if (encryptedDataEntrys) {
-      
       const decryptedDataEntrys = encryptedDataEntrys.map((dataEntry) =>
         Decrypt(dataEntry, process.env.REACT_APP_SECRET)
       );
       setDataEntrys(decryptedDataEntrys);
-  
     }
   }, [encryptedDataEntrys]);
 

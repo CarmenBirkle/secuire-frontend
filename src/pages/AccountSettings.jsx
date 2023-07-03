@@ -40,16 +40,28 @@ Handles the confirmed deletion of a user. Calls the deleteUser function to delet
 Removes the 'token' cookie. Redirects the user to the homepage and Logs any errors that occur during the process.
 //TODO Display Error Message
 */
-  const handleConfirmDelete = () => {
-    deleteUser()
-      .then(() => {
-        Cookies.remove('token');
-        window.location.href = '/';
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const handleConfirmDelete = () => {
+  //   deleteUser()
+  //     .then(() => {
+  //       Cookies.remove('token');
+  //       window.location.href = '/';
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+const handleConfirmDelete = () => {
+  deleteUser()
+    .then(() => {
+      Cookies.remove('token');
+      navigate('/', { state: { deleted: true } });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
 
   const handleCancelDelete = () => {
     setShowConfirmation(false);

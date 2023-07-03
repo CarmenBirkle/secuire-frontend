@@ -1,10 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import  videoPic  from './../img/thumbnail-video.png';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useFetchData } from '../components/helperSites/Axios';
+import { useLocation } from 'react-router-dom';
 
 
 // const baseUrl = process.env.REACT_APP_URL_AZURE;
@@ -14,8 +15,13 @@ import { useFetchData } from '../components/helperSites/Axios';
 
 const Home = () => {
   const { t } = useTranslation(['common', 'home']);
+   const location = useLocation();
+   const searchParams = new URLSearchParams(location.search);
+   const wasLoggedOut = searchParams.get('loggedout');
+   const [showDeleteMessage, setShowDeleteMessage] = useState(false);
 
 //// <------- Testarea for fetching data from backend --------->
+
 
 
 
@@ -55,9 +61,30 @@ const Home = () => {
    window.open(url, '_blank', 'noopener noreferrer');
  };
 
+ useEffect(() => {
+    if (location.state?.deleted) {
+      setShowDeleteMessage(true);
+      setTimeout(() => setShowDeleteMessage(false), 5000);
+    }
+  }, [location]);
+
   return (
     <>
       <h1> {t('home:Seciure')}</h1>
+      <div>
+        {wasLoggedOut && (
+          <p className="errorMessage">
+            {t('home:autologout')}
+            <br />
+            <br />
+          </p>
+        )}
+      </div>
+      <div>
+        {showDeleteMessage && (
+          <p className="errorMessage">{t('home:deleteuser')}.</p>
+        )}
+      </div>
       <p>{t('home:content1')}</p> <br />
       <p>{t('home:content2')}</p>
       <p>{t('home:content3')}</p>
