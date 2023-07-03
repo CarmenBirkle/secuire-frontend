@@ -1,67 +1,39 @@
+/**
+ * @overview The Home component represents the home page of the application.
+ * It handles translations, location changes, and displays content, including a video thumbnail.
+ * It provides links for login and signup.
+ */
+
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import  videoPic  from './../img/thumbnail-video.png';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import { useFetchData } from '../components/helperSites/Axios';
+import videoPic from './../img/thumbnail-video.png';
 import { useLocation } from 'react-router-dom';
-
-
-// const baseUrl = process.env.REACT_APP_URL_AZURE;
-// const url = `${baseUrl}DataEntry/all`;
-//TODO remove in production
-// console.log('url', url);
 
 const Home = () => {
   const { t } = useTranslation(['common', 'home']);
-   const location = useLocation();
-   const searchParams = new URLSearchParams(location.search);
-   const wasLoggedOut = searchParams.get('loggedout');
-   const [showDeleteMessage, setShowDeleteMessage] = useState(false);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const wasLoggedOut = searchParams.get('loggedout');
+  const [showDeleteMessage, setShowDeleteMessage] = useState(false);
 
-//// <------- Testarea for fetching data from backend --------->
+  /**
+   * Handles the click event on an image.
+   * Opens a new browser window with the specified URL.
+   */
+  const handleImageClick = () => {
+    const url = 'https://docsend.com/view/pavrpu9fch822waa';
+    window.open(url, '_blank', 'noopener noreferrer');
+  };
 
-
-
-
-// const api = axios.create({
-//   baseURL: baseUrl,
-// });
-
-// const fetchData = async () => {
-//   const token = Cookies.get('token');
-//   const url = `${baseUrl}DataEntry/all`;
-//   //console.log('token aus fetchdata', token);
-//   try {
-//     const responseDataEntrys = await api.get(url, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//         'Content-Type': 'application/json',
-//       },
-//     });
-//     console.log('fetch from main side:', responseDataEntrys);
-//     console.log('nur gefetchte daten', responseDataEntrys.data);
-//     // setEncryptedDataEntrys(responseDataEntrys.data);
-//   } catch (error) {
-//     console.log(error.response);
-//     throw error;
-//   }
-// };
-//// <------- Testarea for fetching data from backend --------->
-
-
-  //  useEffect(() => {
-  // fetchData();
-   
-  //  }, []);
-
- const handleImageClick = () => {
-   const url = 'https://docsend.com/view/pavrpu9fch822waa';
-   window.open(url, '_blank', 'noopener noreferrer');
- };
-
- useEffect(() => {
+  /**
+   * Reacts to changes in the "location" state and performs actions accordingly.
+   * If the "deleted" property is present in the "location" state, it shows a delete message,
+   * and automatically hides the message after 5 seconds.
+   *
+   * @param location The location object containing state information.
+   */
+  useEffect(() => {
     if (location.state?.deleted) {
       setShowDeleteMessage(true);
       setTimeout(() => setShowDeleteMessage(false), 5000);

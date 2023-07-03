@@ -1,16 +1,18 @@
+/**
+ * @Overview
+ * The AccountSettings component represents the account settings page.
+ * It handles translations, user interactions, and displays user account information.
+ * Users can edit their account details, delete their account, and navigate back to the previous page.
+ */
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import deleteIcon from './../img/icon-delete.svg';
 import editIcon from './../img/icon-work.svg';
 import arrowIcon from './../img/icon_back.svg';
-import copyIcon from './../img/icon-copy.svg';
-import hideIcon from './../img/icon_hide.svg';
-import showIcon from './../img/icon_show.svg';
 import EditAccount from '../components/EditAccount';
-import {deleteUser} from '../components/helperSites/Axios';
+import { deleteUser } from '../components/helperSites/Axios';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
-
 
 const AccountSettings = ({ user, setUser }) => {
   const { t } = useTranslation(['account']);
@@ -35,33 +37,21 @@ const AccountSettings = ({ user, setUser }) => {
     setShowConfirmation(true);
   };
 
-/**
+  /**
 Handles the confirmed deletion of a user. Calls the deleteUser function to delete the user from the backend.
 Removes the 'token' cookie. Redirects the user to the homepage and Logs any errors that occur during the process.
-//TODO Display Error Message
 */
-  // const handleConfirmDelete = () => {
-  //   deleteUser()
-  //     .then(() => {
-  //       Cookies.remove('token');
-  //       window.location.href = '/';
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
 
-const handleConfirmDelete = () => {
-  deleteUser()
-    .then(() => {
-      Cookies.remove('token');
-      navigate('/', { state: { deleted: true } });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
+  const handleConfirmDelete = () => {
+    deleteUser()
+      .then(() => {
+        Cookies.remove('token');
+        navigate('/', { state: { deleted: true } });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const handleCancelDelete = () => {
     setShowConfirmation(false);

@@ -34,7 +34,6 @@ const Signup = () => {
    * Hashes the password and sends the data to the backend
    * @param {object} userData
    * @param {event} e Submit the Form
-   * @returns
    */
   const handleSubmit = async (e) => {
     e.preventDefault();
