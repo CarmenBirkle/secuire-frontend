@@ -11,6 +11,8 @@ import { AppContext } from '../components/helperSites/AppContext';
 import SingleDataEntryDetail from '../components/SingleDataEntryDetail';
 import addIcon from '../img/icon-add.svg'
 import searchIcon from './../img/icon-search.svg';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 
 const Main = ({user}) => {
@@ -25,10 +27,12 @@ const Main = ({user}) => {
   const [selectedId, setSelectedId] = useState(null);
   const [showDetail, setShowDetail] = useState(false);
   const [editMode, setEditMode] = useState(false);
- 
+  //const [encryptedDataEntrys, setEncryptedDataEntrys] = useState([]);
+  // const [encryptedData, setEncryptedData] = useState([]);
+
   /**
-  * showCreateDataEntry and setShowCreateDataEntry get from AppContext
-  */
+   * showCreateDataEntry and setShowCreateDataEntry get from AppContext
+   */
   const {
     showCreateDataEntry,
     shouldRenderCreateDataEntry,
@@ -36,11 +40,14 @@ const Main = ({user}) => {
     setShouldRenderCreateDataEntry,
   } = useContext(AppContext);
 
+ 
+
   /**
    * to fetch all DataEntrys as encrypted data from the server.
    * @param {string} endpoint - The endpoint to be used for fetching data entries.
    * @return {object} - An object containing the encryptedDataEntrys array and the fetchData function.
    */
+
   const { encryptedDataEntrys, fetchData } = useFetchData('DataEntry/all');
 
   /**
@@ -50,12 +57,22 @@ const Main = ({user}) => {
    */
   useEffect(() => {
     if (encryptedDataEntrys) {
+      
       const decryptedDataEntrys = encryptedDataEntrys.map((dataEntry) =>
         Decrypt(dataEntry, process.env.REACT_APP_SECRET)
       );
       setDataEntrys(decryptedDataEntrys);
+  
     }
   }, [encryptedDataEntrys]);
+
+  //TODO remove in production
+useEffect(() => {
+  console.log('encryptedDataEntrys Main', encryptedDataEntrys);
+  console.log('dataentrys:', dataEntrys);
+}, [encryptedDataEntrys, dataEntrys]);
+
+
 
   /**
    * This useEffect hook updates the filtered list of data entries.
@@ -87,7 +104,6 @@ const Main = ({user}) => {
     setFilteredDataEntries(updatedFilteredDataEntries);
   }, [dataEntrys, ENTRY_TYPE, IS_FAVOURITES, searchTerm]);
 
- 
   /**
    * Is triggered when the component is mounted and fetches all data entries from the server.
    */
@@ -101,11 +117,9 @@ const Main = ({user}) => {
       setSelectedId(null);
       setShowCreateDataEntry(false);
       setEditMode(false);
-
     };
     handleCloseClick();
-  }, [ENTRY_TYPE]); 
-
+  }, [ENTRY_TYPE]);
 
   /**
    * Is triggered when the user clicks on the + Icon.
@@ -140,82 +154,81 @@ const Main = ({user}) => {
     }
   };
 
-  
+  return (
+    <>
+      {searchTerm && (
+        <div>
+          <h4>Search Result</h4>
+          <span>{searchTerm}</span>
+        </div>
+      )}
 
+      {editMode ? (
+        <EditDataEntry
+          dataEntry={filteredDataEntries.find(
+            (entry) => entry.id === selectedId
+          )}
+          setEditMode={setEditMode}
+          setSelectedId={setSelectedId}
+          setShowDetail={setShowDetail}
+        />
+      ) : showDetail ? (
+        <SingleDataEntryDetail
+          dataEntry={filteredDataEntries.find(
+            (entry) => entry.id === selectedId
+          )}
+          selectedId={selectedId}
+          setShowDetail={setShowDetail}
+          setSelectedId={setSelectedId}
+          setEditMode={setEditMode}
+        />
+      ) : (
+        <>
+          {!showCreateDataEntry && !shouldRenderCreateDataEntry && (
+            <>
+              <img
+                className="icon_button search_button"
+                src={searchIcon}
+                onClick={() => searchIconClick()}
+              />
+              <section id="searchBar" className="closed" ref={searchBar}>
+                <SearchBar handleSearch={handleSearch} />
+              </section>
+              <h1>
+                {t('welcome')} {user?.username},
+              </h1>
+              <h2 className="subheadline">
+                {t(ENTRY_TYPE ? ENTRY_TYPE : 'main')}
+              </h2>
+              <DataEntry
+                filteredDataEntries={filteredDataEntries}
+                // TODO: removeDataEntry={removeDataEntry} TODO: unklar ob noch benötigt, auf Service warten
+                selectedId={selectedId}
+                setSelectedId={setSelectedId}
+                setShowDetail={setShowDetail}
+              />
+            </>
+          )}
 
+          {(showCreateDataEntry || shouldRenderCreateDataEntry) && (
+            <CreateDataEntry setShowCreateDataEntry={setShowCreateDataEntry} />
+          )}
 
-return (
-  <>
-    {searchTerm && (
-      <div>
-        <h4>Search Result</h4>
-        <span>{searchTerm}</span>
-      </div>
-    )}
-
-    {editMode ? (
-      <EditDataEntry
-        dataEntry={filteredDataEntries.find((entry) => entry.id === selectedId)}
-        setEditMode={setEditMode}
-        setSelectedId={setSelectedId}
-        setShowDetail={setShowDetail}
-      />
-    ) : showDetail ? (
-      <SingleDataEntryDetail
-        dataEntry={filteredDataEntries.find((entry) => entry.id === selectedId)}
-        selectedId={selectedId}
-        setShowDetail={setShowDetail}
-        setSelectedId={setSelectedId}
-        setEditMode={setEditMode}
-      />
-    ) : (
-      <>
-        {!showCreateDataEntry && !shouldRenderCreateDataEntry && (
-          <>
-            <img
-              className="icon_button search_button"
-              src={searchIcon}
-              onClick={() => searchIconClick()}
-            />
-            <section id="searchBar" className="closed" ref={searchBar}>
-              <SearchBar handleSearch={handleSearch} />
-            </section>
-            <h1>
-              {t('welcome')} {user?.username},
-            </h1>
-            <h2 className="subheadline">
-              {t(ENTRY_TYPE ? ENTRY_TYPE : 'main')}
-            </h2>
-            <DataEntry
-              filteredDataEntries={filteredDataEntries}
-              // TODO: removeDataEntry={removeDataEntry} TODO: unklar ob noch benötigt, auf Service warten
-              selectedId={selectedId}
-              setSelectedId={setSelectedId}
-              setShowDetail={setShowDetail}
-            />
-          </>
-        )}
-
-        {(showCreateDataEntry || shouldRenderCreateDataEntry) && (
-          <CreateDataEntry setShowCreateDataEntry={setShowCreateDataEntry} />
-        )}
-
-        {!showCreateDataEntry && !shouldRenderCreateDataEntry && (
-          <div className="main_icons_bg">
-            {' '}
-            <img
-              className="icon_button"
-              onClick={handleClick}
-              src={addIcon}
-              alt={t('generateNew')}
-            />
-          </div>
-        )}
-      </>
-    )}
-    
-  </>
-);
+          {!showCreateDataEntry && !shouldRenderCreateDataEntry && (
+            <div className="main_icons_bg">
+              {' '}
+              <img
+                className="icon_button"
+                onClick={handleClick}
+                src={addIcon}
+                alt={t('generateNew')}
+              />
+            </div>
+          )}
+        </>
+      )}
+    </>
+  );
 };
 
 export default Main;

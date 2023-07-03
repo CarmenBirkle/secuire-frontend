@@ -59,20 +59,18 @@ const Header = () => {
    * Open/Close navigation on menu button click
    */
   const headerElement = document.getElementById('header');
-  console.log(headerElement);
   const menuButtonClick = (event) => {
     if (navbutton.current.classList.contains('open')) {
       navbutton.current.classList.replace('open', 'closed');
       navigation.current.classList.remove('open'); 
       headerElement.parentElement.classList.remove('front');
-
-
     } else {
       navbutton.current.classList.replace('closed', 'open');
       navigation.current.classList.add('open');
       headerElement.parentElement.classList.add('front');
     }
  };
+ 
   /**
    * Close navigation on home button click
    */
