@@ -16,7 +16,7 @@ import PwGenerator from '../pages/PwGenerator';
 
 
 
-const CreateDataEntry = ({ setShowCreateDataEntry }) => {
+const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData }) => {
   const { t } = useTranslation(['main']);
   const [category, setCategory] = useState('login');
   const [favourite, setFavourite] = useState(false);
@@ -33,38 +33,35 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
   const [owner, setOwner] = useState(null);
   const [cvv, setCvv] = useState(null);
   const [cardtype, setCardtype] = useState('visa');
-   //TODO prüfen ob bei voreingestelltem cardtyp (fallback) der wert gespeichert wird
   const [customTopics, setCustomTopics] = useState([]);
   const [showIconSelection, setShowIconSelection] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const [countLeaks, setCountLeaks] = useState(null);
   const [pwAPIError, setPwAPIError] = useState(null);
   const navigate = useNavigate();
-  
+
   const [buttonPopup, setButtonPopup] = useState(false);
   const togglePopup = () => {
-    setButtonPopup(!buttonPopup)
-  }
+    setButtonPopup(!buttonPopup);
+  };
 
- const resetState = () => {
-   setFavourite(false);
-   setSubject('');
-   setSelectedIcon(null);
-   setUsername('');
-   setPassword('');
-   setUrl('');
-   setComment('');
-   setNote('');
-   setPin('');
-   setCardnumber('');
-   setExpirationdate('');
-   setOwner('');
-   setCvv('');
-   setCardtype('visa');
-   setCustomTopics([]);
- };
-
-
+  const resetState = () => {
+    setFavourite(false);
+    setSubject('');
+    setSelectedIcon(null);
+    setUsername('');
+    setPassword('');
+    setUrl('');
+    setComment('');
+    setNote('');
+    setPin('');
+    setCardnumber('');
+    setExpirationdate('');
+    setOwner('');
+    setCvv('');
+    setCardtype('visa');
+    setCustomTopics([]);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -103,9 +100,10 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
     console.log('Verschlüsselt: Eingabe aus Submit:', encryptedData);
     //TODO error handling definieren
     //Send Data to Backend
-    createDataEntry(encryptedData,setErrMsg)
+    createDataEntry(encryptedData, setErrMsg)
       .then((response) => {
         console.log('Erfolgreiche Übertragung:', response);
+        setReloadData((oldValue) => !oldValue);
       })
       .catch((error) => {
         console.error('Fehler beim Übertragen der Daten:', error);
@@ -115,7 +113,6 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
         //   setErrMsg('Bad Request');
         // }setErrMsg('Something went wrong');
       });
-
   };
 
   /**
@@ -127,7 +124,6 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
   useEffect(() => {
     resetState();
   }, [category]);
-
 
   const handleAddField = () => {
     setCustomTopics([...customTopics, { fieldName: '', fieldValue: '' }]);
@@ -152,46 +148,41 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
     return `${year}-${month}`;
   }
 
+  //  icon selection
 
+  const handleIconSelect = (index) => {
+    setSelectedIcon(index);
+    setShowIconSelection(false);
+  };
 
+  const IconSelectionModal = () => {
+    return (
+      <div>
+        <h2 className="subheadline">Icon:</h2>
+        <div className="entryImageCenter">
+          {icons.map((icon, index) => (
+            <div
+              key={index}
+              onClick={() => handleIconSelect(index)}
+              style={{ cursor: 'pointer' }}
+            >
+              <img className="entryImage" src={icon} alt={icon} />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
-//  icon selection
-
-     const handleIconSelect = (index) => {
-       setSelectedIcon(index);
-       setShowIconSelection(false);
-     };
-
-   const IconSelectionModal = () => {
-     return (
-       <div>
-         <h2 className="subheadline">Icon:</h2>
-         <div className="entryImageCenter">
-           {icons.map((icon, index) => (
-             <div
-               key={index}
-               onClick={() => handleIconSelect(index)}
-               style={{ cursor: 'pointer' }}
-             >
-               <img className="entryImage" src={icon} alt={icon} />
-             </div>
-           ))}
-         </div>
-       </div>
-     );
-   };
-   
-  
-   const renderSelectedIcon = () => {
-     return (
-       <img
-        className='entryImage'
-         src={selectedIcon !== null ? icons[selectedIcon] : placeholderIcon}
-         alt={selectedIcon !== null ? `Icon ${selectedIcon}` : 'Choose Icon'}
-       />
-     );
-   };
-
+  const renderSelectedIcon = () => {
+    return (
+      <img
+        className="entryImage"
+        src={selectedIcon !== null ? icons[selectedIcon] : placeholderIcon}
+        alt={selectedIcon !== null ? `Icon ${selectedIcon}` : 'Choose Icon'}
+      />
+    );
+  };
 
   const renderFields = () => {
     return customTopics.map((field, index) => (
@@ -218,7 +209,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
         <label htmlFor={`cancel-${index}`}>{t('deleteCF')}</label>
         <img
           id={`cancel-${index}`}
-          className='icon_button'
+          className="icon_button"
           src={deleteIcon}
           alt={t('remove')}
           onClick={() => handleRemoveField(index)}
@@ -227,13 +218,11 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
     ));
   };
 
-
   useEffect(() => {
     if (countLeaks !== null) {
       setErrMsg(` ${countLeaks}`);
     }
   }, [countLeaks]);
-
 
   return (
     <>

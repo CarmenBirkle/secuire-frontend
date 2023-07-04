@@ -175,6 +175,7 @@ useEffect(() => {
           setEditMode={setEditMode}
           setSelectedId={setSelectedId}
           setShowDetail={setShowDetail}
+          setReloadData={setReloadData}
         />
       ) : showDetail ? (
         <SingleDataEntryDetail
@@ -216,7 +217,10 @@ useEffect(() => {
           )}
 
           {(showCreateDataEntry || shouldRenderCreateDataEntry) && (
-            <CreateDataEntry setShowCreateDataEntry={setShowCreateDataEntry} />
+            <CreateDataEntry
+              setShowCreateDataEntry={setShowCreateDataEntry}
+              setReloadData={setReloadData}
+            />
           )}
 
           {!showCreateDataEntry && !shouldRenderCreateDataEntry && (

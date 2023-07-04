@@ -78,6 +78,7 @@ export const useFetchData = () => {
         owner: entry.owner || '',
         pin: entry.pin || '',
         expirationDate: entry.expirationDate || '',
+        password: entry.password || ''
       }));
       console.log('axios: data entrys', dataEntrys);
       setEncryptedDataEntrys(dataEntrys);
@@ -173,14 +174,33 @@ export const createDataEntry = async (data, setErrMsg) => {
  */
 export const updatedDataEntry = async (id, data) => {
   try {
-    const response = await api.put(`/updatedataentry/${id}`, data, {
-      headers: { 'Content-Type': 'application/json' },
+    const token = Cookies.get('token');
+    const response = await api.put(`DataEntry/${id}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
     });
     return response.data;
   } catch (error) {
     throw error;
   }
 };
+
+// export const updateUser = async (userData) => {
+//   try {
+//     const token = Cookies.get('token');
+//     const response = await api.put(`Authorization`, userData, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         'Content-Type': 'application/json',
+//       },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 /**
  * Deletes a data entry with the specified ID.

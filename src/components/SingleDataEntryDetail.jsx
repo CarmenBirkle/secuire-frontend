@@ -107,6 +107,9 @@ const SingleDataEntryDetail = ({
   };
 
   const renderDataEntryDetail = () => {
+    if (!dataEntry) {
+      return null;
+    }
     switch (dataEntry.category) {
       case 'login':
         return (

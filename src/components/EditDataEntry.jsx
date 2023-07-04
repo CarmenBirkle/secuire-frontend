@@ -14,25 +14,25 @@ const EditDataEntry = ({
   setEditMode,
   setSelectedId,
   setShowDetail,
+  setReloadData,
 }) => {
-  //TODO klären ob id mit übergeben wird beim put request
   const initialState = {
-    id: dataEntry?.id ?? '',
+    //id: dataEntry?.id ?? '',
     category: dataEntry.category,
-    favourite: dataEntry.favourite,
-    selectedIcon: dataEntry.selectedIcon,
-    subject: dataEntry.subject,
-    username: dataEntry.username,
-    password: dataEntry.password,
-    url: dataEntry.url,
-    comment: dataEntry.comment,
-    note: dataEntry.note,
-    pin: dataEntry.pin,
-    cardnumber: dataEntry.cardnumber,
-    expirationdate: dataEntry.expirationdate,
-    owner: dataEntry.owner,
-    cvv: dataEntry.cvv,
-    cardtype: dataEntry.cardtype,
+    favourite: dataEntry.favourite || '',
+    selectedIcon: dataEntry.selectedIcon || '',
+    subject: dataEntry.subject || '',
+    username: dataEntry.username || '',
+    password: dataEntry.password || '',
+    url: dataEntry.url || '',
+    comment: dataEntry.comment || '',
+    note: dataEntry.note || '',
+    pin: dataEntry.pin || '',
+    cardnumber: dataEntry.cardnumber || '',
+    expirationdate: dataEntry.expirationdate || '',
+    owner: dataEntry.owner || '',
+    cvv: dataEntry.cvv || '',
+    cardtype: dataEntry.cardtype || '',
     customTopics: dataEntry.customTopics || [],
   };
   const { t } = useTranslation(['main']);
@@ -44,12 +44,13 @@ const EditDataEntry = ({
     dataEntry.customTopics || []
   );
   const [countLeaks, setCountLeaks] = useState(null);
- 
+
   //  console.log('Initial state nach instanziierung: ', initialState);
 
   // TODO entfernen
   console.log('ursprungsdaten: ', dataEntry);
   console.log('state: vor änderung ', state);
+  console.log('id:', dataEntry.id);
 
   const handleInputChange = (field, value) => {
     setState((prevState) => ({ ...prevState, [field]: value }));
@@ -64,34 +65,35 @@ const EditDataEntry = ({
     setShowDetail(true);
     setEditMode(false);
 
- const updatedDataEntry = {
-   ...state,
-   customTopics: customTopics.map((field) => ({
-     fieldName: field.fieldName,
-     fieldValue: field.fieldValue,
-   })),
- };
+    const updatedEntry = {
+      ...state,
+      customTopics: customTopics.map((field) => ({
+        fieldName: field.fieldName,
+        fieldValue: field.fieldValue,
+      })),
+    };
 
- // aktualisierten Datensatz speichern oder senden an API hier nochmals prüfen
+    // aktualisierten Datensatz speichern oder senden an API hier nochmals prüfen
 
-    console.log('Aktualisierter Datensatz:', updatedDataEntry);
+    console.log('Aktualisierter Datensatz:', updatedEntry);
     const encryptedData = encryptObject(
-      updatedDataEntry,
+      updatedEntry,
       process.env.REACT_APP_SECRET
     );
     console.log('Verschlüsselte Daten: ', encryptedData);
 
-    try{
-      const response = await updatedDataEntry(updatedDataEntry.id, encryptedData);
+    try {
+      console.log('Verschlüsselte Daten: ', encryptedData);
+      const response = await updatedDataEntry(dataEntry.id, encryptedData);
+      setReloadData((oldValue) => !oldValue);
+      console.log('erfolgreich gespeichert')
       return response.data;
     } catch (error) {
-       console.error('Fehler beim Übertragen der Daten:', error);
+      console.error('Fehler beim Übertragen der Daten:', error);
     }
 
     setShowDetail(true);
-    setSelectedId(updatedDataEntry.id);
-
-
+    setSelectedId(dataEntry.id);
   };
 
   const handleCancel = () => {
@@ -108,54 +110,54 @@ const EditDataEntry = ({
     }));
   };
 
- const handleRemoveField = (index) => {
-   const updatedFields = [...customTopics];
-   updatedFields.splice(index, 1);
-   setCustomTopics(updatedFields);
- };
+  const handleRemoveField = (index) => {
+    const updatedFields = [...customTopics];
+    updatedFields.splice(index, 1);
+    setCustomTopics(updatedFields);
+  };
 
- const handleFieldChange = (index, fieldKey, value) => {
-  console.log(`Eingabe in Feld ${index} (${fieldKey}): ${value}`);
-   const updatedFields = [...customTopics];
-   updatedFields[index][fieldKey] = value;
-   setCustomTopics(updatedFields);
- };
+  const handleFieldChange = (index, fieldKey, value) => {
+    console.log(`Eingabe in Feld ${index} (${fieldKey}): ${value}`);
+    const updatedFields = [...customTopics];
+    updatedFields[index][fieldKey] = value;
+    setCustomTopics(updatedFields);
+  };
 
- const renderFields = () => {
-   return customTopics.map((field, index) => (
-     <div key={index}>
-       <input
-         type="text"
-         name={`fieldName-${index}`}
-         value={field.fieldName}
-         placeholder={`${t('varTitle')}${index + 1}`}
-         onChange={(e) => handleFieldChange(index, 'fieldName', e.target.value)}
-       />
+  const renderFields = () => {
+    return customTopics.map((field, index) => (
+      <div key={index}>
+        <input
+          type="text"
+          name={`fieldName-${index}`}
+          value={field.fieldName}
+          placeholder={`${t('varTitle')}${index + 1}`}
+          onChange={(e) =>
+            handleFieldChange(index, 'fieldName', e.target.value)
+          }
+        />
 
-       <input
-         type="text"
-         name={`fieldValue-${index}`}
-         value={field.fieldValue}
-         placeholder={`${t('var')}${index + 1}`}
-         onChange={(e) =>
-           handleFieldChange(index, 'fieldValue', e.target.value)
-         }
-       />
-       <img
-          className='icon_button'
+        <input
+          type="text"
+          name={`fieldValue-${index}`}
+          value={field.fieldValue}
+          placeholder={`${t('var')}${index + 1}`}
+          onChange={(e) =>
+            handleFieldChange(index, 'fieldValue', e.target.value)
+          }
+        />
+        <img
+          className="icon_button"
           src={deleteIcon}
           alt={t('remove')}
           onClick={() => handleRemoveField(index)}
         />
 
-       {/*<button type="button" onClick={() => handleRemoveField(index)}>
+        {/*<button type="button" onClick={() => handleRemoveField(index)}>
          {t('remove')}
         </button>*/}
-     </div>
-   ));
- };
-
-
+      </div>
+    ));
+  };
 
   // Icon selection
   const handleIconSelect = (index) => {
@@ -164,11 +166,10 @@ const EditDataEntry = ({
     setShowIconSelection(false);
   };
 
-
   const renderSelectedIcon = () => {
     return (
       <img
-        className='entryImage'
+        className="entryImage"
         src={
           state.selectedIcon !== null && state.selectedIcon !== undefined
             ? icons[state.selectedIcon]
@@ -209,7 +210,7 @@ const EditDataEntry = ({
     return `${year}-${month}`;
   }
 
-    useEffect(() => {
+  useEffect(() => {
     if (countLeaks !== null) {
       setErrMsg(` ${countLeaks}`);
     }
@@ -221,24 +222,28 @@ const EditDataEntry = ({
         <IconSelectionModal handleIconSelect={handleIconSelect} />
       )}
 
-      <form className='dataentry' onSubmit={handleSubmit}>
+      <form className="dataentry" onSubmit={handleSubmit}>
         {/* form-elements for login */}
         {state.category === 'login' && (
           <fieldset>
-            <p className='noSpace'>{t('chooseIcon')}</p>
-            <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
+            <p className="noSpace">{t('chooseIcon')}</p>
+            <div
+              className="entryImageCenter"
+              onClick={() => setShowIconSelection(true)}
+            >
               {renderSelectedIcon()}
             </div>
-              <label className="visible-label" htmlFor="favourite">{t('favourite')}</label>
-              <input
-                type="checkbox"
-                id="favourite"
-                name="favourite"
-                value={state.favourite}
-                placeholder={t('favourite')}
-                onChange={(e) => handleInputChange('favourite', e.target.checked)}
-              />
-            
+            <label className="visible-label" htmlFor="favourite">
+              {t('favourite')}
+            </label>
+            <input
+              type="checkbox"
+              id="favourite"
+              name="favourite"
+              value={state.favourite}
+              placeholder={t('favourite')}
+              onChange={(e) => handleInputChange('favourite', e.target.checked)}
+            />
 
             <input
               type="text"
@@ -261,7 +266,8 @@ const EditDataEntry = ({
             />
             {errMsg && (
               <p className="errorMessage">
-                {t('dataLeak')}{errMsg}
+                {t('dataLeak')}
+                {errMsg}
               </p>
             )}
 
@@ -288,13 +294,13 @@ const EditDataEntry = ({
               }}
             />
 
-
             <input
               type="text"
               id="url"
               name="url"
               placeholder={t('url')}
-              pattern="^(http:\/\/|https:\/\/)?(www\.)?[a-zA-Z0-9-_\.]+\.[a-zA-Z]+(:\d+)?(\/[a-zA-Z\d\.\-_]*)*"
+              // pattern="^(http:\/\/|https:\/\/)?(www\.)?[a-zA-Z0-9-_\.]+\.[a-zA-Z]+(:\d+)?(\/[a-zA-Z\d\.\-_]*)*"
+              pattern="^(https?:\/\/)?(www\.)?[a-zA-Z0-9_.-]+\.[a-zA-Z]+(:\d+)?(\/[a-zA-Z\d-_.]*)*$"
               title="Gebe eine URL an: www.placeholder.de"
               value={state.url}
               onChange={(e) => handleInputChange('url', e.target.value)}
@@ -307,10 +313,10 @@ const EditDataEntry = ({
               value={state.comment}
               onChange={(e) => handleInputChange('comment', e.target.value)}
             />
-            {renderFields()} 
-            <p className='noSpace'>{t('createCF')}</p>
+            {renderFields()}
+            <p className="noSpace">{t('createCF')}</p>
             <img
-              className='icon_button'
+              className="icon_button"
               src={addIcon}
               alt={t('addField')}
               onClick={handleAddField}
@@ -321,11 +327,16 @@ const EditDataEntry = ({
         {/* form-elements for safenotes */}
         {state.category === 'safenote' && (
           <fieldset>
-            <p className='noSpace'>{t('chooseIcon')}</p>
-            <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
+            <p className="noSpace">{t('chooseIcon')}</p>
+            <div
+              className="entryImageCenter"
+              onClick={() => setShowIconSelection(true)}
+            >
               {renderSelectedIcon()}
             </div>
-            <label className="visible-label" htmlFor="favourite">{t('favourite')}</label>
+            <label className="visible-label" htmlFor="favourite">
+              {t('favourite')}
+            </label>
             <input
               type="checkbox"
               id="favourite"
@@ -361,9 +372,9 @@ const EditDataEntry = ({
             />
 
             {renderFields()}
-            <p className='noSpace'>{t('createCF')}</p>
+            <p className="noSpace">{t('createCF')}</p>
             <img
-              className='icon_button'
+              className="icon_button"
               src={addIcon}
               alt={t('addField')}
               onClick={handleAddField}
@@ -372,11 +383,16 @@ const EditDataEntry = ({
         )}
         {state.category === 'paymentcard' && (
           <fieldset>
-            <p className='noSpace'>{t('chooseIcon')}</p>
-            <div className='entryImageCenter' onClick={() => setShowIconSelection(true)}>
+            <p className="noSpace">{t('chooseIcon')}</p>
+            <div
+              className="entryImageCenter"
+              onClick={() => setShowIconSelection(true)}
+            >
               {renderSelectedIcon()}
             </div>
-            <label className="visible-label" htmlFor="favourite">{t('favourite')}</label>
+            <label className="visible-label" htmlFor="favourite">
+              {t('favourite')}
+            </label>
             <input
               type="checkbox"
               id="favourite"
@@ -461,28 +477,27 @@ const EditDataEntry = ({
               onChange={(e) => handleInputChange('comment', e.target.value)}
             />
             {renderFields()}
-            <p className='noSpace'>{t('createCF')}</p>
+            <p className="noSpace">{t('createCF')}</p>
             <img
-              className='icon_button'
+              className="icon_button"
               src={addIcon}
               alt={t('addField')}
               onClick={handleAddField}
             />
           </fieldset>
         )}
-        <div className='main_icons_bg'>
+        <div className="main_icons_bg">
           <img
-            className='icon_button'           
+            className="icon_button"
             src={cancelIcon}
             alt={t('cancel')}
             onClick={() => handleCancel()}
           />
-          
-          <button className="icon_button icon_save" type="submit">
-          {/*{t('submit')}*/}
-        </button>
-        </div>
 
+          <button className="icon_button icon_save" type="submit">
+            {/*{t('submit')}*/}
+          </button>
+        </div>
       </form>
     </>
   );
