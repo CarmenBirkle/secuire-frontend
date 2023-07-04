@@ -17,7 +17,6 @@ const Decrypt = (encryptedData, secretPass) => {
   for (const key in encryptedData) {
     if (encryptedData.hasOwnProperty(key)) {
       const encryptedValue = encryptedData[key];
-
       if (key === 'category' || key === 'id' || key === 'userId') {
         decryptedData[key] = encryptedValue;
       } else if (encryptedValue !== null) {

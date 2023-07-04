@@ -50,15 +50,13 @@ export default api;
  * @returns {object} - An object containing the fetched data and a function to trigger data fetching.
  * @throws {Error} - If an error occurs during the data fetching process.
  */
-
-
 export const useFetchData = () => {
    const [encryptedDataEntrys, setEncryptedDataEntrys] = useState([ ]);
 
   const fetchData = async () => {
     const token = Cookies.get('token');
     const url = `${BASEURL}DataEntry/all`;  
-    console.log('token aus fetchdata', token);
+    console.log('token aus fetchdata', token); // TODO: remove in production
     try {
       const responseDataEntrys = await api.get(url, {
         headers: {
@@ -66,35 +64,30 @@ export const useFetchData = () => {
           'Content-Type': 'application/json',
         },
       });
-    console.log('fetch from Axios:', responseDataEntrys);
-    console.log('nur gefetchte daten Axios', responseDataEntrys.data);
+      console.log('fetch from Axios:', responseDataEntrys); // TODO: remove in production
+      console.log('nur gefetchte daten Axios', responseDataEntrys.data); // TODO: remove in production
 
-    // let dataEntrys = responseDataEntrys.data.map((entry) => entry.dataEntry);
-    let dataEntrys = responseDataEntrys.data.map((entry) => ({
-      ...entry.dataEntry, // spread all properties from dataEntry
-      note: entry.note || '',
-      cardType: entry.cardType || '',
-      username: entry.username || '',
-      url: entry.url || '',
-      cvv: entry.cvv || '',
-      number: entry.number || '',
-      owner: entry.owner || '',
-      pin: entry.pin || '',
-      expirationDate: entry.expirationDate || '',
-    }));
-    console.log('axios: data entrys', dataEntrys)
-    setEncryptedDataEntrys(dataEntrys);
-
-  //  setEncryptedDataEntrys(responseDataEntrys.data);
-   return encryptedDataEntrys.data;
-  
-   console.log('encryptedDataEntrys Axios', encryptedDataEntrys);
-  } catch (error) {
+      let dataEntrys = responseDataEntrys.data.map((entry) => ({
+        ...entry.dataEntry,
+        note: entry.note || '',
+        cardType: entry.cardType || '',
+        username: entry.username || '',
+        url: entry.url || '',
+        cvv: entry.cvv || '',
+        number: entry.number || '',
+        owner: entry.owner || '',
+        pin: entry.pin || '',
+        expirationDate: entry.expirationDate || '',
+      }));
+      console.log('axios: data entrys', dataEntrys);
+      setEncryptedDataEntrys(dataEntrys);
+      console.log('encryptedDataEntrys Axios', encryptedDataEntrys); // TODO: remove in production
+      return encryptedDataEntrys.data;
+    } catch (error) {
     console.log(error.response); 
     throw error;
   }
     };
-
     return { encryptedDataEntrys, fetchData };
   };
 
@@ -197,14 +190,20 @@ export const updatedDataEntry = async (id, data) => {
  * @throws {Error} - If an error occurs during the deletion process.
  */
 export const deleteDataEntry = async (id) => {
+  const token = Cookies.get('token');
   try {
-    const response = await api.delete(`/dataentry/${id}`);
+    const response = await api.delete(`/dataentry/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
     return response.data;
   } catch (error) {
-    console.log('Fehler beim Löschen des Dateneintrags: ', error);
     throw error;
   }
 };
+
 
 /**
  * Updates the user with the specified ID using the provided data.
@@ -214,7 +213,6 @@ export const deleteDataEntry = async (id) => {
  * @returns {Promise<any>} - A promise that resolves to the updated user data.
  * @throws {Error} - If an error occurs during the update process.
  */
-//TODO - geht das so ?? 
 export const updateUser = async (userData) => {
   try {
     const token = Cookies.get('token');
@@ -230,10 +228,12 @@ export const updateUser = async (userData) => {
   }
 };
 
-//<----- Delete Test 
-
+/**
+ * Deletes a spezific user, if the user is logged in.
+ * Gets the token from the cookie and sends it to the server.
+ * This token contains the user id., after the user is deleted, the token is deleted.
+ */
 export const deleteUser = async () => {
-  console.log('aufgerufen');
   try {
     const token = Cookies.get('token');
     const url=`${BASEURL}Authorization`;
@@ -304,7 +304,7 @@ export const getHint = async (email) => {
        const salt = response.data;
        return salt;
      } catch (error) {
-       console.log(error.response);
+        throw error;
      }
    };
 
@@ -328,9 +328,6 @@ export const loginUser = async (email, hashedPassword) => {
         headers: { 'Content-Type': 'application/json' },
       }
     );
-    console.log('response Login', response);
-    //TODO kann raus console log
-
     if (response.status !== 200) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }

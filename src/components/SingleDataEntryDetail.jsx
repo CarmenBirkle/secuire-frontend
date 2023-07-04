@@ -1,3 +1,9 @@
+/**
+ * @Overview Single Data Entry Detail
+ * Display Single DataEntry Overview component with Name
+ * for each DataEntry an Overview component
+ */
+
 import { useState } from 'react';
 import { icons } from './helperSites/IconsDataEntry';
 import { dummyIcon } from './helperSites/IconsDataEntry';
@@ -9,18 +15,14 @@ import copyIcon from './../img/icon-copy.svg';
 import hideIcon from './../img/icon_hide.svg';
 import showIcon from './../img/icon_show.svg';
 import { deleteDataEntry } from './helperSites/Axios.jsx';
-import { Link } from 'react-router-dom';
-import Cookies from 'js-cookie';
-/**
- * Display Single DataEntry Overview component with Name
- * @returns for each DataEntry an Overview component
- */
+
 const SingleDataEntryDetail = ({
   dataEntry,
   removeDataEntry,
   setSelectedId,
   setShowDetail,
   setEditMode,
+  setReloadData,
 }) => {
   const { t } = useTranslation(['main']);
   const [showSecret, setShowSecret] = useState(false);
@@ -29,29 +31,41 @@ const SingleDataEntryDetail = ({
     setShowSecret(!showSecret);
   };
 
+  // const copyToClipboard = (text) => {
+  //   navigator.clipboard
+  //     .writeText(text)
+  //     .then(() => {
+  //       console.log('Text copied to clipboard');
+  //       // TODO Userfeedback - text erfolgreich kopiert ?
+  //     })
+  //     .catch((error) => {
+  //       console.error('Failed to copy text to clipboard:', error);
+  //       // TODO Userfeedback - text konnte nicht kopiert werden
+  //     });
+  // };
+  
+/**
+ * Copy text to clipboard
+ * @param {*} text 
+ */
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
+  };
 
-const copyToClipboard = (text) => {
-  navigator.clipboard
-    .writeText(text)
-    .then(() => {
-      console.log('Text copied to clipboard');
-      // TODO Userfeedback - text erfolgreich kopiert ? 
-    })
-    .catch((error) => {
-      console.error('Failed to copy text to clipboard:', error);
-      // TODO Userfeedback - text konnte nicht kopiert werden
-    });
-};
+  /**
+   * Sets the translation for the card types.
+   */
+  const cardTypeTranslations = {
+    visa: t('visa'),
+    master: t('master'),
+    credit: t('credit'),
+    giro: t('giro'),
+  };
 
-const cardTypeTranslations = {
-  visa: t('visa'),
-  master: t('master'),
-  credit: t('credit'),
-  giro: t('giro'),
-
-};
-
-
+  /**
+   * Renders custom topics associated with the data entry, if available.
+   * Each topic is rendered as a div element with the field name and field value.
+   */
   const renderCustomTopics = () => {
     if (dataEntry.customTopics.length !== 0) {
       return dataEntry.customTopics.map((topic, index) => (
@@ -62,23 +76,25 @@ const cardTypeTranslations = {
     }
   };
 
+  /**
+   * Handles the click event for editing a data entry.
+   * Sets the edit mode to true and hides the detail view.
+   */
   const handleEditClick = () => {
     setEditMode(true);
     setShowDetail(false);
   };
 
-  //TODO: complete delete function when backend is ready
-
+  /**
+  * Deleting a data entry with the specified ID.
+  * Upon successful deletion, it closes the detail view and triggers a reload of the data.
+  */
   const handleDeleteClick = async () => {
-    
-    console.log('Try Delete DataEntry with id: ', dataEntry.id);
     try {
       const response = await deleteDataEntry(dataEntry.id);
-      console.log('Dateneintrag erfolgreich gelöscht');
-      // TODO Seite aktualisieren ggf. neues fetch ausführen,
-    } catch (error) {
-      console.log('Fehler beim Löschen des Dateneintrags: ', error);
-    }
+      handleCloseClick();
+      setReloadData((oldValue) => !oldValue);
+    } catch (error) {}
   };
 
   /**
@@ -90,93 +106,103 @@ const cardTypeTranslations = {
     setShowSecret(false);
   };
 
-  //TODO Inline styling entfernen, wenn in css definiert
   const renderDataEntryDetail = () => {
     switch (dataEntry.category) {
       case 'login':
         return (
           <>
             <section>
-              <div className='entryImageCenter'>
-                <img className='entryImage' src={icons[dataEntry.selectedIcon] || dummyIcon} />
+              <div className="entryImageCenter">
+                <img
+                  className="entryImage"
+                  src={icons[dataEntry.selectedIcon] || dummyIcon}
+                />
               </div>
-              <div className='singleEntry'>
-              <label htmlFor="favourite">{t('favourite')}: </label>
-              <input 
-                    id="favourite"
-                    type="checkbox"
-                    checked={dataEntry.favourite ? true : false}
-                    readOnly/>
+              <div className="singleEntry">
+                <label htmlFor="favourite">{t('favourite')}: </label>
+                <input
+                  id="favourite"
+                  type="checkbox"
+                  checked={dataEntry.favourite ? true : false}
+                  readOnly
+                />
               </div>
-              <div className='singleEntry'>
+              <div className="singleEntry">
                 <p>{t('subject')}:</p>
                 <p>{dataEntry.subject}</p>
               </div>
-          
-              <div className='singleEntry'>
+
+              <div className="singleEntry">
                 <p>{t('username')}:</p>
-                <div className='flexbox allignCenter'>
+                <div className="flexbox allignCenter">
                   <p>{dataEntry.username}</p>
                   <img
-                      className='icon_circle'
-                      onClick={() => copyToClipboard(dataEntry.username)}
+                    className="icon_circle"
+                    onClick={() => copyToClipboard(dataEntry.username)}
+                    src={copyIcon}
+                    alt={t('copy')}
+                  />
+                </div>
+              </div>
+              <div className="singleEntry">
+                <p>{t('password')}:</p>
+
+                {showSecret ? <p>{dataEntry.password}</p> : <p> *******</p>}
+                <div className="flexbox allignCenter">
+                  <div onClick={togglePasswordVisibility}>
+                    {showSecret ? (
+                      <img
+                        className="icon_circle"
+                        src={hideIcon}
+                        alt={t('hide')}
+                      />
+                    ) : (
+                      <img
+                        className="icon_circle"
+                        src={showIcon}
+                        alt={t('show')}
+                      />
+                    )}
+                  </div>
+                  <div>
+                    <img
+                      className="icon_circle"
+                      onClick={() => copyToClipboard(dataEntry.password)}
                       src={copyIcon}
                       alt={t('copy')}
                     />
+                  </div>
                 </div>
               </div>
-              <div className='singleEntry'>
-                <p>{t('password')}:</p>
-                
-                  {showSecret ? (<p>{dataEntry.password}</p>) : ( <p> *******</p>)}
-                  <div className='flexbox allignCenter'>
-                    <div onClick={togglePasswordVisibility}>
-                      {showSecret ? (
-                        <img className='icon_circle' src={hideIcon} alt={t('hide')} />
-                      ) : (
-                        <img className='icon_circle' src={showIcon} alt={t('show')} />
-                      )}
-                    </div>
-                    <div>
-                      <img
-                          className='icon_circle'
-                          onClick={() => copyToClipboard(dataEntry.password)}
-                          src={copyIcon}
-                          alt={t('copy')}
-                        />
-                    </div>
-                </div>
-              </div>
-              <div className='singleEntry'>
+              <div className="singleEntry">
                 <p>{t('url')}:</p>
                 <a href={dataEntry.url}>{dataEntry.url}</a>
               </div>
-              <div className='singleEntry'>
+              <div className="singleEntry">
                 <p>{t('comment')}:</p>
                 <p>{dataEntry.comment}</p>
               </div>
 
               {renderCustomTopics()}
-              <div className='main_icons_bg'>
+              <div className="main_icons_bg">
                 <img
-                  className='icon_button'           
+                  className="icon_button"
                   src={arrowIcon}
                   alt={t('back')}
                   onClick={handleCloseClick}
                 />
                 <img
-                  className='icon_button'
+                  className="icon_button"
                   src={deleteIcon}
                   alt={t('remove')}
                   onClick={handleDeleteClick}
                 />
                 <img
-                  className='icon_button'
+                  className="icon_button"
                   src={editIcon}
                   alt={t('edit')}
                   onClick={handleEditClick}
                 />
-                
               </div>
             </section>
           </>
@@ -185,52 +211,56 @@ const cardTypeTranslations = {
         return (
           <>
             <section>
-              <div className='entryImageCenter'>
-                  <img className='entryImage' src={icons[dataEntry.selectedIcon] || dummyIcon} />
+              <div className="entryImageCenter">
+                <img
+                  className="entryImage"
+                  src={icons[dataEntry.selectedIcon] || dummyIcon}
+                />
               </div>
-              <div className='singleEntry'>
+              <div className="singleEntry">
                 <label htmlFor="favourite">{t('favourite')}: </label>
-                <input 
-                      id="favourite"
-                      type="checkbox"
-                      checked={dataEntry.favourite ? true : false}
-                      readOnly/>
+                <input
+                  id="favourite"
+                  type="checkbox"
+                  checked={dataEntry.favourite ? true : false}
+                  readOnly
+                />
               </div>
-              <div className='singleEntry'>
+              <div className="singleEntry">
                 <p>{t('subject')}:</p>
                 <p>{dataEntry.subject}</p>
               </div>
-              <div className='singleEntry'>
+              <div className="singleEntry">
                 <p>{t('note')}:</p>
                 <p>{dataEntry.note}</p>
               </div>
-              <div className='singleEntry'>
+              <div className="singleEntry">
                 <p>{t('comment')}:</p>
                 <p>{dataEntry.comment}</p>
               </div>
 
-            {renderCustomTopics()}
-            <div className='main_icons_bg'>
+              {renderCustomTopics()}
+              <div className="main_icons_bg">
                 <img
-                  className='icon_button'           
+                  className="icon_button"
                   src={arrowIcon}
                   alt={t('back')}
                   onClick={handleCloseClick}
                 />
                 <img
-                  className='icon_button'
+                  className="icon_button"
                   src={deleteIcon}
                   alt={t('remove')}
                   onClick={handleDeleteClick}
                 />
                 <img
-                  className='icon_button'
+                  className="icon_button"
                   src={editIcon}
                   alt={t('edit')}
                   onClick={handleEditClick}
                 />
               </div>
-          </section>
+            </section>
           </>
         );
       case 'paymentcard':
@@ -347,11 +377,7 @@ const cardTypeTranslations = {
     }
   };
 
-  return (
-    <>
-      {renderDataEntryDetail()}
-    </>
-  );
+  return <>{renderDataEntryDetail()}</>;
 };
 
 export default SingleDataEntryDetail;

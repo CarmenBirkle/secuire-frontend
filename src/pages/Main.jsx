@@ -11,8 +11,7 @@ import { AppContext } from '../components/helperSites/AppContext';
 import SingleDataEntryDetail from '../components/SingleDataEntryDetail';
 import addIcon from '../img/icon-add.svg'
 import searchIcon from './../img/icon-search.svg';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+
 
 
 const Main = ({user}) => {
@@ -27,6 +26,8 @@ const Main = ({user}) => {
   const [selectedId, setSelectedId] = useState(null);
   const [showDetail, setShowDetail] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [reloadData, setReloadData] = useState(false);
+
   //const [encryptedDataEntrys, setEncryptedDataEntrys] = useState([]);
   // const [encryptedData, setEncryptedData] = useState([]);
 
@@ -108,6 +109,11 @@ useEffect(() => {
   useEffect(() => {
     fetchData();
   }, []);
+  
+  useEffect(() => {
+    fetchData();
+  }, [reloadData]);
+
 
   useEffect(() => {
     const handleCloseClick = () => {
@@ -179,6 +185,7 @@ useEffect(() => {
           setShowDetail={setShowDetail}
           setSelectedId={setSelectedId}
           setEditMode={setEditMode}
+          setReloadData={setReloadData}
         />
       ) : (
         <>

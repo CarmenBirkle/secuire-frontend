@@ -38,9 +38,9 @@ const AccountSettings = ({ user, setUser }) => {
   };
 
   /**
-Handles the confirmed deletion of a user. Calls the deleteUser function to delete the user from the backend.
-Removes the 'token' cookie. Redirects the user to the homepage and Logs any errors that occur during the process.
-*/
+  * Handles the confirmed deletion of a user. Calls the deleteUser function to delete the user from the backend.
+  * Removes the 'token' cookie. Redirects the user to the homepage and Logs any errors that occur during the process.
+  */
 
   const handleConfirmDelete = () => {
     deleteUser()
