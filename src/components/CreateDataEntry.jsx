@@ -32,7 +32,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
   const [expirationdate, setExpirationdate] = useState(null);
   const [owner, setOwner] = useState(null);
   const [cvv, setCvv] = useState(null);
-  const [cardtype, setCardtype] = useState(null);
+  const [cardtype, setCardtype] = useState('visa');
    //TODO prüfen ob bei voreingestelltem cardtyp (fallback) der wert gespeichert wird
   const [customTopics, setCustomTopics] = useState([]);
   const [showIconSelection, setShowIconSelection] = useState(false);
@@ -60,7 +60,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry }) => {
    setExpirationdate('');
    setOwner('');
    setCvv('');
-   setCardtype('');
+   setCardtype('visa');
    setCustomTopics([]);
  };
 
