@@ -51,7 +51,7 @@ const App = () => {
     }, 2000);
   }, []);
 
-  //Autologaut functions
+  //Autologout functions
   let logoutTimeout;
   const events = [
     'load',

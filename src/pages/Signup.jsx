@@ -21,12 +21,20 @@ const Signup = () => {
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [error, setError] = useState(false);
+  const [complexError, setComplexError] = useState(false);
   const [passwordHint, setPasswordHint] = useState(null);
   const [passwordHintError, setPasswordHintError] = useState(null);
   const [agbAcceptedAt, setAGBAcceptedAt] = useState(null);
   const [accountCreated, setAccountCreated] = useState(false);
   const [accountCreatedError, setAccountCreatedError] = useState(null);
-   const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const isPasswordComplexEnough = (password) => {
+    const regex =
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/;
+    return regex.test(password);
+  };
+
 
   /**
    * This function is called when the signup form is submitted
@@ -42,6 +50,11 @@ const Signup = () => {
       setError(true);
       return;
     }
+    if (!isPasswordComplexEnough(password)) {
+        setComplexError(true);
+      return;
+    }
+
     try {
       const saltRounds = 10;
       const salt = await bcrypt.genSalt(saltRounds);
@@ -168,6 +181,9 @@ const Signup = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </fieldset>
+        {complexError && (
+          <p className="errorMessage">{t('signup:complexError')}</p>
+        )}
         <fieldset>
           <label htmlFor="">{t('signup:confirmPassword')}:</label>
           <input
