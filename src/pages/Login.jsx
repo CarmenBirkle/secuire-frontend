@@ -12,7 +12,7 @@
  */
 import { useTranslation } from 'react-i18next';
 import {useState, useRef, useEffect} from 'react';
-import { Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { getSalt, loginUser } from './../components/helperSites/Axios.jsx'; 
 import bcrypt from 'bcryptjs';
@@ -29,6 +29,10 @@ const Login = ({setUser, user}) => {
   const [success, setSuccess] = useState(false);
   const inputRef = useRef(null);
   const passwordInputRef = useRef(null);
+  // const [loginMessage, setLoginMessage] = useState('');
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const accountCreated = searchParams.get('accountCreated');
 
   //TODO: console.log entfernen
   //TODO: wrongPassword ausgeben mit Anzahl der Versuche
@@ -83,15 +87,6 @@ const Login = ({setUser, user}) => {
      );
      if (!email || !password) return;
      const hashedPassword = await handleLogin(email, password);
-    //  setUser({
-    //    id:1,
-    //    email: email,
-    //    password: hashedPassword,
-    //    remember: remember,
-    //    wrongPassword: wrongPassword,
-    //    username: 'carmen',
-    //    passwordHint: 'test',
-    //  });
      navigate('/main?type=favourites');
    };
 
@@ -156,6 +151,12 @@ async function handleLogin(email, password) {
     <section>
       <form onSubmit={handleSubmit}>
         <h2>{t('login:login')}</h2>
+        <div>
+          {accountCreated && (
+            <p className="successMessage">{t('login:success')}</p>
+          )}
+        </div>
+
         <input
           type="email"
           id="email"

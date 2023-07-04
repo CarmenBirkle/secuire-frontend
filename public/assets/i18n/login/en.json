@@ -3,5 +3,6 @@
   "email": "E-Mail",
   "password": "Password",
   "remember": "Remember me",
-  "loginButton": "Login"
+  "loginButton": "Login",
+  "success":"Your account has been successfully created. You can log in"
 }

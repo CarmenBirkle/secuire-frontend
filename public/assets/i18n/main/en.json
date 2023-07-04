@@ -23,8 +23,8 @@
   "giro": "Giro Carte",
 
   "addField": "Add new Field",
-  "varTitle": "Title variable field",
-  "var": "Variable field",
+  "varTitle": "Title variable field nr. ",
+  "var": "Content variable field nr. ",
   "remove": "Delete",
   "welcome": "Welcome",
   "cancel": "Abbrechen",
@@ -45,7 +45,7 @@
 
   "deleteCF": "Delete custom field",
   "createCF": "Create custom field",
-  "chooseIcon": "Choose icon",
+  "chooseIcon": "Change your Icon",
   "pwGenerator": "Password Generator",
   "pwAPIErrorForbidden": "Your password cannot be checked for security at the moment.",
   "pwAPIErrorNotReachable": "The service to check your password for security is currently unavailable."

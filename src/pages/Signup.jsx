@@ -69,7 +69,7 @@ const Signup = () => {
         passwordHint: passwordHint,
         newHashedPassword: ''
       };
-      console.log('userData:', userData, 'klartextpw:',password);
+      // console.log('userData:', userData, 'klartextpw:',password);
       const response = await registerUser(userData);
       setAccountCreated(true);
       setAccountCreatedError('');
@@ -91,8 +91,9 @@ const Signup = () => {
     useEffect(() => {
     if (accountCreated) {
       const timer = setTimeout(() => {
-        navigate('/login');
-      }, 4000); //TODO maybe ajust time
+        // navigate('/login');
+        navigate('/login?accountCreated=true');
+      }, 2000); //TODO maybe ajust time
       return () => clearTimeout(timer);
     }
   }, [accountCreated, navigate]);
