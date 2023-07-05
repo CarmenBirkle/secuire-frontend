@@ -10,5 +10,6 @@
   "password": "New Password",
   "deleteUser": "Are you sure you want to delete the user account ? This will also delete all your saved passwords, payment cards and secure notes! ",
   "yes": "Yes",
-  "no": "No"
+  "no": "No",
+  "userNotFound": "The specified e-mail address was not found!"
 }

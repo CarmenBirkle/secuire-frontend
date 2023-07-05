@@ -11,4 +11,5 @@
   "deleteUser":"Bist Du sicher das du den user Account löschen möchtest ? Damit werden auch alle Deine gespeicherten Passwörter , Bezahlkarten und sichere Notizen gelöscht! ",
   "yes":"Ja",
   "no":"Nein",
+  "userNotFound":"Die angegebene E-Mail Adresse wurde nicht gefunden!"
 }

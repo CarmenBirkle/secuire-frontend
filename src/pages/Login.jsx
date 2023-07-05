@@ -141,16 +141,20 @@ async function handleLogin(email, password) {
     // }
     if(error.response && error.response.status){
       switch (error.response.status) {
-      case 400:
-        console.log('Falsches Passwort');
-         setWrongPasswortMsg(true);
-        break;
-      case 403:
-        console.log('User ist gesperrt, versuche es später erneut');
-        setUserBlockedMsg(true);
-        break;
-      default:
-        console.log('fehler aufgetreten');
+        case 400:
+          console.log('Falsches Passwort');
+          setWrongPasswortMsg(true);
+          break;
+        case 403:
+          console.log('User ist gesperrt, versuche es später erneut');
+          setUserBlockedMsg(true);
+          break;
+        case 404:
+          console.log('email adresse nicht gefunden');
+          //TODO irgendwas anderes auf true setzen um den fehler anzuzeigen
+          break;
+        default:
+          console.log('fehler aufgetreten');
       }
     }
  
