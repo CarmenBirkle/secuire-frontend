@@ -52,13 +52,8 @@ const EditDataEntry = ({
   console.log('state: vor änderung ', state);
   console.log('id:', dataEntry.id);
 
-  // const handleInputChange = (field, value) => {
-  //   setState((prevState) => ({ ...prevState, [field]: value }));
-  //    //console.log(`Updated field ${field}: `, value);
-  // };
 
   const handleInputChange = (field, value) => {
-    // Wenn das Feld "url" ist, führen Sie die URL-Validierung durch
     if (field === 'url') {
       const isValidUrl = validator.isURL(value, { require_protocol: false });
 
@@ -87,7 +82,6 @@ const EditDataEntry = ({
       })),
     };
 
-    // aktualisierten Datensatz speichern oder senden an API hier nochmals prüfen
 
     console.log('Aktualisierter Datensatz:', updatedEntry);
     const encryptedData = encryptObject(
@@ -237,13 +231,24 @@ const EditDataEntry = ({
         {/* form-elements for login */}
         {state.category === 'login' && (
           <fieldset>
-            <p className="noSpace">{t('chooseIcon')}</p>
+            {/* <p className="noSpace">{t('chooseIcon')}</p>
             <div
               className="entryImageCenter"
               onClick={() => setShowIconSelection(true)}
             >
               {renderSelectedIcon()}
-            </div>
+            </div> */}
+            {!showIconSelection && (
+              <>
+                <p className="noSpace">{t('chooseIcon')}</p>
+                <div
+                  className="entryImageCenter"
+                  onClick={() => setShowIconSelection(true)}
+                >
+                  {renderSelectedIcon()}
+                </div>
+              </>
+            )}
             <label className="visible-label" htmlFor="favourite">
               {t('favourite')}
             </label>
@@ -337,13 +342,24 @@ const EditDataEntry = ({
         {/* form-elements for safenotes */}
         {state.category === 'safenote' && (
           <fieldset>
-            <p className="noSpace">{t('chooseIcon')}</p>
+            {/* <p className="noSpace">{t('chooseIcon')}</p>
             <div
               className="entryImageCenter"
               onClick={() => setShowIconSelection(true)}
             >
               {renderSelectedIcon()}
-            </div>
+            </div> */}
+            {!showIconSelection && (
+              <>
+                <p className="noSpace">{t('chooseIcon')}</p>
+                <div
+                  className="entryImageCenter"
+                  onClick={() => setShowIconSelection(true)}
+                >
+                  {renderSelectedIcon()}
+                </div>
+              </>
+            )}
             <label className="visible-label" htmlFor="favourite">
               {t('favourite')}
             </label>
@@ -393,13 +409,24 @@ const EditDataEntry = ({
         )}
         {state.category === 'paymentcard' && (
           <fieldset>
-            <p className="noSpace">{t('chooseIcon')}</p>
+            {/* <p className="noSpace">{t('chooseIcon')}</p>
             <div
               className="entryImageCenter"
               onClick={() => setShowIconSelection(true)}
             >
               {renderSelectedIcon()}
-            </div>
+            </div> */}
+            {!showIconSelection && (
+              <>
+                <p className="noSpace">{t('chooseIcon')}</p>
+                <div
+                  className="entryImageCenter"
+                  onClick={() => setShowIconSelection(true)}
+                >
+                  {renderSelectedIcon()}
+                </div>
+              </>
+            )}
             <label className="visible-label" htmlFor="favourite">
               {t('favourite')}
             </label>

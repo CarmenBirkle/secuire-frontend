@@ -333,15 +333,6 @@ const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData }) => {
               }}
             />
 
-            {/* <input
-              type="text"
-              id="url"
-              name="url"
-              placeholder={t('url')}
-              pattern="^(https?:\/\/)?(www\.)?[a-zA-Z0-9-_.]+\.[a-zA-Z]+(:\d+)?(\/[a-zA-Z\d-_.]*)*$"
-              title="Gebe eine URL an: www.placeholder.de"
-              onChange={(e) => setUrl(e.target.value)}
-            /> */}
             <input
               type="text"
               id="url"
@@ -351,7 +342,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData }) => {
               onChange={(e) => handleUrlChange(e.target.value)}
             />
             {urlError && <p className="errorMessage">{urlError}</p>}
-            
+
             <input
               type="text"
               id="comment"
@@ -373,13 +364,24 @@ const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData }) => {
         {/* form-elements for safenote-type */}
         {category === 'safenote' && (
           <fieldset>
-            <p className="noSpace">{t('chooseIcon')}</p>
+            {/* <p className="noSpace">{t('chooseIcon')}</p>
             <div
               className="entryImageCenter"
               onClick={() => setShowIconSelection(true)}
             >
               {renderSelectedIcon()}
-            </div>
+            </div> */}
+            {!showIconSelection && (
+              <>
+                <p className="noSpace">{t('chooseIcon')}</p>
+                <div
+                  className="entryImageCenter"
+                  onClick={() => setShowIconSelection(true)}
+                >
+                  {renderSelectedIcon()}
+                </div>
+              </>
+            )}
             <label className="visible-label" htmlFor="favourite">
               {t('favourite')}
             </label>
@@ -429,13 +431,24 @@ const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData }) => {
         {/* form-elements for paymentcard-type */}
         {category === 'paymentcard' && (
           <fieldset>
-            <p className="noSpace">{t('chooseIcon')}</p>
+            {/* <p className="noSpace">{t('chooseIcon')}</p>
             <div
               className="entryImageCenter"
               onClick={() => setShowIconSelection(true)}
             >
               {renderSelectedIcon()}
-            </div>
+            </div> */}
+            {!showIconSelection && (
+              <>
+                <p className="noSpace">{t('chooseIcon')}</p>
+                <div
+                  className="entryImageCenter"
+                  onClick={() => setShowIconSelection(true)}
+                >
+                  {renderSelectedIcon()}
+                </div>
+              </>
+            )}
             <label className="visible-label" htmlFor="favourite">
               {t('favourite')}
             </label>

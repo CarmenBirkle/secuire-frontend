@@ -6,5 +6,6 @@
   "loginButton": "Login",
   "success": "Your account has been successfully created. You can log in",
   "wrongPWMsg": "Wrong Passwort or wrong E-Mail!",
-  "blockedMsg":"Your account is locked, there are too many incorrect login attempts!"
+  "blockedMsg": "Your account is locked, there are too many incorrect login attempts!",
+  "wrongEmail": "This email is not registered!"
 }

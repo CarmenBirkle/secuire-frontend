@@ -29,17 +29,14 @@ const Login = ({setUser, user}) => {
   const [success, setSuccess] = useState(false);
   const inputRef = useRef(null);
   const passwordInputRef = useRef(null);
-  // const [loginMessage, setLoginMessage] = useState('');
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const accountCreated = searchParams.get('accountCreated');
   const [wrongPasswortMsg, setWrongPasswortMsg] = useState(false);
   const [userBlockedMsg, setUserBlockedMsg] = useState(false);
+  const [wrongEmail, setWrongEmail] = useState(false);
 
   //TODO: console.log entfernen
-  //TODO: wrongPassword ausgeben mit Anzahl der Versuche
-  //TODO: wrongPassword zurücksetzen wenn richtige Nutzerdaten
-
 
   /**
    * If the Site is render, it takes the cookie (if exist)
@@ -129,17 +126,7 @@ async function handleLogin(email, password) {
     //  return true;
  
   } catch (error) {
-    // if (error.request.response == 'Bad credentials') {
-    //   console.error('Falsches Passwort');
-    // } else if (error.request.response == 'User is blocked, try again later') {
-    //   console.log('User ist gesperrt, versuche es später erneut');
-    // } else {
-    //   console.log(
-    //     'Fehler bei der Anmeldung, versuche es später erneut',
-    //     error.request.response
-    //   );
-    // }
-    if(error.response && error.response.status){
+     if(error.response && error.response.status){
       switch (error.response.status) {
         case 400:
           console.log('Falsches Passwort');
@@ -151,7 +138,7 @@ async function handleLogin(email, password) {
           break;
         case 404:
           console.log('email adresse nicht gefunden');
-          //TODO irgendwas anderes auf true setzen um den fehler anzuzeigen
+          setWrongEmail(true);
           break;
         default:
           console.log('fehler aufgetreten');
@@ -187,7 +174,6 @@ async function handleLogin(email, password) {
             <p className="successMessage">{t('login:success')}</p>
           )}
         </div>
-
         <input
           type="email"
           id="email"
@@ -212,6 +198,8 @@ async function handleLogin(email, password) {
         {userBlockedMsg && (
           <p className="errorMessage">{t('login:blockedMsg')}</p>
         )}
+        {wrongEmail && <p className="errorMessage">{t('login:wrongEmail')}</p>}
+       
         <div className="flexbox row-reverse allignCenter">
           <input
             type="checkbox"
