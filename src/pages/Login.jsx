@@ -34,6 +34,7 @@ const Login = ({setUser, user}) => {
   const searchParams = new URLSearchParams(location.search);
   const accountCreated = searchParams.get('accountCreated');
   const [wrongPasswortMsg, setWrongPasswortMsg] = useState(false);
+  const [userBlockedMsg, setUserBlockedMsg] = useState(false);
 
   //TODO: console.log entfernen
   //TODO: wrongPassword ausgeben mit Anzahl der Versuche
@@ -61,6 +62,13 @@ const Login = ({setUser, user}) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (userBlockedMsg) {
+      setWrongPasswortMsg(false);
+    }
+  }, [userBlockedMsg]);
+
+
   /**
    * Clears the error message when the success state changes.
    */
@@ -75,24 +83,8 @@ const Login = ({setUser, user}) => {
    */
    const handleSubmit = async (e) => {
      e.preventDefault();
-     console.log(
-       'Email: ',
-       email,
-       'Password: ',
-       password,
-       'Remember: ',
-       remember,
-       'WrongPassword: ',
-       wrongPassword
-       //TODO wrongPassword mitgeben ? 
-            
-     );
      if (!email || !password) return;
-     const hashedPassword = await handleLogin(email, password);
-     if(success){
-        navigate('/main?type=favourites');
-     }
-   
+     const hashedPassword = await handleLogin(email, password);   
    };
 
 
@@ -114,29 +106,54 @@ async function handleLogin(email, password) {
        email: email,
        password: hashedPassword,
        salt: salt,
-       wrongPassword: wrongPassword,
+       wrongPassword: loginResponse.failedLogins,
        username: loginResponse.identityUser.userName,
        passwordHint: loginResponse.passwordHint,
        agbAcceptedAt: loginResponse.agbAcceptedAt,
      });
      Cookies.set('token', loginResponse.jwtToken);
-   
+ 
     console.log('loginResponse: ', loginResponse);
     setWrongPasswortMsg(false);
-     return true;
+    if (loginResponse.failedLogins > 0) {
+      console.log(
+        `Fehlgeschlagene Anmeldeversuche: ${loginResponse.failedLogins}`
+      );
+      navigate(
+        `/main?type=favourites&failedLogins=${loginResponse.failedLogins}`
+      );
+    } else {
+      navigate('/main?type=favourites');
+    }
+    //  navigate('/main?type=favourites');
+    //  return true;
  
   } catch (error) {
-    if (error.request.response == 'Bad credentials') {
-      console.error('Falsches Passwort');
-    } else {
-      console.log(
-        'Fehler bei der Anmeldung, versuche es später erneut',
-        error.request.response
-      );
+    // if (error.request.response == 'Bad credentials') {
+    //   console.error('Falsches Passwort');
+    // } else if (error.request.response == 'User is blocked, try again later') {
+    //   console.log('User ist gesperrt, versuche es später erneut');
+    // } else {
+    //   console.log(
+    //     'Fehler bei der Anmeldung, versuche es später erneut',
+    //     error.request.response
+    //   );
+    // }
+    if(error.response && error.response.status){
+      switch (error.response.status) {
+      case 400:
+        console.log('Falsches Passwort');
+         setWrongPasswortMsg(true);
+        break;
+      case 403:
+        console.log('User ist gesperrt, versuche es später erneut');
+        setUserBlockedMsg(true);
+        break;
+      default:
+        console.log('fehler aufgetreten');
+      }
     }
-    //TODO error handling - was kommt ggf. noch ? 
-    //TODO wrongpw msg engl/ dt.
-    setWrongPasswortMsg(true)
+ 
     return false; 
   }
 }
@@ -187,6 +204,9 @@ async function handleLogin(email, password) {
         />
         {wrongPasswortMsg && (
           <p className="errorMessage">{t('login:wrongPWMsg')}</p>
+        )}
+        {userBlockedMsg && (
+          <p className="errorMessage">{t('login:blockedMsg')}</p>
         )}
         <div className="flexbox row-reverse allignCenter">
           <input

@@ -29,7 +29,7 @@
   "welcome": "Willkommen",
   "cancel": "Abbrechen",
 
-  "search": "Suchen im Titel ...", 
+  "search": "Suchen im Titel ...",
   "favourites": "Deine Favoriten",
   "safenote": "Sichere Notizen",
   "paymentcard": "Bezahlkarten",
@@ -42,11 +42,12 @@
   "copy": "in Zwischenablage kopieren",
   "createNew": "Neuer Eintrag anlegen",
   "dataLeak": "Ihr gewähltes Passwort ist unsicher und wurde bereits in Datenlecks gefunden. Es hat den Bad Score:  ",
-  
+
   "deleteCF": "Benutzerdefiniertes Feld elöschen",
   "createCF": "Benutzerdefiniertes Feld erstellen",
   "pwGenerator": "Passwort Generator",
-  "pwAPIErrorForbidden":"Dein Passwort kann aktuell nicht auf Sicherheit geprüft werden.",
-  "pwAPIErrorNotReachable":"Der Service um Dein Passwort auf Sicherheit zu prüfen ist aktuell nicht erreichbar",
-  "urlError":"Bitte gebe eine valide URL an."
+  "pwAPIErrorForbidden": "Dein Passwort kann aktuell nicht auf Sicherheit geprüft werden.",
+  "pwAPIErrorNotReachable": "Der Service um Dein Passwort auf Sicherheit zu prüfen ist aktuell nicht erreichbar",
+  "urlError": "Bitte gebe eine valide URL an.",
+  "numberFailedLogin": "Anzahl der fehlgeschlagenen Anmeldeversuche: "
 }

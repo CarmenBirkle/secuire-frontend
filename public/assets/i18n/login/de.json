@@ -4,6 +4,7 @@
   "password": "Passwort",
   "remember": "Email merken",
   "loginButton": "Login",
-  "success":"Dein Account wurde erfolgreich erstellt. Du kannst Dich einloggen",
-  "wrongPWMsg":"Dein Passwort war nicht korrekt!"
+  "success": "Dein Account wurde erfolgreich erstellt. Du kannst Dich einloggen",
+  "wrongPWMsg": "Dein Passwort oder Deine E-mail war nicht korrekt!",
+  "blockedMsg": "Dein Account ist gesperrt, es liegen zu viele falsche Anmeldeversuche vor!"
 }

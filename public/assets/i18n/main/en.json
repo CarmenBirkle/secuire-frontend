@@ -49,5 +49,6 @@
   "pwGenerator": "Password Generator",
   "pwAPIErrorForbidden": "Your password cannot be checked for security at the moment.",
   "pwAPIErrorNotReachable": "The service to check your password for security is currently unavailable.",
-  "urlError": "Please enter a valid URL"
+  "urlError": "Please enter a valid URL",
+  "numberFailedLogin": "Number of failed login attempts: "
 }

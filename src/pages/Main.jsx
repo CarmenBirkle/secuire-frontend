@@ -27,6 +27,8 @@ const Main = ({user}) => {
   const [showDetail, setShowDetail] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [reloadData, setReloadData] = useState(false);
+  const FAILED_LOGINS = params.get('failedLogins');
+
 
   //const [encryptedDataEntrys, setEncryptedDataEntrys] = useState([]);
   // const [encryptedData, setEncryptedData] = useState([]);
@@ -203,6 +205,12 @@ useEffect(() => {
               <h1>
                 {t('welcome')} {user?.username},
               </h1>
+              {FAILED_LOGINS && (
+                <p className="errorMessage">
+                  {t('numberFailedLogin')}
+                  {FAILED_LOGINS}
+                </p>
+              )}
               <h2 className="subheadline">
                 {t(ENTRY_TYPE ? ENTRY_TYPE : 'main')}
               </h2>
