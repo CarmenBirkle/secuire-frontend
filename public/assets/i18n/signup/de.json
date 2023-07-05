@@ -14,5 +14,6 @@
   "errorAccountCreated": "Der Account konnte nicht erstellt werden, versuche es später nochmals.",
   "userNameError": "Der Username exististiert schon",
   "success":"Registrierung erfolgreich, du wirst zur Anmeldeseite weitergeleitet.  ",
-  "complexError":"Dein Passwort ist nicht Komplex genug (8 Zeichen, mind. 1 Großbuchstaben, mind. 1 Kleinbuchstaben, mind. 1 Ziffer und mind. 1 Sonderzeichen enthalten.)"
+  "complexError":"Dein Passwort ist nicht Komplex genug (8 Zeichen, mind. 1 Großbuchstaben, mind. 1 Kleinbuchstaben, mind. 1 Ziffer und mind. 1 Sonderzeichen enthalten.)",
+  "space":"Dein Username darf nur Buchstaben und Zahlen enthalten!"
 }

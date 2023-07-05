@@ -27,6 +27,7 @@ const Signup = () => {
   const [agbAcceptedAt, setAGBAcceptedAt] = useState(null);
   const [accountCreated, setAccountCreated] = useState(false);
   const [accountCreatedError, setAccountCreatedError] = useState(null);
+  const [usernameSpaceError, setUsernameSpaceError] = useState(false);
   const navigate = useNavigate();
 
   const isPasswordComplexEnough = (password) => {
@@ -128,10 +129,22 @@ const Signup = () => {
   /**
    * Resets the error message if the user changes the username
    */
+  // const handleUsernameChange = (e) => {
+  //   setUsername(e.target.value);
+  //   setAccountCreatedError(''); 
+  // };
+
   const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-    setAccountCreatedError(''); 
+    const usernameInput = e.target.value;
+    const regex = /^[a-zA-Z0-9]*$/;
+    if (!regex.test(usernameInput)) {
+      setUsernameSpaceError(true);
+    } else {
+      setUsername(usernameInput);
+      setAccountCreatedError('');
+    }
   };
+
 
   /**
    * Resets the error message if the user changes the email
@@ -147,6 +160,9 @@ const Signup = () => {
     <>
       <h1>{t('common:signup')}</h1>
       <form onSubmit={handleSubmit}>
+        {usernameSpaceError && (
+          <p className="infoMessage"> {t('signup:space')}</p>
+        )}
         <fieldset>
           <label htmlFor="">{t('signup:username')}:</label>
           <input
