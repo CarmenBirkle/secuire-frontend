@@ -7,6 +7,7 @@ import cancelIcon from './../img/icon-close.svg';
 import deleteIcon from './../img/icon_delete_blue.svg';
 import addIcon from './../img/icon_add_blue.svg';
 import { updatedDataEntry,checkPasswordSecurity, } from './helperSites/Axios.jsx';
+import validator from 'validator';
  
 
 const EditDataEntry = ({
@@ -17,7 +18,6 @@ const EditDataEntry = ({
   setReloadData,
 }) => {
   const initialState = {
-    //id: dataEntry?.id ?? '',
     category: dataEntry.category,
     favourite: dataEntry.favourite || '',
     selectedIcon: dataEntry.selectedIcon || '',
@@ -44,19 +44,33 @@ const EditDataEntry = ({
     dataEntry.customTopics || []
   );
   const [countLeaks, setCountLeaks] = useState(null);
-
-  //  console.log('Initial state nach instanziierung: ', initialState);
+  const [url, setUrl] = useState('');
+  const [urlError, setUrlError] = useState(false);
 
   // TODO entfernen
   console.log('ursprungsdaten: ', dataEntry);
   console.log('state: vor änderung ', state);
   console.log('id:', dataEntry.id);
 
+  // const handleInputChange = (field, value) => {
+  //   setState((prevState) => ({ ...prevState, [field]: value }));
+  //    //console.log(`Updated field ${field}: `, value);
+  // };
+
   const handleInputChange = (field, value) => {
+    // Wenn das Feld "url" ist, führen Sie die URL-Validierung durch
+    if (field === 'url') {
+      const isValidUrl = validator.isURL(value, { require_protocol: false });
+
+      if (!isValidUrl) {
+        setUrlError('Please enter a valid URL.');
+      } else {
+        setUrlError(null); // Kein Fehler
+      }
+    }
+
+    // Zustandsaktualisierung für alle Felder
     setState((prevState) => ({ ...prevState, [field]: value }));
-    // console.log('initialState: ', initialState);
-    console.log(`Updated field ${field}: `, value);
-    // console.log('state nach änderung: ', state);
   };
 
   const handleSubmit = async (e) => {
@@ -116,6 +130,7 @@ const EditDataEntry = ({
     setCustomTopics(updatedFields);
   };
 
+ 
   const handleFieldChange = (index, fieldKey, value) => {
     console.log(`Eingabe in Feld ${index} (${fieldKey}): ${value}`);
     const updatedFields = [...customTopics];
@@ -151,10 +166,6 @@ const EditDataEntry = ({
           alt={t('remove')}
           onClick={() => handleRemoveField(index)}
         />
-
-        {/*<button type="button" onClick={() => handleRemoveField(index)}>
-         {t('remove')}
-        </button>*/}
       </div>
     ));
   };
@@ -240,7 +251,7 @@ const EditDataEntry = ({
               type="checkbox"
               id="favourite"
               name="favourite"
-              value={state.favourite}
+              checked={state.favourite}
               placeholder={t('favourite')}
               onChange={(e) => handleInputChange('favourite', e.target.checked)}
             />
@@ -299,12 +310,11 @@ const EditDataEntry = ({
               id="url"
               name="url"
               placeholder={t('url')}
-              // pattern="^(http:\/\/|https:\/\/)?(www\.)?[a-zA-Z0-9-_\.]+\.[a-zA-Z]+(:\d+)?(\/[a-zA-Z\d\.\-_]*)*"
-              pattern="^(https?:\/\/)?(www\.)?[a-zA-Z0-9_.-]+\.[a-zA-Z]+(:\d+)?(\/[a-zA-Z\d-_.]*)*$"
-              title="Gebe eine URL an: www.placeholder.de"
               value={state.url}
               onChange={(e) => handleInputChange('url', e.target.value)}
+              required
             />
+            {urlError && <p className="errorMessage">{urlError}</p>}
             <input
               type="text"
               id="comment"

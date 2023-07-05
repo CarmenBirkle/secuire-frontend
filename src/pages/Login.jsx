@@ -33,6 +33,7 @@ const Login = ({setUser, user}) => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const accountCreated = searchParams.get('accountCreated');
+  const [wrongPasswortMsg, setWrongPasswortMsg] = useState(false);
 
   //TODO: console.log entfernen
   //TODO: wrongPassword ausgeben mit Anzahl der Versuche
@@ -83,11 +84,15 @@ const Login = ({setUser, user}) => {
        remember,
        'WrongPassword: ',
        wrongPassword
+       //TODO wrongPassword mitgeben ? 
             
      );
      if (!email || !password) return;
      const hashedPassword = await handleLogin(email, password);
-     navigate('/main?type=favourites');
+     if(success){
+        navigate('/main?type=favourites');
+     }
+   
    };
 
 
@@ -115,19 +120,24 @@ async function handleLogin(email, password) {
        agbAcceptedAt: loginResponse.agbAcceptedAt,
      });
      Cookies.set('token', loginResponse.jwtToken);
-     //TODO dataentrys speichern aus response
+   
     console.log('loginResponse: ', loginResponse);
+    setWrongPasswortMsg(false);
+     return true;
  
-    // Daten aus loginResponse verarbeiten. Unklar wie das Objekt aussieht, daher erstmal Aonsolenausgabe
-    // z.b. über setzen des Cookies
-
-    //console.log('Erfolgreiche Anmeldung. Daten:', loginResponse);
-    // Cookies.set( 'authToken', 'Token hier, wahrscheinlich Variable aus loginResponse');
-
-    // setSuccess(true);
   } catch (error) {
-    console.error('Es gab einen Fehler bei der Anmeldung:', error);
-    //ggf. Error Handling für falsches PW. -> was kommt da rüber? 
+    if (error.request.response == 'Bad credentials') {
+      console.error('Falsches Passwort');
+    } else {
+      console.log(
+        'Fehler bei der Anmeldung, versuche es später erneut',
+        error.request.response
+      );
+    }
+    //TODO error handling - was kommt ggf. noch ? 
+    //TODO wrongpw msg engl/ dt.
+    setWrongPasswortMsg(true)
+    return false; 
   }
 }
 
@@ -175,6 +185,9 @@ async function handleLogin(email, password) {
           ref={passwordInputRef}
           onChange={(e) => setPassword(e.target.value)}
         />
+        {wrongPasswortMsg && (
+          <p className="errorMessage">{t('login:wrongPWMsg')}</p>
+        )}
         <div className="flexbox row-reverse allignCenter">
           <input
             type="checkbox"

@@ -4,5 +4,6 @@
   "password": "Password",
   "remember": "Remember me",
   "loginButton": "Login",
-  "success":"Your account has been successfully created. You can log in"
+  "success": "Your account has been successfully created. You can log in",
+  "wrongPWMsg": "Wrong Passwort!"
 }

@@ -12,6 +12,7 @@ import {
   checkPasswordSecurity,
 } from './helperSites/Axios.jsx';
 import PwGenerator from '../pages/PwGenerator';
+import validator from 'validator';
 
 
 
@@ -39,7 +40,8 @@ const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData }) => {
   const [countLeaks, setCountLeaks] = useState(null);
   const [pwAPIError, setPwAPIError] = useState(null);
   const navigate = useNavigate();
-
+  const [state, setState] = useState({ url: '' });
+  const [urlError, setUrlError] = useState(null);
   const [buttonPopup, setButtonPopup] = useState(false);
   const togglePopup = () => {
     setButtonPopup(!buttonPopup);
@@ -98,20 +100,18 @@ const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData }) => {
 
     //TODO delete in production
     console.log('Verschlüsselt: Eingabe aus Submit:', encryptedData);
-    //TODO error handling definieren
-    //Send Data to Backend
+
     createDataEntry(encryptedData, setErrMsg)
       .then((response) => {
         console.log('Erfolgreiche Übertragung:', response);
         setReloadData((oldValue) => !oldValue);
       })
       .catch((error) => {
-        console.error('Fehler beim Übertragen der Daten:', error);
-        // if(!error.response){ // lost connection to server
-        //    setErrMsg('No Server Response');
-        // }else if (error.response?.status === 400) {
-        //   setErrMsg('Bad Request');
-        // }setErrMsg('Something went wrong');
+        if(!error.response){ // lost connection to server
+           setErrMsg('No Server Response');
+        }else if (error.response?.status === 400) {
+          setErrMsg('Bad Request');
+        }setErrMsg('Something went wrong');
       });
   };
 
@@ -224,6 +224,16 @@ const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData }) => {
     }
   }, [countLeaks]);
 
+  const handleUrlChange = (value) => {
+    const isValidUrl = validator.isURL(value, { require_protocol: false });
+    if (!isValidUrl) {
+      setUrlError(t('urlError'));
+    } else {
+      setUrlError(null); 
+    }
+    setUrl(value);
+  };
+
   return (
     <>
       <div className="custom-select">
@@ -322,12 +332,13 @@ const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData }) => {
                 }
               }}
             />
+
             {/* <input
               type="text"
               id="url"
               name="url"
               placeholder={t('url')}
-              pattern="^(http:\/\/|https:\/\/)?(www\.)?[a-zA-Z0-9-_\.]+\.[a-zA-Z]+(:\d+)?(\/[a-zA-Z\d\.\-_]*)*"
+              pattern="^(https?:\/\/)?(www\.)?[a-zA-Z0-9-_.]+\.[a-zA-Z]+(:\d+)?(\/[a-zA-Z\d-_.]*)*$"
               title="Gebe eine URL an: www.placeholder.de"
               onChange={(e) => setUrl(e.target.value)}
             /> */}
@@ -336,11 +347,11 @@ const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData }) => {
               id="url"
               name="url"
               placeholder={t('url')}
-              pattern="^(https?:\/\/)?(www\.)?[a-zA-Z0-9-_.]+\.[a-zA-Z]+(:\d+)?(\/[a-zA-Z\d-_.]*)*$"
               title="Gebe eine URL an: www.placeholder.de"
-              onChange={(e) => setUrl(e.target.value)}
+              onChange={(e) => handleUrlChange(e.target.value)}
             />
-
+            {urlError && <p className="errorMessage">{urlError}</p>}
+            
             <input
               type="text"
               id="comment"
