@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import bcrypt from 'bcryptjs';
 import { updateUser } from './helperSites/Axios.jsx';
-
+import Cookies from 'js-cookie';
 import cancelIcon from './../img/icon-close.svg';
 
 const EditAccount = ({ user, setUser, setEditMode }) => {
@@ -15,31 +15,47 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState(false);
   const [newHashedPassword, setNewHashedPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  // const [oldPassword, setOldPassword] = useState(user.password);
+
+  useEffect(() => {
+    console.log('newPassword', newPassword);
+    console.log('confirmed pw', confirmPassword);
+    console.log('user pw', user.password);
+    console.log('user Objekt', user);
+  }, [newPassword, confirmPassword, passwordHint]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('submit');
+     let oldPassword = user.password;
+     let finalPassword = '';
 
-    if (changePassword && password !== confirmPassword) {
+    if (changePassword && newPassword !== confirmPassword) {
       setError(true);
       return;
     }
+ 
   console.log('salt',user.salt);
-  console.log('password', password);
-  if (password){
-    const hashedPassword = await bcrypt.hash(password, user.salt);
-    setNewHashedPassword(hashedPassword);
-  } else {
-    setNewHashedPassword('');
-  }
+  console.log(' old password', oldPassword);
+
+  if (newPassword){
+    console.log('new password', newPassword)
+    const hashedPassword = await bcrypt.hash(newPassword, user.salt);
+    console.log('hashedPassword', hashedPassword);
+    finalPassword = hashedPassword;
+  // } else {
+  //   setNewHashedPassword('');
+   }
   
-  console.log('password', password);
-  console.log('hashedNewPassword', newHashedPassword);
+  console.log('oldpw after hash', oldPassword);
+  console.log('hashedNewPassword', finalPassword);
 
     const updatedUser = {
       username: username,
-      hashedPassword: user.password,
-      newHashedPassword: newHashedPassword,
+      hashedPassword: oldPassword,
+      newHashedPassword: finalPassword,
       email: email,
       salt: user.salt,
       agbAcceptedAt: user.agbAcceptedAt,
@@ -47,8 +63,28 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
     };
      console.log('submit', updatedUser);
    try {
-    await updateUser(updatedUser);
-    setUser(updatedUser); 
+    const response= await updateUser(updatedUser);
+     console.log('response', response);
+      const responseUser = {
+        username: response.identityUser.userName,
+        //hashedPassword: finalPassword ? newHashedPassword : oldPassword,
+        password: finalPassword ? newPassword : oldPassword,
+        email: response.identityUser.email,
+        salt: response.salt,
+        agbAcceptedAt: response.agbAcceptedAt,
+        passwordHint: response.passwordHint,
+      };
+      Cookies.set('token', response.jwtToken); 
+     
+      console.log('responseUser', responseUser);
+
+        setUser(responseUser);
+        console.log('user', user);
+    
+      
+      
+    // setUser(response.data);
+    // setUser(updatedUser); 
    } catch (error) {
     console.log(error);
    }
@@ -56,7 +92,8 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
   };
 
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+    setNewPassword(e.target.value);
+    console.log('newPassword', newPassword);
     setError(false);
   };
 
@@ -119,18 +156,18 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
             <>
               <fieldset>
                 <input
-                  type="password"
+                  type="text"
                   id="signup-password"
                   name="signup-password"
                   required
                   placeholder={t('password')}
-                  value={password}
+                  value={newPassword}
                   onChange={handlePasswordChange}
                 />
               </fieldset>
               <fieldset>
                 <input
-                  type="password"
+                  type="text"
                   id="pwCheck"
                   name="pwCheck"
                   required
@@ -143,9 +180,7 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
             </>
           )}
 
-          {error && (
-            <p className="errorMessage ">{t('passwordError')}</p>
-          )}
+          {error && <p className="errorMessage ">{t('passwordError')}</p>}
 
           <div className="main_icons_bg">
             <img
