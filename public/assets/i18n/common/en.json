@@ -5,5 +5,8 @@
   "imprint": "Imprint",
   "legalnotice": "Data privacy policy",
   "errorpage": "Oops! it's A Dead End",
-  "errorbackhome": "Back Home"
+  "errorbackhome": "Back Home",
+  "accept": "Accept",
+  "deny": "Deny",
+  "cookietext": "We use cookies to ensure the proper functioning of our website, to personalise content and to analyse our data traffic. You can find details in our "
 }

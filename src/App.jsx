@@ -34,6 +34,8 @@ import './fonts/poppins-v20-latin-regular.ttf';
 import './fonts/poppins-v20-latin-regular.woff';
 import './fonts/poppins-v20-latin-regular.woff2';
 
+import CookieBanner from './components/CookieBanner';
+
 import  logo_icon  from './img/logo_icon.svg';
 
 const App = () => {
@@ -117,6 +119,8 @@ const App = () => {
           </div>
         </div>
       ) : (
+        <>
+        <div><CookieBanner /></div>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<SharedLayout />}>
@@ -169,6 +173,8 @@ const App = () => {
             </Route>
           </Routes>
         </BrowserRouter>
+        </>
+
       )}
     </Suspense>
   );

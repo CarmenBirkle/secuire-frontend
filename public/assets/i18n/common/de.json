@@ -5,5 +5,8 @@
   "imprint": "Impressum",
   "legalnotice": "Datenschutz",
   "errorpage": "Hoppla das ist eine Sackgasse",
-  "errorbackhome": "Zurück zur Startseite"
+  "errorbackhome": "Zurück zur Startseite",
+  "accept": "Akzeptieren",
+  "deny": "Ablehnen",
+  "cookietext": "Wir verwenden Cookies, um die einwandfreie Funktion unserer Website zu gewährleisten, Inhalte zu personalisieren und unseren Datenverkehr zu analysieren. Details finden Sie in unserer "
 }

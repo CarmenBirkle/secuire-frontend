@@ -57,9 +57,7 @@ const Home = () => {
           <p className="errorMessage">{t('home:deleteuser')}.</p>
         )}
       </div>
-      <p>{t('home:content1')}</p> <br />
-      <p>{t('home:content2')}</p>
-      <p>{t('home:content3')}</p>
+      <p>{t('home:content1')} {t('home:content2')} {t('home:content3')}</p>
       <p>{t('home:content4')}</p>
       <br />
       <p>{t('home:video')}</p>
