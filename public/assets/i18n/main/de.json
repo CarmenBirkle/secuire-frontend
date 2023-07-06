@@ -49,5 +49,7 @@
   "pwAPIErrorForbidden": "Dein Passwort kann aktuell nicht auf Sicherheit geprüft werden.",
   "pwAPIErrorNotReachable": "Der Service um Dein Passwort auf Sicherheit zu prüfen ist aktuell nicht erreichbar",
   "urlError": "Bitte gebe eine valide URL an.",
-  "numberFailedLogin": "Anzahl der fehlgeschlagenen Anmeldeversuche: "
+  "numberFailedLogin": "Anzahl der fehlgeschlagenen Anmeldeversuche: ",
+  "successUserCopy":"Username/Email erfolgreich kopiert",
+  "successPwCopy":"Passwort erfolgreich kopiert"
 }

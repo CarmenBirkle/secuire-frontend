@@ -4,7 +4,7 @@
  * for each DataEntry an Overview component
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { icons } from './helperSites/IconsDataEntry';
 import { dummyIcon } from './helperSites/IconsDataEntry';
 import { useTranslation } from 'react-i18next';
@@ -26,31 +26,40 @@ const SingleDataEntryDetail = ({
 }) => {
   const { t } = useTranslation(['main']);
   const [showSecret, setShowSecret] = useState(false);
+  const [successUserCopy, setSuccessUserCopy] = useState(false);
+  const [successPwCopy, setSuccessPwCopy] = useState(false);
 
+  /** Toggle the password visibility  */
   const togglePasswordVisibility = () => {
     setShowSecret(!showSecret);
   };
 
-  // const copyToClipboard = (text) => {
-  //   navigator.clipboard
-  //     .writeText(text)
-  //     .then(() => {
-  //       console.log('Text copied to clipboard');
-  //       // TODO Userfeedback - text erfolgreich kopiert ?
-  //     })
-  //     .catch((error) => {
-  //       console.error('Failed to copy text to clipboard:', error);
-  //       // TODO Userfeedback - text konnte nicht kopiert werden
-  //     });
-  // };
+  /** Reset the state, to hide the success userfeedback */
+  useEffect(() => {
+    setTimeout(() => {
+      if (successUserCopy) {
+        setSuccessUserCopy(false);
+      }
+      if (successPwCopy) {
+        setSuccessPwCopy(false);
+      }
+    }, 3000);
+  }, [successUserCopy, successPwCopy]);
+
   
 /**
- * Copy text to clipboard
+ * Copy text to clipboard for username and password
  * @param {*} text 
  */
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
+    setSuccessUserCopy(true);
   };
+
+  const copyPwToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
+    setSuccessPwCopy(true);
+  }
 
   /**
    * Sets the translation for the card types.
@@ -146,6 +155,9 @@ const SingleDataEntryDetail = ({
                     alt={t('copy')}
                   />
                 </div>
+                {successUserCopy && (
+                  <p className="successMessage">{t('successUserCopy')}</p>
+                )}
               </div>
               <div className="singleEntry">
                 <p>{t('password')}:</p>
@@ -170,11 +182,14 @@ const SingleDataEntryDetail = ({
                   <div>
                     <img
                       className="icon_circle"
-                      onClick={() => copyToClipboard(dataEntry.password)}
+                      onClick={() => copyPwToClipboard(dataEntry.password)}
                       src={copyIcon}
                       alt={t('copy')}
                     />
                   </div>
+                  {successPwCopy && (
+                    <p className="successMessage">{t('successPwCopy')}</p>
+                  )}
                 </div>
               </div>
               <div className="singleEntry">

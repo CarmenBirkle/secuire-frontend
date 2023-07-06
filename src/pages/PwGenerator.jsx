@@ -144,31 +144,32 @@ const PwGenerator = () => {
       />
 
       {successUserFeedback && (
-        <p className="errorMessage">{successUserFeedback}</p>
+        <p className="successMessage">{successUserFeedback}</p>
       )}
       {errorUserFeedback && <p className="errorMessage">{errorUserFeedback}</p>}
 
-      <form action="" className='pw-generator'>
-        <fieldset className='myRange'>
+      <form action="" className="pw-generator">
+        <fieldset className="myRange">
           <label htmlFor="myRange">{t('length')}</label>
-            <p>{passwordLength}</p>
-            <input
-              type="range"
-              min="8"
-              max="30"
-              defaultValue={passwordLength}
-              id="myRange"
-              onChange={(event) => setPasswordLength(event.currentTarget.value)}
+          <p>{passwordLength}</p>
+          <input
+            type="range"
+            min="8"
+            max="30"
+            defaultValue={passwordLength}
+            id="myRange"
+            onChange={(event) => setPasswordLength(event.currentTarget.value)}
           />
         </fieldset>
-        <fieldset className='check'>
+        <fieldset className="check">
           <label htmlFor="lowercase">
             <input
               type="checkbox"
               id="lowercase"
               checked={lowercase}
               disabled={
-                selectedChoice.length === 1 && selectedChoice.includes('lowercase')
+                selectedChoice.length === 1 &&
+                selectedChoice.includes('lowercase')
               }
               onChange={() => {
                 setLowercase(!lowercase);
@@ -179,13 +180,14 @@ const PwGenerator = () => {
             <span className="checkmark"></span>
           </label>
         </fieldset>
-        <fieldset className='check'>
+        <fieldset className="check">
           <label htmlFor="uppercase">
             <input
               type="checkbox"
               id="uppercase"
               disabled={
-                selectedChoice.length === 1 && selectedChoice.includes('uppercase')
+                selectedChoice.length === 1 &&
+                selectedChoice.includes('uppercase')
               }
               checked={uppercase}
               onChange={() => {
@@ -197,13 +199,14 @@ const PwGenerator = () => {
             <span className="checkmark"></span>
           </label>
         </fieldset>
-        <fieldset className='check'>
+        <fieldset className="check">
           <label htmlFor="numbers">
             <input
               type="checkbox"
               id="numbers"
               disabled={
-                selectedChoice.length === 1 && selectedChoice.includes('numbers')
+                selectedChoice.length === 1 &&
+                selectedChoice.includes('numbers')
               }
               checked={numbers}
               onChange={() => {
@@ -215,13 +218,14 @@ const PwGenerator = () => {
             <span className="checkmark"></span>
           </label>
         </fieldset>
-        <fieldset className='check'>
-         <label htmlFor="symbols">
+        <fieldset className="check">
+          <label htmlFor="symbols">
             <input
               type="checkbox"
               id="symbols"
               disabled={
-                selectedChoice.length === 1 && selectedChoice.includes('symbols')
+                selectedChoice.length === 1 &&
+                selectedChoice.includes('symbols')
               }
               checked={symbols}
               onChange={() => {
@@ -233,9 +237,10 @@ const PwGenerator = () => {
             <span className="checkmark"></span>
           </label>
         </fieldset>
-        
-        
-        <button className="submitButton" onClick={generatePassword}>Generate</button>
+
+        <button className="submitButton" onClick={generatePassword}>
+          Generate
+        </button>
       </form>
       <div className="main_icons_bg">
         <img

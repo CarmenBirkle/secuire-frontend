@@ -50,5 +50,7 @@
   "pwAPIErrorForbidden": "Your password cannot be checked for security at the moment.",
   "pwAPIErrorNotReachable": "The service to check your password for security is currently unavailable.",
   "urlError": "Please enter a valid URL",
-  "numberFailedLogin": "Number of failed login attempts: "
+  "numberFailedLogin": "Number of failed login attempts: ",
+  "successUserCopy": "Username/Email successfully copied",
+  "successPwCopy": "Password successfully copied"
 }
