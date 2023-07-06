@@ -357,10 +357,14 @@ nav li.navlink.active a, nav li a:hover  {
     background-color: green;
     color:#fff;
   }
+  .success {
+    color: green;
+  }
   .errorMessage,  .infoMessage, .successMessage {
     padding: 0.5em 1em;
     border-radius: 20px;
     text-align: center;
+    width: 100%;
   }
 
   /* main style */

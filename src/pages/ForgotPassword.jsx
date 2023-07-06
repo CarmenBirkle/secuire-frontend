@@ -44,19 +44,32 @@ const ForgotPassword = () => {
 
   return (
     <>
-      <h2>{t('showPWHint')}</h2>
-      <input type="email" placeholder='E-Mail' onChange={(e) => setEmail(e.target.value)} />
-      <button className="submitButton" onClick={handleGetHint}>
+      <h1>{t('forgotPW')}</h1>
+      <h2 className='subheadline'>{t('showPWHint')}</h2>
+      <form>
+        <fieldset>
+
+        <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            placeholder={t('placeholder')}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </fieldset>
+        <button className="submitButton" onClick={handleGetHint}>
         {t('showPWHintButton')}
       </button>
-      <br />
       {hint && !errMsg && (
         <>
           <p>{t('showHint')}</p>
-          <p className="successMessage"> {hint}</p>
+          <p className="success"> {hint}</p>
         </>
       )}
       {errMsg && <p className="errorMessage">{t('error')}</p>}
+      </form>
+      
     </>
   );
 };
