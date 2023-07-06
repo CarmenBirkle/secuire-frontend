@@ -11,5 +11,7 @@
   "deleteUser": "Are you sure you want to delete the user account ? This will also delete all your saved passwords, payment cards and secure notes! ",
   "yes": "Yes",
   "no": "No",
-  "userNotFound": "The specified e-mail address was not found!"
+  "userNotFound": "The specified e-mail address was not found!",
+  "complexError": "Your password is not complex enough (8 characters, at least 1 uppercase letter, at least 1 lowercase letter, at least 1 digit and at least 1 special character include)",
+  "space": "Your username must only contain letters and numbers!"
 }

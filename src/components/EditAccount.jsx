@@ -16,6 +16,8 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
   const [error, setError] = useState(false);
   const [newHashedPassword, setNewHashedPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [usernameError, setUsernameError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   // const [oldPassword, setOldPassword] = useState(user.password);
 
   useEffect(() => {
@@ -25,6 +27,16 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
     console.log('user Objekt', user);
   }, [newPassword, confirmPassword, passwordHint]);
 
+  const handleUsernameChange = (e) => {
+    const usernameInput = e.target.value;
+    const regex = /^[a-zA-Z0-9]*$/;
+    if (!regex.test(usernameInput)) {
+      setUsernameError(true);
+    } else {
+      setUsername(usernameInput);
+      setUsernameError(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -91,11 +103,28 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
     setEditMode(false);
   };
 
-  const handlePasswordChange = (e) => {
-    setNewPassword(e.target.value);
-    console.log('newPassword', newPassword);
-    setError(false);
-  };
+    const isPasswordComplexEnough = (password) => {
+      const regex =
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/;
+      return regex.test(password);
+    };
+
+const handlePasswordChange = (e) => {
+  const newPasswordInput = e.target.value;
+  setNewPassword(newPasswordInput);
+  if (!isPasswordComplexEnough(newPasswordInput)) {
+    setPasswordError(true);
+  } else {
+    setPasswordError(false);
+  }
+};
+
+
+  // const handlePasswordChange = (e) => {
+  //   setNewPassword(e.target.value);
+  //   console.log('newPassword', newPassword);
+  //   setError(false);
+  // };
 
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
@@ -115,9 +144,10 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
               required
               placeholder={t('username')}
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={handleUsernameChange}
             />
           </fieldset>
+          {usernameError && <p className="errorMessage">{t('space')}</p>}
 
           <fieldset>
             <input
@@ -156,18 +186,22 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
             <>
               <fieldset>
                 <input
-                  type="text"
+                  type="password"
                   id="signup-password"
                   name="signup-password"
                   required
                   placeholder={t('password')}
                   value={newPassword}
                   onChange={handlePasswordChange}
+                  className={passwordError ? 'errorField' : ''}
                 />
               </fieldset>
+              {passwordError && (
+                <p className="errorMessage">{t('complexError')}</p>
+              )}
               <fieldset>
                 <input
-                  type="text"
+                  type="password"
                   id="pwCheck"
                   name="pwCheck"
                   required
@@ -176,6 +210,7 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
                   onChange={handleConfirmPasswordChange}
                   className={error ? 'errorField' : ''}
                 />
+                {error && <p className="errorMessage">{t('usernameError')}</p>}
               </fieldset>
             </>
           )}
