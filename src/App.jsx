@@ -12,6 +12,7 @@ import SharedLayout from './components/helperSites/SharedLayout';
 import AccountSettings from './pages/AccountSettings';
 import PwGenerator from './pages/PwGenerator';
 import FAQ from './pages/FAQ';
+import AGB from './pages/AGB';
 import Nice2Know from './pages/Nice2Know';
 import ForgotPassword from './pages/ForgotPassword';
 import Login from './pages/Login';
@@ -101,61 +102,63 @@ const App = () => {
         </>
       ) : (
         <>
-        <div><CookieBanner /></div>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<SharedLayout />}>
-              <Route index element={<Home />} />
+          <div>
+            <CookieBanner />
+          </div>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<SharedLayout />}>
+                <Route index element={<Home />} />
 
-              <Route
-                path="account"
-                element={
-                  <ProtectedRoute user={user} setUser={setUser}>
-                    <AccountSettings user={user} setUser={setUser} />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="main"
-                element={
-                  <ProtectedRoute user={user}>
-                    <Main user={user} />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="main/:type"
-                component={
-                  <ProtectedRoute user={user}>
-                    <Main user={user} />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="pwgenerator"
-                element={
-                  <ProtectedRoute user={user}>
-                    <PwGenerator />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="account"
+                  element={
+                    <ProtectedRoute user={user} setUser={setUser}>
+                      <AccountSettings user={user} setUser={setUser} />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="main"
+                  element={
+                    <ProtectedRoute user={user}>
+                      <Main user={user} />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="main/:type"
+                  component={
+                    <ProtectedRoute user={user}>
+                      <Main user={user} />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="pwgenerator"
+                  element={
+                    <ProtectedRoute user={user}>
+                      <PwGenerator />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route path="faq" element={<FAQ />} />
-              <Route path="nice2know" element={<Nice2Know />} />
-              <Route path="imprint" element={<Imprint />} />
-              <Route path="legalnotice" element={<LegalNotice />} />
-              <Route path="signup" element={<Signup />} />
-              <Route
-                path="login"
-                element={<Login setUser={setUser} user={user} />}
-              />
-              <Route path="forgotpassword" element={<ForgotPassword />} />
-              <Route path="*" element={<Error />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+                <Route path="faq" element={<FAQ />} />
+                <Route path="nice2know" element={<Nice2Know />} />
+                <Route path="imprint" element={<Imprint />} />
+                <Route path="legalnotice" element={<LegalNotice />} />
+                <Route path="signup" element={<Signup />} />
+                <Route
+                  path="login"
+                  element={<Login setUser={setUser} user={user} />}
+                />
+                <Route path="forgotpassword" element={<ForgotPassword />} />
+                <Route path="agb" element={<AGB />} />
+                <Route path="*" element={<Error />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
         </>
-
       )}
     </Suspense>
   );
