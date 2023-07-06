@@ -16,6 +16,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { getSalt, loginUser } from './../components/helperSites/Axios.jsx'; 
 import bcrypt from 'bcryptjs';
+import { useContext } from 'react';
+import { AppContext } from './../components/helperSites/AppContext';
 
 
 
@@ -36,8 +38,11 @@ const Login = ({setUser, user}) => {
   const [wrongPasswortMsg, setWrongPasswortMsg] = useState(false);
   const [userBlockedMsg, setUserBlockedMsg] = useState(false);
   const [wrongEmail, setWrongEmail] = useState(false);
-
+ 
   //TODO: console.log entfernen
+ const { setLogIn } = useContext(AppContext);
+
+
 
   /**
    * If the Site is render, it takes the cookie (if exist)
@@ -60,11 +65,11 @@ const Login = ({setUser, user}) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (userBlockedMsg) {
-      setWrongPasswortMsg(false);
-    }
-  }, [userBlockedMsg]);
+  // useEffect(() => {
+  //   if (userBlockedMsg) {
+  //     setWrongPasswortMsg(false);
+  //   }
+  // }, [userBlockedMsg]);
 
 
   /**
@@ -115,7 +120,7 @@ async function handleLogin(email, password) {
        secretKey: secretKey,
      });
      Cookies.set('token', loginResponse.jwtToken);
- 
+    setLogIn(true);
     console.log('loginResponse: ', loginResponse);
     setWrongPasswortMsg(false);
     if (loginResponse.failedLogins > 0) {

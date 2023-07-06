@@ -5,7 +5,7 @@
 
 // Import required modules
 import React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -14,11 +14,17 @@ import Navbar from '../nav/Navbar';
 import logo from '../../img/logo_icon.svg';
 import imgDE from '../../img/germany.png';
 import imgEN from '../../img/united-kingdom.png';
+import { AppContext } from '../helperSites/AppContext';
+import Cookies from 'js-cookie';
 
 const Header = () => {
   const i18n = useTranslation(['header']);
   const currentLang = localStorage.getItem('i18nextLng');
   const [toggleLang, setLangToggled] = useState(false);
+  const [user, setUser] = useState(null);
+  const { logIn, setLogIn } = useContext(AppContext);
+
+  
 
   /**
    * Get menu button and navigation element by id
@@ -80,6 +86,13 @@ const Header = () => {
     headerElement.parentElement.classList.remove('front');
   };
 
+  const handleLogout = () => {
+     setLogIn(false);
+     setUser(null);
+     window.location.href = '/';
+     Cookies.remove('token');
+  }
+
 
   return (
     <>
@@ -104,6 +117,9 @@ const Header = () => {
             <option value="de">DE</option>
           </select>
         </div>
+        <p className="white" onClick={handleLogout}>
+          Placeholder Logout
+        </p>
 
         <div
           id="mobile_button"

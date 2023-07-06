@@ -1,5 +1,6 @@
-import { Suspense, useState, useEffect } from 'react';
+import { Suspense, useState, useEffect, useContext } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AppContext } from './components/helperSites/AppContext';
 
 // components
 import Home from './pages/Home';
@@ -40,6 +41,9 @@ import  logo_icon  from './img/logo_icon.svg';
 
 const App = () => {
   const [user, setUser] = useState(null);
+  const { logIn, setLogIn } = useContext(AppContext);
+
+
 
   /**
    * Create loading animation.
@@ -52,6 +56,7 @@ const App = () => {
       setLoading(false);
     }, 2000);
   }, []);
+
 
   //Autologout functions
   let logoutTimeout;
@@ -68,6 +73,7 @@ const App = () => {
     Cookies.remove('token');
     window.location.href = '/?loggedout=1';
     setUser(null);
+    setLogIn(false);
   };
 
   const resetTimeout = () => {
@@ -77,7 +83,7 @@ const App = () => {
 
   useEffect(() => {
     events.forEach((event) => window.addEventListener(event, resetTimeout));
-    resetTimeout(); // Initialen Timeout setzen, falls keine Aktionen ausgeführt werden
+    resetTimeout(); 
     return () => {
       clearTimeout(logoutTimeout);
       events.forEach((event) =>

@@ -11,7 +11,7 @@ const Navbar = () => {
   const navbutton = React.useRef(document.getElementById("mobile_button"));
   const navigation = React.useRef(document.getElementById("nav"));
   const { setShouldRenderCreateDataEntry } = useContext(AppContext);
-  const { setCalledFromNavbar } = useContext(AppContext);
+  const { setCalledFromNavbar, logIn } = useContext(AppContext);
   const headerElement = document.getElementById('header');
   
   const navClick = event => {
@@ -29,28 +29,56 @@ const Navbar = () => {
 
   return (
     <ul>
-      <li id="navAccount" className="navlink" onClick={navClick}>
+      <li
+        id="navAccount"
+        className={`navlink ${!logIn && 'transparent'}`}
+        onClick={navClick}
+      >
         <NavLink to="account">{t('accountSettings')}</NavLink>
       </li>
-      <li id="navMain" className="navlink" onClick={navClick}>
+      <li
+        id="navMain"
+        className={`navlink ${!logIn && 'transparent'}`}
+        onClick={navClick}
+      >
         <NavLink to="/main">{t('allEntries')}</NavLink>
       </li>
-      <li id="navFavourites" className="navlink" onClick={navClick}>
+      <li
+        id="navFavourites"
+        className={`navlink ${!logIn && 'transparent'}`}
+        onClick={navClick}
+      >
         <NavLink to="/main?type=favourites">{t('favourites')}</NavLink>
       </li>
-      <li id="navPassword" className="navlink" onClick={navClick}>
+      <li
+        id="navPassword"
+        className={`navlink ${!logIn && 'transparent'}`}
+        onClick={navClick}
+      >
         <NavLink to="/main?type=login">{t('passwords')}</NavLink>
       </li>
-      <li id="navNotes" className="navlink" onClick={navClick}>
+      <li
+        id="navNotes"
+        className={`navlink ${!logIn && 'transparent'}`}
+        onClick={navClick}
+      >
         <NavLink to="/main?type=safenote">{t('safeNotes')}</NavLink>
       </li>
-      <li id="navCards" className="navlink" onClick={navClick}>
+      <li
+        id="navCards"
+        className={`navlink ${!logIn && 'transparent'}`}
+        onClick={navClick}
+      >
         <NavLink to="/main?type=paymentcard">{t('paymentCards')}</NavLink>
       </li>
       <li
-        id="navPwGenerator" className="navlink" onClick={(event) => {navClick(event);
+        id="navPwGenerator"
+        className={`navlink ${!logIn && 'transparent'}`}
+        onClick={(event) => {
+          navClick(event);
           setCalledFromNavbar(true);
-        }}>
+        }}
+      >
         <NavLink to="pwgenerator">{t('passwordGenerator')}</NavLink>
       </li>
       <li id="navFAQ" className="navlink" onClick={navClick}>

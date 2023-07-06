@@ -928,4 +928,13 @@ nav li.navlink.active a, nav li a:hover  {
     cursor: pointer;
   }
 
+.transparent {
+  opacity: 0.3;
+}
+
+/* TODO wieder löschen wenn logout drin ist.  */
+.white{
+  color: white;
+}
+
   

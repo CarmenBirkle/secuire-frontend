@@ -7,6 +7,10 @@ export const AppProvider = ({ children }) => {
   const [calledFromNavbar, setCalledFromNavbar] = useState(false);
   const [shouldRenderCreateDataEntry, setShouldRenderCreateDataEntry] =
     useState(false);
+  const [logIn, setLogIn] = useState(false);
+
+
+
 
   return (
     <AppContext.Provider
@@ -16,7 +20,9 @@ export const AppProvider = ({ children }) => {
       shouldRenderCreateDataEntry,
       setShouldRenderCreateDataEntry,
       calledFromNavbar,
-      setCalledFromNavbar
+      setCalledFromNavbar,
+      logIn,
+      setLogIn
     }}
     >
       {children}
