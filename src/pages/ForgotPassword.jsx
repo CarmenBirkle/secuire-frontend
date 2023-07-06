@@ -45,7 +45,7 @@ const ForgotPassword = () => {
   return (
     <>
       <h2>{t('showPWHint')}</h2>
-      <input type="email" onChange={(e) => setEmail(e.target.value)} />
+      <input type="email" placeholder='E-Mail' onChange={(e) => setEmail(e.target.value)} />
       <button className="submitButton" onClick={handleGetHint}>
         {t('showPWHintButton')}
       </button>
