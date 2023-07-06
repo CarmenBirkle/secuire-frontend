@@ -356,7 +356,10 @@ nav li.navlink.active a, nav li a:hover  {
 
   /* success style */
   .successMessage{
-    color:green;
+    background-color: green;
+    color:#fff;
+    padding: 0.5em 1em;
+    border-radius: 20px;
   }
 
   /* main style */

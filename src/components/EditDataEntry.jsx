@@ -180,15 +180,14 @@ const EditDataEntry = ({
     return (
       <img
         className="entryImage"
-        src={
-          state.selectedIcon !== null && state.selectedIcon !== undefined
-            ? icons[state.selectedIcon]
-             // : dummyIcon
-            : icons[6]
-        }
+        src={icons[dataEntry.selectedIcon] || dummyIcon
+          //(state.selectedIcon !== null && state.selectedIcon !== undefined) ? icons[state.selectedIcon] : icons[6]
+          }
+
         alt={
-          state.selectedIcon !== null && state.selectedIcon !== undefined
-            ? `Icon ${state.selectedIcon}`
+          dataEntry.selectedIcon !== null && dataEntry.selectedIcon !== undefined
+          //state.selectedIcon !== null && state.selectedIcon !== undefined
+            ? `Icon ${dataEntry.selectedIcon}`
             : 'Choose Icon'
         }
       />
