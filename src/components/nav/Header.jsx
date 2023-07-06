@@ -14,6 +14,7 @@ import Navbar from '../nav/Navbar';
 import logo from '../../img/logo_icon.svg';
 import imgDE from '../../img/germany.png';
 import imgEN from '../../img/united-kingdom.png';
+import logoutButton from '../../img/logout-white.svg';
 import { AppContext } from '../helperSites/AppContext';
 import Cookies from 'js-cookie';
 
@@ -117,9 +118,9 @@ const Header = () => {
             <option value="de">DE</option>
           </select>
         </div>
-        <p className="white" onClick={handleLogout}>
-          Placeholder Logout
-        </p>
+        <div id='logout_button' className={`${!logIn && 'hidden'}`} onClick={handleLogout}>
+          <img src={logoutButton} alt="Logout" />
+        </div>
 
         <div
           id="mobile_button"
