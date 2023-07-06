@@ -238,8 +238,7 @@ const Signup = () => {
             id="agb"
             onChange={handleCheckboxChange}
           />
-          <label htmlFor="agb">{t('signup:agb')}:</label>
-          {/* TODO link to AGBs */}
+          <label htmlFor="agb">{t('signup:agb')} <a href="/agb">(AGBs)</a></label>
         </div>
         <input
           className="submitButton"

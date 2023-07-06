@@ -8,7 +8,7 @@
   "hintError": "Dies ist ein Pflichtfeld und die erneute Eingabe des Passworts ist nicht erlaub, dieses Feld dienst dazu einen Erinnerungs-Hinweis zu hinterlegen.",
   "information": "In unserem Secure Passwortmanager bist du der Schlüsselmeister! Wir können dein Passwort weder wiederherstellen noch zurücksetzen, denn dein Datenschutz und deine Sicherheit sind uns wichtig. Das Geheimnis deines Passworts liegt in deinen Händen. Aber keine Sorge, falls du dein Passwort mal vergessen solltest, kannst du einen kleinen Hinweis hinterlegen. Ein kleines Geheimnis, dass nur du kennst und das dir hilft, dein Passwort wieder ins Gedächtnis zu rufen. Aber denk daran: Bewahr dein Passwort sicher auf, es ist der Schlüssel zu deinen Daten. Wir sind hier, um dir dabei zu helfen, aber die finale Kontrolle liegt immer bei dir.",
   "question": "Wähle eine Hinweisfrage",
-  "agb": "Ich akzeptiere die Allgemeinen Geschäftsbedingungen (AGBs)",
+  "agb": "Ich akzeptiere die Allgemeinen Geschäftsbedingungen",
   "passwordError": "Stelle sicher, dass die Passwörter übereinstimmen!",
   "accountCreated": "Dein Account wurde erfolgreich erstellt!",
   "errorAccountCreated": "Der Account konnte nicht erstellt werden, versuche es später nochmals.",
