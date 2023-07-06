@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { encryptObject } from './helperSites/Encrypt';
 import { dummyIcon } from './helperSites/IconsDataEntry';
+import  icon_star  from './../img/icons_DataEntrys/icon_star.svg';
 import { icons } from './helperSites/IconsDataEntry';
 import cancelIcon from './../img/icon-close.svg';
 import deleteIcon from './../img/icon_delete_blue.svg';
@@ -16,6 +17,7 @@ const EditDataEntry = ({
   setSelectedId,
   setShowDetail,
   setReloadData,
+  user
 }) => {
   const initialState = {
     category: dataEntry.category,
@@ -60,7 +62,7 @@ const EditDataEntry = ({
       if (!isValidUrl) {
         setUrlError('Please enter a valid URL.');
       } else {
-        setUrlError(null); // Kein Fehler
+        setUrlError(null); 
       }
     }
 
@@ -86,7 +88,8 @@ const EditDataEntry = ({
     console.log('Aktualisierter Datensatz:', updatedEntry);
     const encryptedData = encryptObject(
       updatedEntry,
-      process.env.REACT_APP_SECRET
+      //process.env.REACT_APP_SECRET
+      user.secretKey
     );
     console.log('Verschlüsselte Daten: ', encryptedData);
 
@@ -178,7 +181,8 @@ const EditDataEntry = ({
         src={
           state.selectedIcon !== null && state.selectedIcon !== undefined
             ? icons[state.selectedIcon]
-            : dummyIcon
+             // : dummyIcon
+            : icons[6]
         }
         alt={
           state.selectedIcon !== null && state.selectedIcon !== undefined

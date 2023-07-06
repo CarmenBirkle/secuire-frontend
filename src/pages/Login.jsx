@@ -18,6 +18,7 @@ import { getSalt, loginUser } from './../components/helperSites/Axios.jsx';
 import bcrypt from 'bcryptjs';
 
 
+
 const Login = ({setUser, user}) => {
   const { t } = useTranslation(['forgotpassword', 'login']);
   const [email, setEmail] = useState('');
@@ -90,6 +91,7 @@ const Login = ({setUser, user}) => {
      console.log('user: ', user);
    }, [user]);
 
+
 async function handleLogin(email, password) {
   console.log('aus handlelogin: email',email, 'password', password)
   try {
@@ -98,6 +100,9 @@ async function handleLogin(email, password) {
     const hashedPassword = await bcrypt.hash(password, salt);
     console.log('Hashed Password: ', hashedPassword);
     const loginResponse = await loginUser(email, hashedPassword);
+    console.log('erfolgreich');
+    const secretKey = bcrypt.hashSync(process.env.REACT_APP_SECRET, salt);
+  
      setUser({
        id: loginResponse.identityUserId,
        email: email,
@@ -107,6 +112,7 @@ async function handleLogin(email, password) {
        username: loginResponse.identityUser.userName,
        passwordHint: loginResponse.passwordHint,
        agbAcceptedAt: loginResponse.agbAcceptedAt,
+       secretKey: secretKey,
      });
      Cookies.set('token', loginResponse.jwtToken);
  
@@ -122,8 +128,7 @@ async function handleLogin(email, password) {
     } else {
       navigate('/main?type=favourites');
     }
-    //  navigate('/main?type=favourites');
-    //  return true;
+
  
   } catch (error) {
      if(error.response && error.response.status){

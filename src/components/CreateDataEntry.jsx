@@ -17,7 +17,7 @@ import validator from 'validator';
 
 
 
-const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData }) => {
+const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData, user}) => {
   const { t } = useTranslation(['main']);
   const [category, setCategory] = useState('login');
   const [favourite, setFavourite] = useState(false);
@@ -92,10 +92,13 @@ const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData }) => {
 
     // TODO delete in production
     console.log('Klartext: Eingabe Submit: ', inputData);
+    console.log(' user', user);
+    console.log('secretkey user', user.secretKey);
 
     const encryptedData = encryptObject(
       inputData,
-      process.env.REACT_APP_SECRET
+      // process.env.REACT_APP_SECRET
+      user.secretKey
     );
 
     //TODO delete in production
@@ -364,13 +367,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData }) => {
         {/* form-elements for safenote-type */}
         {category === 'safenote' && (
           <fieldset>
-            {/* <p className="noSpace">{t('chooseIcon')}</p>
-            <div
-              className="entryImageCenter"
-              onClick={() => setShowIconSelection(true)}
-            >
-              {renderSelectedIcon()}
-            </div> */}
+
             {!showIconSelection && (
               <>
                 <p className="noSpace">{t('chooseIcon')}</p>
@@ -431,13 +428,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData }) => {
         {/* form-elements for paymentcard-type */}
         {category === 'paymentcard' && (
           <fieldset>
-            {/* <p className="noSpace">{t('chooseIcon')}</p>
-            <div
-              className="entryImageCenter"
-              onClick={() => setShowIconSelection(true)}
-            >
-              {renderSelectedIcon()}
-            </div> */}
+        
             {!showIconSelection && (
               <>
                 <p className="noSpace">{t('chooseIcon')}</p>
@@ -559,9 +550,6 @@ const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData }) => {
         </div>
       )}
 
-      {/*<button onClick={() => navigate('/pwgenerator')}>
-        {t('pwGenerator')}
-    </button>*/}
     </>
   );
 };

@@ -61,7 +61,10 @@ const Main = ({user}) => {
   useEffect(() => {
     if (encryptedDataEntrys) {
       const decryptedDataEntrys = encryptedDataEntrys.map((dataEntry) =>
-        Decrypt(dataEntry, process.env.REACT_APP_SECRET)
+        Decrypt(dataEntry, 
+          // process.env.REACT_APP_SECRET
+          user.secretKey
+          )
       );
       setDataEntrys(decryptedDataEntrys);
     }
@@ -178,6 +181,7 @@ useEffect(() => {
           setSelectedId={setSelectedId}
           setShowDetail={setShowDetail}
           setReloadData={setReloadData}
+          user={user}
         />
       ) : showDetail ? (
         <SingleDataEntryDetail
@@ -216,7 +220,6 @@ useEffect(() => {
               </h2>
               <DataEntry
                 filteredDataEntries={filteredDataEntries}
-                // TODO: removeDataEntry={removeDataEntry} TODO: unklar ob noch benötigt, auf Service warten
                 selectedId={selectedId}
                 setSelectedId={setSelectedId}
                 setShowDetail={setShowDetail}
@@ -228,6 +231,7 @@ useEffect(() => {
             <CreateDataEntry
               setShowCreateDataEntry={setShowCreateDataEntry}
               setReloadData={setReloadData}
+              user={user}
             />
           )}
 
