@@ -1,6 +1,6 @@
 {
   "forgotPW": "Forgot my Password",
-  "placeholder": "E-Mail adress",
+  "placeholder": "email address",
   "showPWHint": "Please enter your email address to view your password hint",
   "showPWHintButton": "Show Password Hint",
   "showHint":"Your stored password hint is:",
