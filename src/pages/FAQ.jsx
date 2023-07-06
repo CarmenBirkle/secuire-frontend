@@ -75,7 +75,10 @@ const FAQ = () => {
         {t('FAQ5')}
       </div>
       <div className="panel">
-        <p>{t('FAQ5-A')}</p>
+        <p>
+          {t('FAQ5-A')}{' '}
+          <a href="mailto:birkle@carmenbirkle.de">team@secuire.de</a>
+        </p>
       </div>
 
       <div className="titel acc" onClick={faqClick}>
@@ -96,11 +99,10 @@ const FAQ = () => {
         {t('FAQ8')}
       </div>
       <div className="panel">
-        <div className='flexbox column allignCenter'>
+        <div className="flexbox column allignCenter">
           <p>{t('FAQ8-A')}</p>
           <img className="panel-img" src={faq8} alt="Login" />
         </div>
-        
       </div>
 
       <div className="titel acc" onClick={faqClick}>
@@ -128,7 +130,7 @@ const FAQ = () => {
         {t('FAQ12')}
       </div>
       <div className="panel">
-        <div className='flexbox column allignCenter'>
+        <div className="flexbox column allignCenter">
           <p>{t('FAQ12-A')}</p>
           <img className="panel-img" src={faq12} alt="add" />
         </div>
@@ -138,7 +140,7 @@ const FAQ = () => {
         {t('FAQ13')}
       </div>
       <div className="panel">
-        <div className='flexbox column allignCenter'>
+        <div className="flexbox column allignCenter">
           <p>{t('FAQ13-A')}</p>
           <img className="panel-img" src={faq13} alt="change" />
         </div>
@@ -148,7 +150,7 @@ const FAQ = () => {
         {t('FAQ14')}
       </div>
       <div className="panel">
-        <div className='flexbox column allignCenter'>
+        <div className="flexbox column allignCenter">
           <p>{t('FAQ14-A')}</p>
           <img className="panel-img" src={faq14} alt="delete" />
         </div>
@@ -158,7 +160,7 @@ const FAQ = () => {
         {t('FAQ15')}
       </div>
       <div className="panel">
-        <div className='flexbox column allignCenter'>
+        <div className="flexbox column allignCenter">
           <p>{t('FAQ15-A')}</p>
           <img className="panel-img" src={faq15} alt="search" />
         </div>
@@ -168,7 +170,7 @@ const FAQ = () => {
         {t('FAQ16')}
       </div>
       <div className="panel">
-        <div className='flexbox column allignCenter'>
+        <div className="flexbox column allignCenter">
           <p>{t('FAQ16-A')}</p>
           <img className="panel-img" src={faq16} alt="PW Manager" />
         </div>

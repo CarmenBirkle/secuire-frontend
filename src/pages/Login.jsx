@@ -204,12 +204,13 @@ async function handleLogin(email, password) {
           <p className="errorMessage">{t('login:blockedMsg')}</p>
         )}
         {wrongEmail && <p className="errorMessage">{t('login:wrongEmail')}</p>}
-       
+
         <div className="flexbox row-reverse allignCenter">
           <input
             type="checkbox"
             id="remember"
             checked={remember}
+            disabled={!Cookies.get('cookieConsent')|| Cookies.get('cookieConsent') === 'false'}
             onChange={handleRememberChange}
           />
           <label htmlFor="remember">{t('login:remember')}</label>
