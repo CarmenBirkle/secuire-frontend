@@ -9,6 +9,6 @@ import placeholder from '../../img/icons_DataEntrys/icon_image.svg';
 
 export const icons = [fb, insta, yt, card, note, pw, star];
 export const placeholderIcon = placeholder;
-export const dummyIcon = star;
+export const dummyIcon = placeholder;
 
 
