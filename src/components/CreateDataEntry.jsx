@@ -17,7 +17,12 @@ import validator from 'validator';
 
 
 
-const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData, user}) => {
+const CreateDataEntry = ({
+  setShowCreateDataEntry,
+  setReloadData,
+  user,
+  setShowSuccessCreateMsg,
+}) => {
   const { t } = useTranslation(['main']);
   const [category, setCategory] = useState('login');
   const [favourite, setFavourite] = useState(false);
@@ -108,13 +113,16 @@ const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData, user}) => {
       .then((response) => {
         console.log('Erfolgreiche Übertragung:', response);
         setReloadData((oldValue) => !oldValue);
+        setShowSuccessCreateMsg(true);
       })
       .catch((error) => {
-        if(!error.response){ // lost connection to server
-           setErrMsg('No Server Response');
-        }else if (error.response?.status === 400) {
+        if (!error.response) {
+          // lost connection to server
+          setErrMsg('No Server Response');
+        } else if (error.response?.status === 400) {
           setErrMsg('Bad Request');
-        }setErrMsg('Something went wrong');
+        }
+        setErrMsg('Something went wrong');
       });
   };
 
@@ -232,7 +240,7 @@ const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData, user}) => {
     if (!isValidUrl) {
       setUrlError(t('urlError'));
     } else {
-      setUrlError(null); 
+      setUrlError(null);
     }
     setUrl(value);
   };
@@ -367,7 +375,6 @@ const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData, user}) => {
         {/* form-elements for safenote-type */}
         {category === 'safenote' && (
           <fieldset>
-
             {!showIconSelection && (
               <>
                 <p className="noSpace">{t('chooseIcon')}</p>
@@ -428,7 +435,6 @@ const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData, user}) => {
         {/* form-elements for paymentcard-type */}
         {category === 'paymentcard' && (
           <fieldset>
-        
             {!showIconSelection && (
               <>
                 <p className="noSpace">{t('chooseIcon')}</p>
@@ -549,7 +555,6 @@ const CreateDataEntry = ({ setShowCreateDataEntry, setReloadData, user}) => {
           </div>
         </div>
       )}
-
     </>
   );
 };

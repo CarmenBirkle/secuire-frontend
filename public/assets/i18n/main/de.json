@@ -51,5 +51,8 @@
   "urlError": "Bitte gebe eine valide URL an.",
   "numberFailedLogin": "Anzahl der fehlgeschlagenen Anmeldeversuche: ",
   "successUserCopy":"Username/Email erfolgreich kopiert",
-  "successPwCopy":"Passwort erfolgreich kopiert"
+  "successPwCopy":"Passwort erfolgreich kopiert",
+  "successCreate":"Eintrag erfolgreich gespeichert",
+  "successEdit":"Eintrag erfolgreich geändert",
+  "successDelete":"Eintrag erfolgreich gelöscht"
 }

@@ -23,6 +23,9 @@ const SingleDataEntryDetail = ({
   setShowDetail,
   setEditMode,
   setReloadData,
+  setShowSuccessEditMsg,
+  showSuccessEditMsg,
+  setShowSuccessDeleteMsg,
 }) => {
   const { t } = useTranslation(['main']);
   const [showSecret, setShowSecret] = useState(false);
@@ -46,11 +49,10 @@ const SingleDataEntryDetail = ({
     }, 3000);
   }, [successUserCopy, successPwCopy]);
 
-  
-/**
- * Copy text to clipboard for username and password
- * @param {*} text 
- */
+  /**
+   * Copy text to clipboard for username and password
+   * @param {*} text
+   */
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
     setSuccessUserCopy(true);
@@ -59,7 +61,7 @@ const SingleDataEntryDetail = ({
   const copyPwToClipboard = (text) => {
     navigator.clipboard.writeText(text);
     setSuccessPwCopy(true);
-  }
+  };
 
   /**
    * Sets the translation for the card types.
@@ -95,12 +97,13 @@ const SingleDataEntryDetail = ({
   };
 
   /**
-  * Deleting a data entry with the specified ID.
-  * Upon successful deletion, it closes the detail view and triggers a reload of the data.
-  */
+   * Deleting a data entry with the specified ID.
+   * Upon successful deletion, it closes the detail view and triggers a reload of the data.
+   */
   const handleDeleteClick = async () => {
     try {
       const response = await deleteDataEntry(dataEntry.id);
+      setShowSuccessDeleteMsg(true);
       handleCloseClick();
       setReloadData((oldValue) => !oldValue);
     } catch (error) {}
@@ -258,6 +261,9 @@ const SingleDataEntryDetail = ({
               </div>
 
               {renderCustomTopics()}
+              {showSuccessEditMsg && (
+                <p className="successMessage">{t('successEdit')}</p>
+              )}
               <div className="main_icons_bg">
                 <img
                   className="icon_button"

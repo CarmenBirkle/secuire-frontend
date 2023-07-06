@@ -17,6 +17,7 @@ const EditDataEntry = ({
   setSelectedId,
   setShowDetail,
   setReloadData,
+  setShowSuccessEditMsg,
   user
 }) => {
   const initialState = {
@@ -98,6 +99,7 @@ const EditDataEntry = ({
       const response = await updatedDataEntry(dataEntry.id, encryptedData);
       setReloadData((oldValue) => !oldValue);
       console.log('erfolgreich gespeichert')
+      setShowSuccessEditMsg(true);
       return response.data;
     } catch (error) {
       console.error('Fehler beim Übertragen der Daten:', error);

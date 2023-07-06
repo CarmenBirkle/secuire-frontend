@@ -28,7 +28,9 @@ const Main = ({user}) => {
   const [editMode, setEditMode] = useState(false);
   const [reloadData, setReloadData] = useState(false);
   const FAILED_LOGINS = params.get('failedLogins');
-
+  const [showSuccessCreateMsg, setShowSuccessCreateMsg] = useState(false);
+  const [showSuccessEditMsg, setShowSuccessEditMsg] = useState(false);
+  const [showSuccessDeleteMsg, setShowSuccessDeleteMsg] = useState(false);
 
   //const [encryptedDataEntrys, setEncryptedDataEntrys] = useState([]);
   // const [encryptedData, setEncryptedData] = useState([]);
@@ -43,6 +45,23 @@ const Main = ({user}) => {
     setShouldRenderCreateDataEntry,
   } = useContext(AppContext);
 
+  useEffect(() => {
+    if (showSuccessCreateMsg) {
+      setTimeout(() => {
+        setShowSuccessCreateMsg(false);
+      }, 3000);
+    }
+    if (showSuccessEditMsg) {
+      setTimeout(() => {
+        setShowSuccessEditMsg(false);
+      }, 3000);
+    }
+    if (showSuccessDeleteMsg) {
+      setTimeout(() => {
+        setShowSuccessDeleteMsg(false);
+      }, 3000);
+    }
+  }, [showSuccessCreateMsg, showSuccessEditMsg, showSuccessDeleteMsg]);
  
 
   /**
@@ -181,6 +200,7 @@ useEffect(() => {
           setSelectedId={setSelectedId}
           setShowDetail={setShowDetail}
           setReloadData={setReloadData}
+          setShowSuccessEditMsg={setShowSuccessEditMsg}
           user={user}
         />
       ) : showDetail ? (
@@ -193,6 +213,9 @@ useEffect(() => {
           setSelectedId={setSelectedId}
           setEditMode={setEditMode}
           setReloadData={setReloadData}
+          setShowSuccessEditMsg={setShowSuccessEditMsg}
+          showSuccessEditMsg={showSuccessEditMsg}
+          setShowSuccessDeleteMsg={setShowSuccessDeleteMsg}
         />
       ) : (
         <>
@@ -224,6 +247,12 @@ useEffect(() => {
                 setSelectedId={setSelectedId}
                 setShowDetail={setShowDetail}
               />
+              {showSuccessCreateMsg && (
+                <p className="successMessage">{t('successCreate')}</p>
+              )}
+              {showSuccessDeleteMsg && (
+                <p className="successMessage">{t('successDelete')}</p>
+              )}
             </>
           )}
 
@@ -232,6 +261,7 @@ useEffect(() => {
               setShowCreateDataEntry={setShowCreateDataEntry}
               setReloadData={setReloadData}
               user={user}
+              setShowSuccessCreateMsg={setShowSuccessCreateMsg}
             />
           )}
 

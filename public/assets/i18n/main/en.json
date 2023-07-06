@@ -52,5 +52,8 @@
   "urlError": "Please enter a valid URL",
   "numberFailedLogin": "Number of failed login attempts: ",
   "successUserCopy": "Username/Email successfully copied",
-  "successPwCopy": "Password successfully copied"
+  "successPwCopy": "Password successfully copied",
+  "successCreate": "Data Entry successfully saved",
+  "successEdit": "Data Entry successfully changed",
+  "successDelete": "Data Entry successfully deleted"
 }
