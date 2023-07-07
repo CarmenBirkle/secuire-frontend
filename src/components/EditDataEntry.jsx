@@ -31,8 +31,8 @@ const EditDataEntry = ({
     comment: dataEntry.comment || '',
     note: dataEntry.note || '',
     pin: dataEntry.pin || '',
-    cardnumber: dataEntry.cardnumber || '',
-    expirationdate: dataEntry.expirationdate || '',
+    cardnumber: dataEntry.number || '',
+    expirationdate: dataEntry.expirationDate || '',
     owner: dataEntry.owner || '',
     cvv: dataEntry.cvv || '',
     cardtype: dataEntry.cardtype || '',
@@ -176,23 +176,39 @@ const EditDataEntry = ({
     setShowIconSelection(false);
   };
 
+  //TODO kann später gelöscht werden
+  // const renderSelectedIcon = () => {
+  //   return (
+  //     <img
+  //       className="entryImage"
+  //       src={icons[dataEntry.selectedIcon] || dummyIcon
+  //         //(state.selectedIcon !== null && state.selectedIcon !== undefined) ? icons[state.selectedIcon] : icons[6]
+  //         }
+
+  //       alt={
+  //         dataEntry.selectedIcon !== null && dataEntry.selectedIcon !== undefined
+  //         //state.selectedIcon !== null && state.selectedIcon !== undefined
+  //           ? `Icon ${dataEntry.selectedIcon}`
+  //           : 'Choose Icon'
+  //       }
+  //     />
+  //   );
+  // };
+
   const renderSelectedIcon = () => {
     return (
       <img
         className="entryImage"
-        src={icons[dataEntry.selectedIcon] || dummyIcon
-          //(state.selectedIcon !== null && state.selectedIcon !== undefined) ? icons[state.selectedIcon] : icons[6]
-          }
-
+        src={icons[state.selectedIcon] || dummyIcon}
         alt={
-          dataEntry.selectedIcon !== null && dataEntry.selectedIcon !== undefined
-          //state.selectedIcon !== null && state.selectedIcon !== undefined
-            ? `Icon ${dataEntry.selectedIcon}`
+          state.selectedIcon !== null && state.selectedIcon !== undefined
+            ? `Icon ${state.selectedIcon}`
             : 'Choose Icon'
         }
       />
     );
   };
+
 
   const IconSelectionModal = () => {
     return (

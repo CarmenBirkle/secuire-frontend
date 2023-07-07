@@ -27,7 +27,6 @@ const Login = ({setUser, user}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
-  const [wrongPassword, setWrongPassword] = useState(0);
   const [errMsg, setErrMsg] = useState('');
   const navigate = useNavigate();
   const [success, setSuccess] = useState(false);
@@ -66,12 +65,6 @@ const Login = ({setUser, user}) => {
       }
     }
   }, []);
-
-  // useEffect(() => {
-  //   if (userBlockedMsg) {
-  //     setWrongPasswortMsg(false);
-  //   }
-  // }, [userBlockedMsg]);
 
 
   /**

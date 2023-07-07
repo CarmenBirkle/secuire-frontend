@@ -104,9 +104,9 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
   };
 
     const isPasswordComplexEnough = (password) => {
-      const regex =
-        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/;
-      return regex.test(password);
+     const regex =
+       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*?])(?=.*[a-zA-Z]).{8,}$/;
+     return regex.test(password);
     };
 
 const handlePasswordChange = (e) => {

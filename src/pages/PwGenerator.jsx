@@ -31,7 +31,6 @@ const PwGenerator = () => {
   const numbersList = '0123456789';
   const symbolsList = '!@#$%^&*()?-_=+[{]}';
 
-
   /**
    * Function to generate a password.
    * @param {Object} e - optional event object to prevent default action.
@@ -89,7 +88,7 @@ const PwGenerator = () => {
    */
   useEffect(() => {
     generatePassword();
-  }, [passwordLength]);
+  }, [passwordLength]); // eslint-disable-line react-hooks/exhaustive-deps
 
   /**
    * This function attempts to copy the provided `text` to the user's clipboard.

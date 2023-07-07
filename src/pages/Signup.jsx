@@ -32,10 +32,9 @@ const Signup = () => {
 
   const isPasswordComplexEnough = (password) => {
     const regex =
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/;
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*?])(?=.*[a-zA-Z]).{8,}$/;
     return regex.test(password);
   };
-
 
   /**
    * This function is called when the signup form is submitted
@@ -52,7 +51,7 @@ const Signup = () => {
       return;
     }
     if (!isPasswordComplexEnough(password)) {
-        setComplexError(true);
+      setComplexError(true);
       return;
     }
 
@@ -68,20 +67,21 @@ const Signup = () => {
         salt: salt,
         agbAcceptedAt: agbAcceptedAt,
         passwordHint: passwordHint,
-        newHashedPassword: ''
+        newHashedPassword: '',
       };
-      // console.log('userData:', userData, 'klartextpw:',password);
       const response = await registerUser(userData);
       setAccountCreated(true);
       setAccountCreatedError('');
     } catch (error) {
-    if(error === "EMail Adress already taken") {
-      setAccountCreatedError(`Email '${email}' is already taken.`);
-    } else if (error.DuplicateUserName) {
-      setAccountCreatedError(`Username '${username}' is already taken.`);
-    } else {
-      setAccountCreatedError('Error occurred during user registration. Please try again later.');
-    }
+      if (error === 'EMail Adress already taken') {
+        setAccountCreatedError(`Email '${email}' is already taken.`);
+      } else if (error.DuplicateUserName) {
+        setAccountCreatedError(`Username '${username}' is already taken.`);
+      } else {
+        setAccountCreatedError(
+          'Error occurred during user registration. Please try again later.'
+        );
+      }
     }
   };
 
@@ -89,12 +89,12 @@ const Signup = () => {
    * UseEffect to navigate to login page after account is created  with time delay
    * @param {boolean} accountCreated
    */
-    useEffect(() => {
+  useEffect(() => {
     if (accountCreated) {
       const timer = setTimeout(() => {
         // navigate('/login');
         navigate('/login?accountCreated=true');
-      }, 2000); //TODO maybe ajust time
+      }, 2000);
       return () => clearTimeout(timer);
     }
   }, [accountCreated, navigate]);
@@ -103,25 +103,31 @@ const Signup = () => {
    * This function is called when the user checks the agb checkbox,
    * if the checkbox is checked the current datetime is set to agbAcceptedAt
    */
- const handleCheckboxChange = (e) => {
-   if (e.target.checked) {
-     const currentDatetime = new Date().toISOString();;
-     setAGBAcceptedAt(currentDatetime);
-   } else {
-     setAGBAcceptedAt(null);
-   }
- };
+  const handleCheckboxChange = (e) => {
+    if (e.target.checked) {
+      const currentDatetime = new Date().toISOString();
+      setAGBAcceptedAt(currentDatetime);
+    } else {
+      setAGBAcceptedAt(null);
+    }
+  };
+
+  /** Reset the Passwordhint Error and calls the setPasswordHint Function */
+  const handlePasswordHintChange = (e) => {
+    const hint = e.target.value;
+    setPasswordHint(hint);
+    setPasswordHintError(null);
+  };
 
   /**
    * Shows error if password hint is in password
+   * It will be called when the user leaves the password hint field
    */
-  const handlePasswordHintChange = (e) => {
-    const hint = e.target.value;
-    if (password.includes(hint)) {
+  const handlePasswordHintBlur = () => {
+    if (password.includes(passwordHint)) {
       const errorMsg = t('signup:hintError');
       setPasswordHintError(errorMsg);
     } else {
-      setPasswordHint(hint);
       setPasswordHintError(null);
     }
   };
@@ -129,11 +135,6 @@ const Signup = () => {
   /**
    * Resets the error message if the user changes the username
    */
-  // const handleUsernameChange = (e) => {
-  //   setUsername(e.target.value);
-  //   setAccountCreatedError(''); 
-  // };
-
   const handleUsernameChange = (e) => {
     const usernameInput = e.target.value;
     const regex = /^[a-zA-Z0-9]*$/;
@@ -145,13 +146,12 @@ const Signup = () => {
     }
   };
 
-
   /**
    * Resets the error message if the user changes the email
-   */ 
+   */
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
-    setAccountCreatedError(''); 
+    setAccountCreatedError('');
   };
 
   //<------Render the signup form------>
@@ -173,6 +173,7 @@ const Signup = () => {
             placeholder={t('signup:username')}
             value={username}
             onChange={handleUsernameChange}
+            onBlur={() => {setUsernameSpaceError(false)}}
           />
         </fieldset>
         <fieldset>
@@ -195,7 +196,16 @@ const Signup = () => {
             name="signup-password"
             required
             placeholder={t('signup:Password')}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setComplexError(false);
+              setConfirmPassword('');
+            }}
+            onBlur={() => {
+              if (!isPasswordComplexEnough(password)) {
+                setComplexError(true);
+              }
+            }}
           />
         </fieldset>
         {complexError && (
@@ -209,7 +219,15 @@ const Signup = () => {
             name="pwCheck"
             required
             placeholder={t('signup:confirmPassword')}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) => {
+              setConfirmPassword(e.target.value);
+              setError(false);
+            }}
+            onBlur={() => {
+              if (password !== confirmPassword) {
+                setError(true);
+              }
+            }}
             className={error ? 'errorField' : ''}
           />
         </fieldset>
@@ -225,6 +243,7 @@ const Signup = () => {
             id="passwordHint"
             placeholder={t('signup:passwordHint')}
             onChange={handlePasswordHintChange}
+            onBlur={handlePasswordHintBlur}
           />
           {passwordHintError && (
             <p className="errorMessage">{passwordHintError}</p>
@@ -238,7 +257,9 @@ const Signup = () => {
             id="agb"
             onChange={handleCheckboxChange}
           />
-          <label htmlFor="agb">{t('signup:agb')} <a href="/agb">(AGBs)</a></label>
+          <label htmlFor="agb">
+            {t('signup:agb')} <a href="/agb">(AGBs)</a>
+          </label>
         </div>
         <input
           className="submitButton"

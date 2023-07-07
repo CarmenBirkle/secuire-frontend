@@ -39,11 +39,10 @@ import './fonts/poppins-v20-latin-regular.woff2';
 import CookieBanner from './components/CookieBanner';
 import LoadingAnimation from './components/Loading';
 
-import  logo_icon  from './img/logo_icon.svg';
 
 const App = () => {
   const [user, setUser] = useState(null);
-  const { logIn, setLogIn } = useContext(AppContext);
+  const { setLogIn } = useContext(AppContext);
 
 
   /**
