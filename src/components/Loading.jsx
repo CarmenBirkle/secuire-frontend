@@ -1,3 +1,6 @@
+/**
+ * @fileoverview Loading animation component.
+ */
 import React from 'react';
 
 const LoadingAnimation = () => {

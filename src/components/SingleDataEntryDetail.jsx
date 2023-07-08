@@ -8,13 +8,14 @@ import { useState, useEffect } from 'react';
 import { icons } from './helperSites/IconsDataEntry';
 import { dummyIcon } from './helperSites/IconsDataEntry';
 import { useTranslation } from 'react-i18next';
+import { deleteDataEntry } from './helperSites/Axios.jsx';
 import deleteIcon from './../img/icon-delete.svg';
 import editIcon from './../img/icon-work.svg';
 import arrowIcon from './../img/icon_back.svg';
 import copyIcon from './../img/icon-copy.svg';
 import hideIcon from './../img/icon_hide.svg';
 import showIcon from './../img/icon_show.svg';
-import { deleteDataEntry } from './helperSites/Axios.jsx';
+
 
 const SingleDataEntryDetail = ({
   dataEntry,
@@ -51,7 +52,7 @@ const SingleDataEntryDetail = ({
 
   /**
    * Copy text to clipboard for username and password
-   * @param {*} text
+   * @param {string} text
    */
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);

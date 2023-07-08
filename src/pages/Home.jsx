@@ -47,8 +47,6 @@ const Home = () => {
         {wasLoggedOut && (
           <p className="errorMessage">
             {t('home:autologout')}
-            <br />
-            <br />
           </p>
         )}
       </div>

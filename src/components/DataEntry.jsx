@@ -1,6 +1,11 @@
-// List of all DataEntrys
-import SingleDataEntry from "./SingleDataEntry";
-import SingleDataEntryDetail from "./SingleDataEntryDetail";
+/**
+* @fileOverview
+* DataEntry component for rendering a list of data entries.
+* Renders a grid container with SingleDataEntry components or SingleDataEntryDetail component based on the selectedId.
+*/
+
+import SingleDataEntry from './SingleDataEntry';
+import SingleDataEntryDetail from './SingleDataEntryDetail';
 
 const DataEntry = ({
   filteredDataEntries,
@@ -9,8 +14,6 @@ const DataEntry = ({
   setSelectedId,
   setShowDetail,
 }) => {
-
-
   return (
     <div className="gridContainer">
       {filteredDataEntries.map((dataEntry) => {
@@ -21,17 +24,17 @@ const DataEntry = ({
               dataEntry={dataEntry}
               removeDataEntry={removeDataEntry}
               setSelectedId={setSelectedId}
-              setShowDetail={setShowDetail} 
+              setShowDetail={setShowDetail}
             />
           );
         } else {
-           return (
+          return (
             <SingleDataEntry
               key={dataEntry.id}
               dataEntry={dataEntry}
               removeDataEntry={removeDataEntry}
               setSelectedId={setSelectedId}
-              setShowDetail={setShowDetail} 
+              setShowDetail={setShowDetail}
             />
           );
         }
@@ -40,4 +43,4 @@ const DataEntry = ({
   );
 };
 
-export default DataEntry
+export default DataEntry;

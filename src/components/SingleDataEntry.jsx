@@ -1,3 +1,7 @@
+/**
+ * @fileoverview SingleDataEntry component that displays a single DataEntry
+ * @imports icons from IconsDataEntry.jsx
+ */
 import { useTranslation } from 'react-i18next';
 import { icons } from './helperSites/IconsDataEntry';
 import { dummyIcon } from './helperSites/IconsDataEntry';
@@ -34,60 +38,36 @@ const SingleDataEntry = ({
       case 'login':
         return (
           <>
-            {/* <label htmlFor="favourite">{t('favourite')}:</label> */}
-            {/* <input
-              id="favourite"
-              type="checkbox"
-              checked={dataEntry.favourite ? true : false}
-              readOnly
-            /> */}
             <div className='entryImageCenter'>
               <img
                 className='entryImage'
                 src={icons[dataEntry.selectedIcon] || dummyIcon}
               />
             </div>
-            {/* <div>{t('subject')}:</div>*/}
             <div>{dataEntry.subject}</div>
           </>
         );
       case 'safenote':
         return (
           <>
-            {/* <label htmlFor="favourite">{t('favourite')}:</label> */}
-            {/* <input
-              type="checkbox"
-              id="favourite"
-              checked={dataEntry.favourite ? true : false}
-              readOnly
-            /> */}
             <div className='entryImageCenter'>
               <img
                 className='entryImage'
                 src={icons[dataEntry.selectedIcon] || dummyIcon}
               />
             </div>
-            {/* <div>{t('subject')}:</div>*/}
             <div>{dataEntry.subject}</div>
           </>
         );
       case 'paymentcard':
         return (
           <>
-            {/* <label htmlFor="favourite">{t('favourite')}:</label>
-            <input
-              id="favourite"
-              type="checkbox"
-              checked={dataEntry.favourite ? true : false}
-              readOnly
-            /> */}
             <div className='entryImageCenter'>
               <img
                 className='entryImage'
                 src={icons[dataEntry.selectedIcon] || dummyIcon}
               />
             </div>
-            {/* <div>{t('subject')}:</div>*/}
             <div>{dataEntry.subject}</div>
           </>
         );
