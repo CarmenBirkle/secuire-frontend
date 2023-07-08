@@ -1,15 +1,18 @@
+/**
+ * @fileoverview  Contains the EditDataEntry component which is used to edit the data entries.
+ */
+
 import { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { encryptObject } from './helperSites/Encrypt';
 import { dummyIcon } from './helperSites/IconsDataEntry';
-import  icon_star  from './../img/icons_DataEntrys/icon_star.svg';
+import { updatedDataEntry,checkPasswordSecurity } from './helperSites/Axios.jsx';
 import { icons } from './helperSites/IconsDataEntry';
+import icon_star from './../img/icons_DataEntrys/icon_star.svg';
 import cancelIcon from './../img/icon-close.svg';
 import deleteIcon from './../img/icon_delete_blue.svg';
 import addIcon from './../img/icon_add_blue.svg';
-import { updatedDataEntry,checkPasswordSecurity, } from './helperSites/Axios.jsx';
-import validator from 'validator';
- 
+import validator from 'validator'; 
 
 const EditDataEntry = ({
   dataEntry,
@@ -31,8 +34,8 @@ const EditDataEntry = ({
     comment: dataEntry.comment || '',
     note: dataEntry.note || '',
     pin: dataEntry.pin || '',
-    cardnumber: dataEntry.cardnumber || '',
-    expirationdate: dataEntry.expirationdate || '',
+    cardnumber: dataEntry.number || '',
+    expirationdate: dataEntry.expirationDate || '',
     owner: dataEntry.owner || '',
     cvv: dataEntry.cvv || '',
     cardtype: dataEntry.cardtype || '',
@@ -43,37 +46,25 @@ const EditDataEntry = ({
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [showIconSelection, setShowIconSelection] = useState(false);
   const [errMsg, setErrMsg] = useState('');
-  const [customTopics, setCustomTopics] = useState(
-    dataEntry.customTopics || []
-  );
+  const [customTopics, setCustomTopics] = useState(dataEntry.customTopics || [] );
   const [countLeaks, setCountLeaks] = useState(null);
   const [url, setUrl] = useState('');
   const [urlError, setUrlError] = useState(false);
 
-  // TODO entfernen
-  console.log('ursprungsdaten: ', dataEntry);
-  console.log('state: vor änderung ', state);
-  console.log('id:', dataEntry.id);
-
-
   const handleInputChange = (field, value) => {
     if (field === 'url') {
       const isValidUrl = validator.isURL(value, { require_protocol: false });
-
       if (!isValidUrl) {
         setUrlError('Please enter a valid URL.');
       } else {
         setUrlError(null); 
       }
     }
-
-    // Zustandsaktualisierung für alle Felder
+    // State update for all fields
     setState((prevState) => ({ ...prevState, [field]: value }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('handleSubmit - abgesendet: ', state);
     setShowDetail(true);
     setEditMode(false);
 
@@ -85,35 +76,34 @@ const EditDataEntry = ({
       })),
     };
 
-
-    console.log('Aktualisierter Datensatz:', updatedEntry);
     const encryptedData = encryptObject(
       updatedEntry,
-      //process.env.REACT_APP_SECRET
       user.secretKey
     );
-    console.log('Verschlüsselte Daten: ', encryptedData);
 
     try {
-      console.log('Verschlüsselte Daten: ', encryptedData);
       const response = await updatedDataEntry(dataEntry.id, encryptedData);
       setReloadData((oldValue) => !oldValue);
-      console.log('erfolgreich gespeichert')
       setShowSuccessEditMsg(true);
       return response.data;
     } catch (error) {
-      console.error('Fehler beim Übertragen der Daten:', error);
     }
 
     setShowDetail(true);
     setSelectedId(dataEntry.id);
   };
 
+  /**
+   * Handles the cancel button click event. updates the state and closes the edit mode.
+   */
   const handleCancel = () => {
     setShowDetail(true);
     setEditMode(false);
   };
 
+/**
+ * Handles the add field button click event.
+ */
   const handleAddField = () => {
     const newField = { fieldName: '', fieldValue: '' };
     setCustomTopics([...customTopics, newField]);
@@ -123,20 +113,32 @@ const EditDataEntry = ({
     }));
   };
 
+/**
+ * removes the field from the customTopics array
+ * @param {index} the index of the field to be removed
+ */
   const handleRemoveField = (index) => {
     const updatedFields = [...customTopics];
     updatedFields.splice(index, 1);
     setCustomTopics(updatedFields);
   };
 
- 
+ /**
+  * handle the change of the custom field
+  * @param {index} index of the custom field
+  * @param {sting} fieldKey of the custom field
+  * @param {string} value of the custom field
+  */
   const handleFieldChange = (index, fieldKey, value) => {
-    console.log(`Eingabe in Feld ${index} (${fieldKey}): ${value}`);
     const updatedFields = [...customTopics];
     updatedFields[index][fieldKey] = value;
     setCustomTopics(updatedFields);
   };
 
+  /**
+   * Renders the custom fields
+   * @returns the custom fields
+   */
   const renderFields = () => {
     return customTopics.map((field, index) => (
       <div key={index}>
@@ -169,7 +171,10 @@ const EditDataEntry = ({
     ));
   };
 
-  // Icon selection
+/**
+ * Handles the icon selection
+ *  Get the index of the selected icon and updates the state
+ */ 
   const handleIconSelect = (index) => {
     setSelectedIcon(index);
     setState((prevState) => ({ ...prevState, selectedIcon: index }));
@@ -180,19 +185,16 @@ const EditDataEntry = ({
     return (
       <img
         className="entryImage"
-        src={icons[dataEntry.selectedIcon] || dummyIcon
-          //(state.selectedIcon !== null && state.selectedIcon !== undefined) ? icons[state.selectedIcon] : icons[6]
-          }
-
+        src={icons[state.selectedIcon] || dummyIcon}
         alt={
-          dataEntry.selectedIcon !== null && dataEntry.selectedIcon !== undefined
-          //state.selectedIcon !== null && state.selectedIcon !== undefined
-            ? `Icon ${dataEntry.selectedIcon}`
+          state.selectedIcon !== null && state.selectedIcon !== undefined
+            ? `Icon ${state.selectedIcon}`
             : 'Choose Icon'
         }
       />
     );
   };
+
 
   const IconSelectionModal = () => {
     return (
@@ -213,6 +215,10 @@ const EditDataEntry = ({
     );
   };
 
+  /**
+   * Get the current date as string
+   * @returns the current date as string
+   */
   function getMinimumDate() {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -220,6 +226,9 @@ const EditDataEntry = ({
     return `${year}-${month}`;
   }
 
+  /**
+   * Renders an Error message if the password is not secure
+   */
   useEffect(() => {
     if (countLeaks !== null) {
       setErrMsg(` ${countLeaks}`);
@@ -236,13 +245,6 @@ const EditDataEntry = ({
         {/* form-elements for login */}
         {state.category === 'login' && (
           <fieldset>
-            {/* <p className="noSpace">{t('chooseIcon')}</p>
-            <div
-              className="entryImageCenter"
-              onClick={() => setShowIconSelection(true)}
-            >
-              {renderSelectedIcon()}
-            </div> */}
             {!showIconSelection && (
               <>
                 <p className="noSpace">{t('chooseIcon')}</p>
@@ -347,13 +349,6 @@ const EditDataEntry = ({
         {/* form-elements for safenotes */}
         {state.category === 'safenote' && (
           <fieldset>
-            {/* <p className="noSpace">{t('chooseIcon')}</p>
-            <div
-              className="entryImageCenter"
-              onClick={() => setShowIconSelection(true)}
-            >
-              {renderSelectedIcon()}
-            </div> */}
             {!showIconSelection && (
               <>
                 <p className="noSpace">{t('chooseIcon')}</p>
@@ -372,7 +367,7 @@ const EditDataEntry = ({
               type="checkbox"
               id="favourite"
               name="favourite"
-              value={state.favourite}
+              checked={state.favourite}
               placeholder={t('favourite')}
               onChange={(e) => handleInputChange('favourite', e.target.checked)}
             />
@@ -414,13 +409,6 @@ const EditDataEntry = ({
         )}
         {state.category === 'paymentcard' && (
           <fieldset>
-            {/* <p className="noSpace">{t('chooseIcon')}</p>
-            <div
-              className="entryImageCenter"
-              onClick={() => setShowIconSelection(true)}
-            >
-              {renderSelectedIcon()}
-            </div> */}
             {!showIconSelection && (
               <>
                 <p className="noSpace">{t('chooseIcon')}</p>
@@ -439,7 +427,7 @@ const EditDataEntry = ({
               type="checkbox"
               id="favourite"
               name="favourite"
-              value={state.favourite}
+              checked={state.favourite}
               placeholder={t('favourite')}
               onChange={(e) => handleInputChange('favourite', e.target.checked)}
             />
@@ -537,7 +525,6 @@ const EditDataEntry = ({
           />
 
           <button className="icon_button icon_save" type="submit">
-            {/*{t('submit')}*/}
           </button>
         </div>
       </form>

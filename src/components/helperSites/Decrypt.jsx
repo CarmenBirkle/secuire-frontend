@@ -1,5 +1,5 @@
 /**
- * Decrypts encrypted data using a secret password.
+ * @fileOverview Decrypts encrypted data using a secret password.
  *
  * This function decrypts the given encrypted data using the provided secret password.
  * It iterates over the properties of the encrypted data object, decrypts each encrypted value,
@@ -27,9 +27,7 @@ const Decrypt = (encryptedData, secretPass) => {
         try {
           decryptedValue = JSON.parse(decryptedValue);
         } catch (e) {
-         
         }
-
         if (key === 'favourite') {
           decryptedData[key] = decryptedValue !== false; 
         } else {

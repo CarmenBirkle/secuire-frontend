@@ -1,7 +1,12 @@
+/**
+ * @fileOverview
+* EditAccount component for editing user account information.
+* Renders a form with input fields for username, email, password hint, and password change.
+*/
 import { useTranslation } from 'react-i18next';
-import { useState, useEffect } from 'react';
-import bcrypt from 'bcryptjs';
+import { useState } from 'react';
 import { updateUser } from './helperSites/Axios.jsx';
+import bcrypt from 'bcryptjs';
 import Cookies from 'js-cookie';
 import cancelIcon from './../img/icon-close.svg';
 
@@ -18,15 +23,12 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
   const [newPassword, setNewPassword] = useState('');
   const [usernameError, setUsernameError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-  // const [oldPassword, setOldPassword] = useState(user.password);
 
-  useEffect(() => {
-    console.log('newPassword', newPassword);
-    console.log('confirmed pw', confirmPassword);
-    console.log('user pw', user.password);
-    console.log('user Objekt', user);
-  }, [newPassword, confirmPassword, passwordHint]);
-
+  /**
+   * Handles the change event for the username input field.
+   * Validates the username format and updates the state accordingly.
+   * @param {Object} e - The event object.
+   */
   const handleUsernameChange = (e) => {
     const usernameInput = e.target.value;
     const regex = /^[a-zA-Z0-9]*$/;
@@ -38,32 +40,23 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
     }
   };
 
+  /**
+   * Handles the submit event for the form.
+   * Updates the user account information and sets the new user data in the state.
+   * @param {Object} e - The event object.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('submit');
-     let oldPassword = user.password;
-     let finalPassword = '';
-
+    let oldPassword = user.password;
+    let finalPassword = '';
     if (changePassword && newPassword !== confirmPassword) {
       setError(true);
       return;
     }
- 
-  console.log('salt',user.salt);
-  console.log(' old password', oldPassword);
-
-  if (newPassword){
-    console.log('new password', newPassword)
-    const hashedPassword = await bcrypt.hash(newPassword, user.salt);
-    console.log('hashedPassword', hashedPassword);
-    finalPassword = hashedPassword;
-  // } else {
-  //   setNewHashedPassword('');
-   }
-  
-  console.log('oldpw after hash', oldPassword);
-  console.log('hashedNewPassword', finalPassword);
-
+    if (newPassword) {
+      const hashedPassword = await bcrypt.hash(newPassword, user.salt);
+      finalPassword = hashedPassword;
+    }
     const updatedUser = {
       username: username,
       hashedPassword: oldPassword,
@@ -73,59 +66,51 @@ const EditAccount = ({ user, setUser, setEditMode }) => {
       agbAcceptedAt: user.agbAcceptedAt,
       passwordHint: passwordHint,
     };
-     console.log('submit', updatedUser);
-   try {
-    const response= await updateUser(updatedUser);
-     console.log('response', response);
+    try {
+      const response = await updateUser(updatedUser);
       const responseUser = {
         username: response.identityUser.userName,
-        //hashedPassword: finalPassword ? newHashedPassword : oldPassword,
         password: finalPassword ? newPassword : oldPassword,
         email: response.identityUser.email,
         salt: response.salt,
         agbAcceptedAt: response.agbAcceptedAt,
         passwordHint: response.passwordHint,
       };
-      Cookies.set('token', response.jwtToken); 
-     
-      console.log('responseUser', responseUser);
-
-        setUser(responseUser);
-        console.log('user', user);
-    
-      
-      
-    // setUser(response.data);
-    // setUser(updatedUser); 
-   } catch (error) {
-    console.log(error);
-   }
+      Cookies.set('token', response.jwtToken);
+      setUser(responseUser);
+    } catch (error) {}
     setEditMode(false);
   };
 
-    const isPasswordComplexEnough = (password) => {
-      const regex =
-        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/;
-      return regex.test(password);
-    };
+  /**
+   * Checks if the password is complex enough
+   * @param {string} password
+   * @returns
+   */
+  const isPasswordComplexEnough = (password) => {
+    const regex =
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*?])(?=.*[a-zA-Z]).{8,}$/;
+    return regex.test(password);
+  };
 
-const handlePasswordChange = (e) => {
-  const newPasswordInput = e.target.value;
-  setNewPassword(newPasswordInput);
-  if (!isPasswordComplexEnough(newPasswordInput)) {
-    setPasswordError(true);
-  } else {
-    setPasswordError(false);
-  }
-};
+  /**
+   * Handles the change of the password input and validates its complexity.
+   * @param {object} e - The event object representing the password input change.
+   */
+  const handlePasswordChange = (e) => {
+    const newPasswordInput = e.target.value;
+    setNewPassword(newPasswordInput);
+    if (!isPasswordComplexEnough(newPasswordInput)) {
+      setPasswordError(true);
+    } else {
+      setPasswordError(false);
+    }
+  };
 
-
-  // const handlePasswordChange = (e) => {
-  //   setNewPassword(e.target.value);
-  //   console.log('newPassword', newPassword);
-  //   setError(false);
-  // };
-
+  /**
+  * Handles the change of the confirm password input and resets the error state.
+  * @param {object} e - The event object representing the confirm password input change.
+  */
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
     setError(false);
@@ -232,7 +217,5 @@ const handlePasswordChange = (e) => {
     </>
   );
 };
-
-
 
 export default EditAccount;

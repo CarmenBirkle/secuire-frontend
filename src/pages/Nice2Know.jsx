@@ -1,4 +1,7 @@
-import { useTranslation } from 'react-i18next';
+/**
+ * @fileoverview Nice2Know page 
+ */
+ import { useTranslation } from 'react-i18next';
 
 const Nice2Know = () => {
   const { t } = useTranslation(['nice2know']);

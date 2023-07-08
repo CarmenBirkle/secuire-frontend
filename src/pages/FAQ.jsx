@@ -1,3 +1,6 @@
+/**
+ * @fileoverview FAQ page
+ */
 import { useTranslation } from 'react-i18next';
 import React from 'react';
 import faq8 from './../img/faq/faq8.png';
@@ -15,7 +18,6 @@ const FAQ = () => {
   const faqActive = Array.from(document.getElementsByClassName("acc active"));
   const faqPanel = Array.from(document.getElementsByClassName("panel"));
 
-  console.log(faqs);
 
   const faqClick = event =>{
       var panel = event.target.nextElementSibling;

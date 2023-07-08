@@ -8,12 +8,12 @@
   "hintError": "This Field is required and Re-entering the password is not allowed, this field serves to store a reminder.",
   "information": "In our secure password manager you are the key master! We can neither recover nor reset your password, because your privacy and security are important to us. The secret of your password is in your hands. But don't worry, if you ever forget your password, you can leave a little hint. A little secret that only you know and that will help you to remember your password. But remember: keep your password safe, it is the key to your data. We're here to help you do that, but the final control is always yours",
   "question": "Choose Hint Question",
-  "agb": "I accept the terms and conditions (AGBs)",
+  "agb": "I accept the terms and conditions",
   "passwordError": "Make sure passwords match!",
   "accountCreated": "Account created successfully!",
   "errorAccountCreated": "Account could not be created! Please try again later.",
   "userNameError": "Username already exists!",
   "success": "Registration successful, you will be redirected to the login page.",
   "complexError": "Your password is not complex enough (8 characters, at least 1 uppercase letter, at least 1 lowercase letter, at least 1 digit and at least 1 special character include)",
-  "space": "Your username must only contain letters and numbers!"
+  "space": "Your username must only contain letters and numbers! Other characters are ignored. "
 }

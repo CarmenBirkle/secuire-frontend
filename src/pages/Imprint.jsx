@@ -1,3 +1,6 @@
+/**
+ *  @fileOverwiew Imprint page
+ */
 import { useTranslation } from 'react-i18next';
 
 const Imprint = () => {
@@ -10,7 +13,6 @@ const Imprint = () => {
       <div className='flexbox row start'>
         <div className='twocols'>
           <h2 className='subheadline'>{t('tmg')}</h2>
-          {/* //TODO Adressen nachtragen */}
           <div className='flexbox row start'>
             <div className='twocols'>
             <p>Claudia Barthel<br />Dorfstr. 37 <br /> 84051 Essenbach <br />{' '}</p>
@@ -47,8 +49,6 @@ const Imprint = () => {
           <p>{t('text')}</p>
           <h2 className='subheadline distance'>{t('copyright')}</h2>
           <p>
-            {/* //TODO stimmt das sonst referenzen ? Caro fragen - Alle Icons wurden
-            selbst erstellt */}
           </p>
           <h2 className='subheadline distance'>{t('VSBG')}</h2>
           <p>{t('VSBG content')}<br />{t('VSBG content2')}</p>

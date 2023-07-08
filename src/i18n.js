@@ -52,7 +52,6 @@ i18n
     },
     // Default language
     fallbackLng: 'en',
-    // Enable debug logs (disable in production)
     debug: false,
     // Namespaces for translations
     ns: ['common', 'home', 'profile'],

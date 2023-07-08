@@ -1,3 +1,8 @@
+/**
+ * @fileOverview SearchBar component
+ * @param {string} handleSearch - value of the search input
+ * @returns 
+ */
 const SearchBar = ({ handleSearch }) => {
   return (
     

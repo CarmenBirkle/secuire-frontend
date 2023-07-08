@@ -1,21 +1,25 @@
+/**
+* @fileOverview
+* CreateDataEntry component for creating a new data entry.
+* Renders a form with input fields based on the selected category.
+* Allows the user to enter details such as subject, username, password, URL, and more.
+*/
+
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { encryptObject } from './helperSites/Encrypt';
-import { icons } from './helperSites/IconsDataEntry'; 
-import cancelIcon from './../img/icon-close.svg';
-import deleteIcon from './../img/icon_delete_blue.svg';
-import addIcon from './../img/icon_add_blue.svg';
-import { placeholderIcon} from './helperSites/IconsDataEntry';
+import { icons } from './helperSites/IconsDataEntry';
+import { placeholderIcon } from './helperSites/IconsDataEntry';
 import { useNavigate } from 'react-router-dom';
 import {
   createDataEntry,
   checkPasswordSecurity,
 } from './helperSites/Axios.jsx';
+import cancelIcon from './../img/icon-close.svg';
+import deleteIcon from './../img/icon_delete_blue.svg';
+import addIcon from './../img/icon_add_blue.svg';
 import PwGenerator from '../pages/PwGenerator';
 import validator from 'validator';
-
-
-
 
 const CreateDataEntry = ({
   setShowCreateDataEntry,
@@ -69,6 +73,7 @@ const CreateDataEntry = ({
     setCardtype('visa');
     setCustomTopics([]);
   };
+  /** handle the submit and create an data entry objects, sends to the service */
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -94,24 +99,9 @@ const CreateDataEntry = ({
         fieldValue: field.fieldValue,
       })),
     };
-
-    // TODO delete in production
-    console.log('Klartext: Eingabe Submit: ', inputData);
-    console.log(' user', user);
-    console.log('secretkey user', user.secretKey);
-
-    const encryptedData = encryptObject(
-      inputData,
-      // process.env.REACT_APP_SECRET
-      user.secretKey
-    );
-
-    //TODO delete in production
-    console.log('Verschlüsselt: Eingabe aus Submit:', encryptedData);
-
+    const encryptedData = encryptObject(inputData, user.secretKey);
     createDataEntry(encryptedData, setErrMsg)
       .then((response) => {
-        console.log('Erfolgreiche Übertragung:', response);
         setReloadData((oldValue) => !oldValue);
         setShowSuccessCreateMsg(true);
       })
@@ -136,22 +126,39 @@ const CreateDataEntry = ({
     resetState();
   }, [category]);
 
+  /**
+   * If The user added a custom field, the customTopics array is updated.
+   */
   const handleAddField = () => {
     setCustomTopics([...customTopics, { fieldName: '', fieldValue: '' }]);
   };
 
+  /**
+   * Handles the removal of a field at the specified index from the custom topics array.
+   * @param  {number} index - The index of the field to be removed.
+   */
   const handleRemoveField = (index) => {
     const updatedFields = [...customTopics];
     updatedFields.splice(index, 1);
     setCustomTopics(updatedFields);
   };
 
+  /**
+   * Handles the change of a field value for a custom topic at the specified index.
+   * @param {number} index - The index of the custom topic.
+   * @param {string} fieldKey - The key of the field to be changed.
+   * @param {any} value - The new value for the field.
+   */
   const handleFieldChange = (index, fieldKey, value) => {
     const updatedFields = [...customTopics];
     updatedFields[index][fieldKey] = value;
     setCustomTopics(updatedFields);
   };
 
+  /**
+   * Returns the minimum date in the format 'YYYY-MM', based on the current date.
+   * @returns {string} The minimum date.
+   */
   function getMinimumDate() {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -159,8 +166,10 @@ const CreateDataEntry = ({
     return `${year}-${month}`;
   }
 
-  //  icon selection
-
+  /**
+   * Handles the selection of an icon at the specified index.
+   * @param {number} index - The index of the selected icon.
+   */
   const handleIconSelect = (index) => {
     setSelectedIcon(index);
     setShowIconSelection(false);
@@ -229,12 +238,19 @@ const CreateDataEntry = ({
     ));
   };
 
+  /**
+   * Checks the password security and sets the error message.
+   */
   useEffect(() => {
     if (countLeaks !== null) {
       setErrMsg(` ${countLeaks}`);
     }
   }, [countLeaks]);
 
+  /**
+   * Handles the change of the URL value and validates it.
+   * @param {string} value - The new value for the URL.
+   */
   const handleUrlChange = (value) => {
     const isValidUrl = validator.isURL(value, { require_protocol: false });
     if (!isValidUrl) {

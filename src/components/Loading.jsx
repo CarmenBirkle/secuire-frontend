@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react';
+/**
+ * @fileoverview Loading animation component.
+ */
+import React from 'react';
 
 const LoadingAnimation = () => {
   

@@ -1,3 +1,9 @@
+/**
+* @fileOverview
+* React context provider component for managing the application state.
+* Provides the AppContext and related state variables to its children components.
+*/
+
 import React, { createContext, useState } from 'react';
 
 export const AppContext = createContext();
@@ -8,9 +14,6 @@ export const AppProvider = ({ children }) => {
   const [shouldRenderCreateDataEntry, setShouldRenderCreateDataEntry] =
     useState(false);
   const [logIn, setLogIn] = useState(false);
-
-
-
 
   return (
     <AppContext.Provider

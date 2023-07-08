@@ -1,18 +1,20 @@
+/**
+ * @fileoverview  This file contains the Main component.
+ * with logic for displaying the data entries or other components.
+ */
 import React, { useEffect, useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { encryptedDataEntrys, useFetchData } from '../components/helperSites/Axios';
+import { AppContext } from '../components/helperSites/AppContext';
 import CreateDataEntry from '../components/CreateDataEntry';
 import EditDataEntry from '../components/EditDataEntry';
 import DataEntry from '../components/DataEntry';
 import Decrypt from '../components/helperSites/Decrypt';
 import SearchBar from '../components/SearchBar';
-import { encryptedDataEntrys, useFetchData } from '../components/helperSites/Axios';
-import { AppContext } from '../components/helperSites/AppContext';
 import SingleDataEntryDetail from '../components/SingleDataEntryDetail';
 import addIcon from '../img/icon-add.svg'
 import searchIcon from './../img/icon-search.svg';
-
-
 
 const Main = ({user}) => {
   const { t } = useTranslation(['main']);
@@ -31,9 +33,6 @@ const Main = ({user}) => {
   const [showSuccessCreateMsg, setShowSuccessCreateMsg] = useState(false);
   const [showSuccessEditMsg, setShowSuccessEditMsg] = useState(false);
   const [showSuccessDeleteMsg, setShowSuccessDeleteMsg] = useState(false);
-
-  //const [encryptedDataEntrys, setEncryptedDataEntrys] = useState([]);
-  // const [encryptedData, setEncryptedData] = useState([]);
 
   /**
    * showCreateDataEntry and setShowCreateDataEntry get from AppContext
@@ -81,21 +80,12 @@ const Main = ({user}) => {
     if (encryptedDataEntrys) {
       const decryptedDataEntrys = encryptedDataEntrys.map((dataEntry) =>
         Decrypt(dataEntry, 
-          // process.env.REACT_APP_SECRET
           user.secretKey
           )
       );
       setDataEntrys(decryptedDataEntrys);
     }
   }, [encryptedDataEntrys]);
-
-  //TODO remove in production
-useEffect(() => {
-  console.log('encryptedDataEntrys Main', encryptedDataEntrys);
-  console.log('dataentrys:', dataEntrys);
-}, [encryptedDataEntrys, dataEntrys]);
-
-
 
   /**
    * This useEffect hook updates the filtered list of data entries.
@@ -105,19 +95,16 @@ useEffect(() => {
    */
   useEffect(() => {
     let updatedFilteredDataEntries = dataEntrys;
-
     if (ENTRY_TYPE && ENTRY_TYPE !== 'favourites') {
       updatedFilteredDataEntries = updatedFilteredDataEntries.filter(
         (dataEntry) => dataEntry.category === ENTRY_TYPE
       );
     }
-
     if (ENTRY_TYPE === 'favourites') {
       updatedFilteredDataEntries = updatedFilteredDataEntries.filter(
         (dataEntry) => dataEntry.favourite === true
       );
     }
-
     if (searchTerm) {
       updatedFilteredDataEntries = updatedFilteredDataEntries.filter(
         (dataEntry) =>
@@ -138,7 +125,10 @@ useEffect(() => {
     fetchData();
   }, [reloadData]);
 
-
+/**
+ * Is triggered when the user clicks on the 'X' Icon in the 'SingleDataEntryDetail' component.
+ * and choose an other entry type.
+ */
   useEffect(() => {
     const handleCloseClick = () => {
       setShowDetail(false);
@@ -170,6 +160,7 @@ useEffect(() => {
   };
 
   const searchBar = React.useRef(document.getElementById('searchBar'));
+  
   /**
    * Function to show and hide searchbar on icon click.
    * @param {event} event - checks if Searchbar is already opened and replaces classes 'open' and 'closed' depending on result

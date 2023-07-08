@@ -1,5 +1,5 @@
 /**
- * @overview The Home component represents the home page of the application.
+ * @fileOerview The Home component represents the home page of the application.
  * It handles translations, location changes, and displays content, including a video thumbnail.
  * It provides links for login and signup.
  */
@@ -7,8 +7,8 @@
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import videoPic from './../img/thumbnail-video.png';
 import { useLocation } from 'react-router-dom';
+import videoPic from './../img/thumbnail-video.png';
 
 const Home = () => {
   const { t } = useTranslation(['common', 'home']);
@@ -47,8 +47,6 @@ const Home = () => {
         {wasLoggedOut && (
           <p className="errorMessage">
             {t('home:autologout')}
-            <br />
-            <br />
           </p>
         )}
       </div>

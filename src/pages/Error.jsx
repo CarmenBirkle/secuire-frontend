@@ -1,3 +1,8 @@
+/**
+ * @fileoverview Error page
+ * If the user tries to access a page that does not exist, the Error page is displayed.
+ * with a link to the home page.
+ */
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 

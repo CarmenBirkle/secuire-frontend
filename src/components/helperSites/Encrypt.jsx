@@ -1,5 +1,5 @@
 /**
- * Provides encryption functionality using AES algorithm.
+ * @fileOverview Provides encryption functionality using AES algorithm.
  */
 import CryptoJS from 'crypto-js';
 
@@ -30,7 +30,6 @@ export const encryptObject = (inputData, secretPass) => {
   const encryptedData = {};
 
   for (const field in inputData) {
-    console.log('Secret aus create', secretPass);
     if (inputData.hasOwnProperty(field)) {
       if (field === 'category') {
         encryptedData[field] = inputData[field];

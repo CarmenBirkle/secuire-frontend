@@ -87,6 +87,9 @@ const Header = () => {
     headerElement.parentElement.classList.remove('front');
   };
 
+  /**
+   * Handle logout and remove token
+   */
   const handleLogout = () => {
      setLogIn(false);
      setUser(null);
