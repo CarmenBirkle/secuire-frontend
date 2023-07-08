@@ -1,18 +1,19 @@
 /**
- * @Overview
+ * @fileverview
  * The AccountSettings component represents the account settings page.
  * It handles translations, user interactions, and displays user account information.
  * Users can edit their account details, delete their account, and navigate back to the previous page.
  */
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
+import { deleteUser } from '../components/helperSites/Axios';
+import { useNavigate } from 'react-router-dom';
 import deleteIcon from './../img/icon-delete.svg';
 import editIcon from './../img/icon-work.svg';
 import arrowIcon from './../img/icon_back.svg';
 import EditAccount from '../components/EditAccount';
-import { deleteUser } from '../components/helperSites/Axios';
 import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
+
 
 const AccountSettings = ({ user, setUser }) => {
   const { t } = useTranslation(['account']);
@@ -41,7 +42,6 @@ const AccountSettings = ({ user, setUser }) => {
   * Handles the confirmed deletion of a user. Calls the deleteUser function to delete the user from the backend.
   * Removes the 'token' cookie. Redirects the user to the homepage and Logs any errors that occur during the process.
   */
-
   const handleConfirmDelete = () => {
     deleteUser()
       .then(() => {
@@ -53,15 +53,24 @@ const AccountSettings = ({ user, setUser }) => {
       });
   };
 
+  /**
+   * Handles the click event for the cancel button.
+   */
   const handleCancelDelete = () => {
     setShowConfirmation(false);
   };
 
+  /**
+   * Handles the click event for the edit button.
+   */
   const handleEditClick = () => {
     setEditMode(true);
     setShowConfirmation(false);
   };
 
+  /**
+   * Renders the EditAccount component if the editMode state is true.
+   */
   if (editMode) {
     return (
       <EditAccount user={user} setUser={setUser} setEditMode={setEditMode} />

@@ -11,8 +11,9 @@
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import bcrypt from 'bcryptjs';
 import { registerUser } from './../components/helperSites/Axios.jsx';
+import LoadingAnimation from '../components/Loading.jsx';
+import bcrypt from 'bcryptjs';
 
 const Signup = () => {
   const { t } = useTranslation(['common', 'signup']);
@@ -28,8 +29,14 @@ const Signup = () => {
   const [accountCreated, setAccountCreated] = useState(false);
   const [accountCreatedError, setAccountCreatedError] = useState(null);
   const [usernameSpaceError, setUsernameSpaceError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  /**
+   * Checks if the password is complex enough 
+   * @param {string} password 
+   * @returns {boolean} true if the password is complex enough
+   */
   const isPasswordComplexEnough = (password) => {
     const regex =
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*?])(?=.*[a-zA-Z]).{8,}$/;
@@ -56,6 +63,7 @@ const Signup = () => {
     }
 
     try {
+      setLoading(true);
       const saltRounds = 10;
       const salt = await bcrypt.genSalt(saltRounds);
       const hashedPassword = await bcrypt.hash(password, salt);
@@ -70,9 +78,11 @@ const Signup = () => {
         newHashedPassword: '',
       };
       const response = await registerUser(userData);
+      setLoading(false);
       setAccountCreated(true);
       setAccountCreatedError('');
     } catch (error) {
+      setLoading(false);
       if (error === 'EMail Adress already taken') {
         setAccountCreatedError(`Email '${email}' is already taken.`);
       } else if (error.DuplicateUserName) {
@@ -92,9 +102,8 @@ const Signup = () => {
   useEffect(() => {
     if (accountCreated) {
       const timer = setTimeout(() => {
-        // navigate('/login');
         navigate('/login?accountCreated=true');
-      }, 2000);
+      }, 1000);
       return () => clearTimeout(timer);
     }
   }, [accountCreated, navigate]);
@@ -158,121 +167,133 @@ const Signup = () => {
 
   return (
     <>
-      <h1>{t('common:signup')}</h1>
-      <form onSubmit={handleSubmit}>
-        {usernameSpaceError && (
-          <p className="infoMessage"> {t('signup:space')}</p>
-        )}
-        <fieldset>
-          <label htmlFor="">{t('signup:username')}:</label>
-          <input
-            type="text"
-            id="signup-username"
-            name="signup-username"
-            required
-            placeholder={t('signup:username')}
-            value={username}
-            onChange={handleUsernameChange}
-            onBlur={() => {setUsernameSpaceError(false)}}
-          />
-        </fieldset>
-        <fieldset>
-          <label htmlFor="signup-email">{t('signup:email')}:</label>
-          <input
-            type="email"
-            id="signup-email"
-            name="signup-email"
-            required
-            placeholder={t('signup:email')}
-            value={email}
-            onChange={handleEmailChange}
-          />
-        </fieldset>
-        <fieldset>
-          <label htmlFor="">{t('signup:password')}:</label>
-          <input
-            type="password"
-            id="signup-password"
-            name="signup-password"
-            required
-            placeholder={t('signup:Password')}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              setComplexError(false);
-              setConfirmPassword('');
-            }}
-            onBlur={() => {
-              if (!isPasswordComplexEnough(password)) {
-                setComplexError(true);
-              }
-            }}
-          />
-        </fieldset>
-        {complexError && (
-          <p className="errorMessage">{t('signup:complexError')}</p>
-        )}
-        <fieldset>
-          <label htmlFor="">{t('signup:confirmPassword')}:</label>
-          <input
-            type="password"
-            id="pwCheck"
-            name="pwCheck"
-            required
-            placeholder={t('signup:confirmPassword')}
-            onChange={(e) => {
-              setConfirmPassword(e.target.value);
-              setError(false);
-            }}
-            onBlur={() => {
-              if (password !== confirmPassword) {
-                setError(true);
-              }
-            }}
-            className={error ? 'errorField' : ''}
-          />
-        </fieldset>
-        {error && <p className="errorMessage">{t('signup:passwordError')}</p>}
-        <p>{t('signup:information')}</p>
+      {loading ? (
+        <>
+          <LoadingAnimation />
+        </>
+      ) : (
+        <div>
+          <h1>{t('common:signup')}</h1>
+          <form onSubmit={handleSubmit}>
+            {usernameSpaceError && (
+              <p className="infoMessage"> {t('signup:space')}</p>
+            )}
+            <fieldset>
+              <label htmlFor="">{t('signup:username')}:</label>
+              <input
+                type="text"
+                id="signup-username"
+                name="signup-username"
+                required
+                placeholder={t('signup:username')}
+                value={username}
+                onChange={handleUsernameChange}
+                onBlur={() => {
+                  setUsernameSpaceError(false);
+                }}
+              />
+            </fieldset>
+            <fieldset>
+              <label htmlFor="signup-email">{t('signup:email')}:</label>
+              <input
+                type="email"
+                id="signup-email"
+                name="signup-email"
+                required
+                placeholder={t('signup:email')}
+                value={email}
+                onChange={handleEmailChange}
+              />
+            </fieldset>
+            <fieldset>
+              <label htmlFor="">{t('signup:password')}:</label>
+              <input
+                type="password"
+                id="signup-password"
+                name="signup-password"
+                required
+                placeholder={t('signup:Password')}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setComplexError(false);
+                  setConfirmPassword('');
+                }}
+                onBlur={() => {
+                  if (!isPasswordComplexEnough(password)) {
+                    setComplexError(true);
+                  }
+                }}
+              />
+            </fieldset>
+            {complexError && (
+              <p className="errorMessage">{t('signup:complexError')}</p>
+            )}
+            <fieldset>
+              <label htmlFor="">{t('signup:confirmPassword')}:</label>
+              <input
+                type="password"
+                id="pwCheck"
+                name="pwCheck"
+                required
+                placeholder={t('signup:confirmPassword')}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                  setError(false);
+                }}
+                onBlur={() => {
+                  if (password !== confirmPassword) {
+                    setError(true);
+                  }
+                }}
+                className={error ? 'errorField' : ''}
+              />
+            </fieldset>
+            {error && (
+              <p className="errorMessage">{t('signup:passwordError')}</p>
+            )}
+            <p>{t('signup:information')}</p>
 
-        <fieldset className="question">
-          <h3>{t('signup:hint')}</h3>
-          <input
-            type="text"
-            name="passwordHint"
-            required
-            id="passwordHint"
-            placeholder={t('signup:passwordHint')}
-            onChange={handlePasswordHintChange}
-            onBlur={handlePasswordHintBlur}
-          />
-          {passwordHintError && (
-            <p className="errorMessage">{passwordHintError}</p>
+            <fieldset className="question">
+              <h3>{t('signup:hint')}</h3>
+              <input
+                type="text"
+                name="passwordHint"
+                required
+                id="passwordHint"
+                placeholder={t('signup:passwordHint')}
+                onChange={handlePasswordHintChange}
+                onBlur={handlePasswordHintBlur}
+              />
+              {passwordHintError && (
+                <p className="errorMessage">{passwordHintError}</p>
+              )}
+            </fieldset>
+            <div id="agbCheck">
+              <input
+                type="checkbox"
+                required
+                name="agb"
+                id="agb"
+                onChange={handleCheckboxChange}
+              />
+              <label htmlFor="agb">
+                {t('signup:agb')} <a href="/agb">(AGBs)</a>
+              </label>
+            </div>
+            <input
+              className="submitButton"
+              type="submit"
+              value={t('common:signup')}
+            />
+          </form>
+
+          {accountCreatedError && (
+            <p className="errorMessage">{accountCreatedError}</p>
           )}
-        </fieldset>
-        <div id="agbCheck">
-          <input
-            type="checkbox"
-            required
-            name="agb"
-            id="agb"
-            onChange={handleCheckboxChange}
-          />
-          <label htmlFor="agb">
-            {t('signup:agb')} <a href="/agb">(AGBs)</a>
-          </label>
+          {accountCreated && (
+            <p className="successMessage">{t('signup:success')}</p>
+          )}
         </div>
-        <input
-          className="submitButton"
-          type="submit"
-          value={t('common:signup')}
-        />
-      </form>
-
-      {accountCreatedError && (
-        <p className="errorMessage">{accountCreatedError}</p>
-      )}
-      {accountCreated && (
-        <p className="successMessage">{t('signup:success')}</p>
       )}
     </>
   );

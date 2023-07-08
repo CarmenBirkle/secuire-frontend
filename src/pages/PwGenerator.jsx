@@ -1,3 +1,6 @@
+/**
+ * @fileOverview This component is responsible for generating a password based on the user's selection of
+ */
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useContext } from 'react';
@@ -10,7 +13,6 @@ const PwGenerator = () => {
   const { t } = useTranslation(['pwgenerator']);
   const { setShouldRenderCreateDataEntry } = useContext(AppContext);
   const { calledFromNavbar, setCalledFromNavbar } = useContext(AppContext);
-  const navigate = useNavigate();
   const [password, setPassword] = useState('');
   const [passwordLength, setPasswordLength] = useState(8);
   const [lowercase, setLowercase] = useState(true);
@@ -19,13 +21,8 @@ const PwGenerator = () => {
   const [symbols, setSymbols] = useState(true);
   const [successUserFeedback, setSuccessUserFeedback] = useState(null);
   const [errorUserFeedback, setErrorUserFeedback] = useState(null);
-  const [selectedChoice, setSelectedChoice] = useState([
-    'lowercase',
-    'uppercase',
-    'numbers',
-    'symbols',
-  ]);
-
+  const [selectedChoice, setSelectedChoice] = useState(['lowercase','uppercase','numbers','symbols']);
+  const navigate = useNavigate();
   const lowercaseList = 'abcdefghijklmnopqrstuvwxyz';
   const uppercaseList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const numbersList = '0123456789';
@@ -131,7 +128,6 @@ const PwGenerator = () => {
   return (
     <>
       <h1>{t('pwgenerator')}</h1>
-      {/*<p>{t('clickme')}</p>*/}
       <p type="text" value={password}>
         {password}
       </p>

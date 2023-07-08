@@ -1,3 +1,6 @@
+/**
+ * @fileoverview App.jsx is the main component of the application.
+ */
 import { Suspense, useState, useEffect, useContext } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppContext } from './components/helperSites/AppContext';
@@ -59,7 +62,9 @@ const App = () => {
   }, []);
 
 
-  //Autologout functions
+  /**
+   * Define the events that will reset the logout timer.
+   */
   let logoutTimeout;
   const events = [
     'load',
@@ -70,6 +75,9 @@ const App = () => {
     'keypress',
   ];
 
+  /**
+   * Logout the user.
+   */
   const logout = () => {
     Cookies.remove('token');
     window.location.href = '/?loggedout=1';
@@ -77,11 +85,18 @@ const App = () => {
     setLogIn(false);
   };
 
+  /**
+   * Reset the logout timer.
+   */
   const resetTimeout = () => {
     clearTimeout(logoutTimeout);
     logoutTimeout = setTimeout(logout, 300000); // 5 Minuten
   };
 
+  /**
+   * Set the event listeners when the component mounts.
+   * Reset the timeout when the user interacts with the page.
+   */
   useEffect(() => {
     events.forEach((event) => window.addEventListener(event, resetTimeout));
     resetTimeout(); 

@@ -1,3 +1,6 @@
+/**
+ * @fileoverview AGB Page
+ */
 import { useTranslation } from 'react-i18next';
 const AGB = () => {
   const { t } = useTranslation(['agb']);

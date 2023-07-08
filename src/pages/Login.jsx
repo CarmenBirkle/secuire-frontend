@@ -13,13 +13,12 @@
 import { useTranslation } from 'react-i18next';
 import {useState, useRef, useEffect} from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import Cookies from 'js-cookie';
 import { getSalt, loginUser } from './../components/helperSites/Axios.jsx'; 
-import bcrypt from 'bcryptjs';
 import { useContext } from 'react';
 import { AppContext } from './../components/helperSites/AppContext';
 import LoadingAnimation from '../components/Loading.jsx';
-
+import Cookies from 'js-cookie';
+import bcrypt from 'bcryptjs';
 
 
 const Login = ({setUser, user}) => {
@@ -39,10 +38,7 @@ const Login = ({setUser, user}) => {
   const [userBlockedMsg, setUserBlockedMsg] = useState(false);
   const [wrongEmail, setWrongEmail] = useState(false);
   const [loading, setLoading] = useState(false);
- 
-  //TODO: console.log entfernen
- const { setLogIn } = useContext(AppContext);
-
+  const { setLogIn } = useContext(AppContext);
 
 
   /**
@@ -86,25 +82,14 @@ const Login = ({setUser, user}) => {
    };
 
 
-   //TODO kann später gelöscht werden
-   useEffect(() => {
-     console.log('user: ', user);
-   }, [user]);
-
-
 async function handleLogin(email, password) {
-  console.log('aus handlelogin: email',email, 'password', password)
   try {
     setLoading(true);
     const salt = await getSalt(email);
-    console.log('Salt aus handlelogin: ', salt); 
     const hashedPassword = await bcrypt.hash(password, salt);
-    console.log('Hashed Password: ', hashedPassword);
     const loginResponse = await loginUser(email, hashedPassword);
-    console.log('erfolgreich');
     const secretKey = bcrypt.hashSync(process.env.REACT_APP_SECRET, salt);
-  
-     setUser({
+    setUser({
        id: loginResponse.identityUserId,
        email: email,
        password: hashedPassword,
@@ -118,41 +103,28 @@ async function handleLogin(email, password) {
      Cookies.set('token', loginResponse.jwtToken);
     setLogIn(true);
     setLoading(false);
-    console.log('loginResponse: ', loginResponse);
     setWrongPasswortMsg(false);
     if (loginResponse.failedLogins > 0) {
-      console.log(
-        `Fehlgeschlagene Anmeldeversuche: ${loginResponse.failedLogins}`
-      );
-      navigate(
-        `/main?type=favourites&failedLogins=${loginResponse.failedLogins}`
-      );
+      navigate( `/main?type=favourites&failedLogins=${loginResponse.failedLogins}` );
     } else {
       navigate('/main?type=favourites');
     }
-
- 
   } catch (error) {
     setLoading(false);
      if(error.response && error.response.status){
       switch (error.response.status) {
         case 400:
-          console.log('Falsches Passwort');
           setWrongPasswortMsg(true);
           break;
         case 403:
-          console.log('User ist gesperrt, versuche es später erneut');
           setUserBlockedMsg(true);
           break;
         case 404:
-          console.log('email adresse nicht gefunden');
           setWrongEmail(true);
           break;
         default:
-          console.log('fehler aufgetreten');
       }
     }
- 
     return false; 
   }
 }
@@ -242,6 +214,5 @@ async function handleLogin(email, password) {
     </div>
   );
 };
-
 
 export default Login;

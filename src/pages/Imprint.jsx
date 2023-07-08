@@ -1,3 +1,6 @@
+/**
+ *  @fileOverwiew Imprint page
+ */
 import { useTranslation } from 'react-i18next';
 
 const Imprint = () => {

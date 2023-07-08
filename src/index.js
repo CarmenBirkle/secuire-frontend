@@ -26,7 +26,6 @@ import './fonts/poppins-v20-latin-900.svg#Poppins';
 import './i18n';
 import { AppProvider } from './components/helperSites/AppContext';
 
-//import "./web.config";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -40,6 +39,7 @@ ReactDOM.render(
 // for measuring performance in the app,
 // to log results to the console during development,
 // or send to an analytics endpoint. More: https://bit.ly/CRA-vitals
-//TODO: in Production, deactivate
-reportWebVitals(console.log);
+
+
+// reportWebVitals(console.log);
 // reportWebVitals();

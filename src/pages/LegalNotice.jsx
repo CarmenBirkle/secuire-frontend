@@ -1,3 +1,6 @@
+/**
+ * @fileoverview  Contains the LegalNotice component 
+ */
 import { useTranslation } from 'react-i18next';
 
 const LegalNotice = () => {
