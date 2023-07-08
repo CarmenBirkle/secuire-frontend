@@ -1,3 +1,6 @@
+/**
+ * @fileOverview  contains all icons for the data entrys
+ */
 import fb from '../../img/icons_DataEntrys/facebook.svg';
 import insta from '../../img/icons_DataEntrys/instagram.svg';
 import yt from '../../img/icons_DataEntrys/youtube.svg';

@@ -56,7 +56,6 @@ export const useFetchData = () => {
   const fetchData = async () => {
     const token = Cookies.get('token');
     const url = `${BASEURL}DataEntry/all`;  
-    console.log('token aus fetchdata', token); // TODO: remove in production
     try {
       const responseDataEntrys = await api.get(url, {
         headers: {
@@ -64,9 +63,6 @@ export const useFetchData = () => {
           'Content-Type': 'application/json',
         },
       });
-      console.log('fetch from Axios:', responseDataEntrys); // TODO: remove in production
-      console.log('nur gefetchte daten Axios', responseDataEntrys.data); // TODO: remove in production
-
       let dataEntrys = responseDataEntrys.data.map((entry) => ({
         ...entry.dataEntry,
         note: entry.note || '',
@@ -80,21 +76,15 @@ export const useFetchData = () => {
         expirationDate: entry.expirationDate || '',
         password: entry.password || ''
       }));
-      console.log('axios: data entrys', dataEntrys);
       setEncryptedDataEntrys(dataEntrys);
-      console.log('encryptedDataEntrys Axios', encryptedDataEntrys); // TODO: remove in production
-      return encryptedDataEntrys.data;
+     return encryptedDataEntrys.data;
     } catch (error) {
-    console.log(error.response); 
     throw error;
   }
     };
     return { encryptedDataEntrys, fetchData };
   };
 
-  // useEffect(() => {
-  //   console.log('encryptedDataEntrys Main', encryptedDataEntrys);
-  // }, [encryptedDataEntrys]);
 
 /**
  * Checks the security of a password using an external API.
@@ -187,20 +177,6 @@ export const updatedDataEntry = async (id, data) => {
   }
 };
 
-// export const updateUser = async (userData) => {
-//   try {
-//     const token = Cookies.get('token');
-//     const response = await api.put(`Authorization`, userData, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//         'Content-Type': 'application/json',
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     throw error;
-//   }
-// };
 
 /**
  * Deletes a data entry with the specified ID.

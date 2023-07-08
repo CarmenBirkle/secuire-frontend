@@ -1,6 +1,11 @@
+/**
+* @fileOverview
+* SharedLayout component for creating a shared layout structure.
+* Renders a header, main content area with nested routes, and a footer.
+*/
+
 import { Outlet } from 'react-router-dom';
 import Header from '../nav/Header';
-// import Navbar from '../nav/Navbar';
 import Footer from '../Footer';
 
 const SharedLayout = () => {
@@ -10,14 +15,13 @@ const SharedLayout = () => {
         <Header />
       </header>
       <main>
-        <div className='container'>
+        <div className="container">
           <Outlet />
         </div>
       </main>
       <footer>
         <Footer />
       </footer>
-      
     </>
   );
 };

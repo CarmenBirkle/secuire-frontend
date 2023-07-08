@@ -1,5 +1,5 @@
 /**
- * Provides encryption functionality using AES algorithm.
+ * @fileOverview Provides encryption functionality using AES algorithm.
  */
 import CryptoJS from 'crypto-js';
 
