@@ -12,17 +12,12 @@ const AGB = () => {
           {t('agb')} <br /> {t('secuire')}
         </h1>
         <br />
+        <h2 className="subheadline">{t('definition_headline')}</h2>
+        <p>{t('content_definition')}</p>
+        <p>{t('content_definition2')}</p>
         <br />
-        <h3>{t('definition_headline')}</h3>
-        {t('content_definition')}
-        <br />
-        <br />
-        {t('content_definition2')}
-        <br />
-        <br />
-        <h3> {t('terms')}</h3>
-        {t('terms_content')}
-        <br />
+        <h2 className='subheadline'> {t('terms')}</h2>
+        <p>{t('terms_content')}</p>
       </section>
     </>
   );

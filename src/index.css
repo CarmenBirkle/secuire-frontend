@@ -92,6 +92,7 @@ button {
   font-family: 'Poppins',Arial, sans-serif;
   font-size: 1em;
   height: 2.5em;
+  cursor: pointer;
 }
 .link, .navlink {
   color: grey;
