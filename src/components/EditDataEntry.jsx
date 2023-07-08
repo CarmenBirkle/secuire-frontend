@@ -367,7 +367,7 @@ const EditDataEntry = ({
               type="checkbox"
               id="favourite"
               name="favourite"
-              value={state.favourite}
+              checked={state.favourite}
               placeholder={t('favourite')}
               onChange={(e) => handleInputChange('favourite', e.target.checked)}
             />
@@ -427,7 +427,7 @@ const EditDataEntry = ({
               type="checkbox"
               id="favourite"
               name="favourite"
-              value={state.favourite}
+              checked={state.favourite}
               placeholder={t('favourite')}
               onChange={(e) => handleInputChange('favourite', e.target.checked)}
             />
