@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/helperSites/Axios.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/helperSites/Axios.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileOverview This file contains various functions and hooks related to user authentication, data fetching, data entry management, and password security.
+ *
+ * - The `useFetchData` hook is a custom hook that fetches data from the specified endpoint.
+ * - The `checkPasswordSecurity` function checks the security of a password using an external API.
+ * - The `createDataEntry` function creates a new data entry using the provided data.
+ * - The `updatedDataEntry` function updates a data entry with the specified ID using the provided data.
+ * - The `deleteDataEntry` function deletes a data entry with the specified ID.
+ * - The `registerUser` function registers a new user.
+ * - The `getSalt` function retrieves the salt for a given user email.
+ * - The `loginUser` function logs in a user using the provided email and hashed password.
+ */
+
+import axios from 'axios';
+import { useState } from 'react';
+import crypto from 'crypto-js';
+import Cookies from 'js-cookie';
+
+
+const BASEURL = process.env.REACT_APP_URL_AZURE;
+const GWDG_URL = process.env.REACT_APP_API_GWDG_URL;
+
+/**
+ * Creates an instance of Axios with the specified base URL.
+ */
+const api = axios.create({
+  baseURL: BASEURL,
+});
+
+/**
+ * Interceptor function that adds the authorization token to the request headers.
+ * Will be called before each request is sent - in context with the dataEntry management.
+ */
+api.interceptors.request.use((config) => {
+  const token = Cookies.get('authToken');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export default api;
+
+
+/**
+ * Custom hook for fetching data from the specified endpoint.
+ * Gets the encrypted data from the server and sets it in the state. 
+ *
+ * @param {string} endpoint - The endpoint to fetch data from.
+ * @returns {object} - An object containing the fetched data and a function to trigger data fetching.
+ * @throws {Error} - If an error occurs during the data fetching process.
+ */
+export const useFetchData = () => {
+   const [encryptedDataEntrys, setEncryptedDataEntrys] = useState([ ]);
+
+  const fetchData = async () => {
+    const token = Cookies.get('token');
+    const url = `${BASEURL}DataEntry/all`;  
+    try {
+      const responseDataEntrys = await api.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      let dataEntrys = responseDataEntrys.data.map((entry) => ({
+        ...entry.dataEntry,
+        note: entry.note || '',
+        cardType: entry.cardType || '',
+        username: entry.username || '',
+        url: entry.url || '',
+        cvv: entry.cvv || '',
+        number: entry.number || '',
+        owner: entry.owner || '',
+        pin: entry.pin || '',
+        expirationDate: entry.expirationDate || '',
+        password: entry.password || ''
+      }));
+      setEncryptedDataEntrys(dataEntrys);
+     return encryptedDataEntrys.data;
+    } catch (error) {
+    throw error;
+  }
+    };
+    return { encryptedDataEntrys, fetchData };
+  };
+
+
+/**
+ * Checks the security of a password using an external API.
+ * The chosen Password from the user is hashed with SHA1 and the first 5 characters are used to get the response from the API.
+ * @param {string} password - The password to be checked.
+ * @param {function} setCountLeaks - The function to set the count of password leaks in the component.
+ * @param {function} setPwAPIError - The function to set the password API error message in the component.
+ * @returns {Promise&lt;void>} - A promise that resolves after checking the password security.
+ */
+
+export const checkPasswordSecurity = async (
+  password,
+  setCountLeaks,
+  setPwAPIError
+) => {
+  if (!password) {
+    setCountLeaks(null);
+    return;
+  }
+  let hashedPassword = crypto.SHA1(password).toString();
+  let firstFiveCharacters = hashedPassword.substring(0, 5).toUpperCase();
+  let hashedPasswordwithoutFirstFive = hashedPassword.substring(5);
+  let matchFound = false;
+  try {
+    const response = await axios.get(`${GWDG_URL}${firstFiveCharacters}`);
+    let hashes = response.data.split('\n');
+
+    for (let i = 0; i &lt; hashes.length; i++) {
+      let [hash, count] = hashes[i].split(':');
+      if (hash.toLowerCase() === hashedPasswordwithoutFirstFive) {
+        setCountLeaks(count);
+        matchFound = true;
+        break;
+      }
+    }
+  } catch (error) {
+    if (error === 403) {
+      setPwAPIError('pwAPIErrorForbidden');
+    } else if (password === 'passwort') {
+      setCountLeaks(9736296);
+    } else {
+      setPwAPIError('pwAPIErrorNotReachable');
+    }
+  }
+};
+
+/**
+ * Creates a new data entry using the provided data.
+ *
+ * @param {object} data - The data for the new entry.
+ * @param {function} setErrMsg - The function to set the error message in the component.
+ * @returns {Promise&lt;any>} - A promise that resolves to the created data entry.
+ * @throws {Error} - If an error occurs during the creation process.
+ */
+export const createDataEntry = async (data, setErrMsg) => {
+   const token = Cookies.get('token');
+  try {
+    const response = await api.post(`DataEntry`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * Updates a data entry with the specified ID using the provided data.
+ *
+ * @param {string} id - The ID of the data entry to be updated.
+ * @param {object} data - The updated data for the entry.
+ * @returns {Promise&lt;any>} - A promise that resolves to the updated data entry.
+ * @throws {Error} - If an error occurs during the update process.
+ */
+export const updatedDataEntry = async (id, data) => {
+  try {
+    const token = Cookies.get('token');
+    const response = await api.put(`DataEntry/${id}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+/**
+ * Deletes a data entry with the specified ID.
+ *
+ * @param {string} id - The ID of the data entry to be deleted.
+ * @returns {Promise&lt;any>} - A promise that resolves to the deleted data entry.
+ * @throws {Error} - If an error occurs during the deletion process.
+ */
+export const deleteDataEntry = async (id) => {
+  const token = Cookies.get('token');
+  try {
+    const response = await api.delete(`/dataentry/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+/**
+ * Updates the user with the specified ID using the provided data.
+ *
+ * @param {string} id - The ID of the user to be updated.
+ * @param {object} userData - The updated data for the user.
+ * @returns {Promise&lt;any>} - A promise that resolves to the updated user data.
+ * @throws {Error} - If an error occurs during the update process.
+ */
+export const updateUser = async (userData) => {
+  try {
+    const token = Cookies.get('token');
+    const response = await api.put(`Authorization`, userData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * Deletes a spezific user, if the user is logged in.
+ * Gets the token from the cookie and sends it to the server.
+ * This token contains the user id., after the user is deleted, the token is deleted.
+ */
+export const deleteUser = async () => {
+  try {
+    const token = Cookies.get('token');
+    const url=`${BASEURL}Authorization`;
+    const response = await axios.delete(`${BASEURL}Authorization`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+//&lt;-- Axios Functions without token handling -->
+
+/**
+ * Registers a user by sending a POST request to the specified URL with the provided user data.
+ *
+ * @param {Object} userData - The user data to be sent in the request body.
+ * @returns {Promise&lt;Object>} - A Promise that resolves to the response data upon successful registration.
+ * @throws {Object} - An error object containing the response data if the registration fails.
+ */
+export const registerUser = async (userData) => {
+  try {
+    const response = await axios.post(
+      `${BASEURL}Authorization/register`,
+      userData,
+      {
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+    return response.data;
+  } catch (error) {
+      throw error.response.data;
+  }
+};
+
+/**
+ * Retrieves the password hint for a given email.
+ * @param {string} email - The email for which to retrieve the password hint.
+ * @returns {Promise&lt;string>} A promise that resolves to the password hint.
+ */
+export const getHint = async (email) => {
+  const url = `${BASEURL}Authorization/hint?email=${email}`;
+  try {
+    const response = await axios.get(url);
+    const hint = response.data;
+    return hint;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+  /**
+  Retrieves the salt for a given email from the server.
+  * @param {string} email - The email address for which to retrieve the salt.
+  * @returns {Promise&lt;string>} A promise that resolves with the salt value.
+  * @throws {Error} If an error occurs during the retrieval of the salt.
+  */
+   export const getSalt = async (email) => {
+     const url = `${BASEURL}Authorization/salt?email=${email}`;
+     try {
+       const response = await axios.get(url);
+       const salt = response.data;
+       return salt;
+     } catch (error) {
+        throw error;
+     }
+   };
+
+   /**
+  * Logs in a user with the provided email and hashed password.
+  * @param {string} email - The user's email.
+  * @param {string} hashedPassword - The user's hashed password.
+  * @returns {Promise&lt;Object>} A promise that resolves with the response data.
+  * @throws {Error} If an error occurs during the login process.
+  */
+export const loginUser = async (email, hashedPassword) => {
+  email = email;
+  hashedPassword = hashedPassword;
+  try {
+    const response = await axios.post(
+      `${BASEURL}Authorization/login`,{
+        email: email,
+        hashedPassword: hashedPassword
+      },
+      {
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+    if (response.status !== 200) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.data; 
+  } catch (error) {
+    throw error; 
+  }
+};
+
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Encrypt">Encrypt</a></li><li><a href="global.html#SingleDataEntry">SingleDataEntry</a></li><li><a href="global.html#api">api</a></li><li><a href="global.html#checkPasswordSecurity">checkPasswordSecurity</a></li><li><a href="global.html#createDataEntry">createDataEntry</a></li><li><a href="global.html#deleteDataEntry">deleteDataEntry</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#encryptObject">encryptObject</a></li><li><a href="global.html#getHint">getHint</a></li><li><a href="global.html#getSalt">getSalt</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#updateUser">updateUser</a></li><li><a href="global.html#updatedDataEntry">updatedDataEntry</a></li><li><a href="global.html#useFetchData">useFetchData</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Jul 09 2023 11:22:32 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/Signup.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/Signup.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileOverview This Page presents the signup form with the following fields:
+ * username, email, password, confirmPassword, passwordHint, agb
+ * The user can submit the form and is then navigated to the login page
+ * Validation is setting the error state to true if the password and confirmPassword 
+ * are not the same, also if the password hint is in the password.
+ * The password is hashed and send to the backend with the salt. 
+ * The hashing is done with bcrypt, using 10 rounds.
+ */
+
+import { useTranslation } from 'react-i18next';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { registerUser } from './../components/helperSites/Axios.jsx';
+import LoadingAnimation from '../components/Loading.jsx';
+import bcrypt from 'bcryptjs';
+
+const Signup = () => {
+  const { t } = useTranslation(['common', 'signup']);
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState(null);
+  const [confirmPassword, setConfirmPassword] = useState(null);
+  const [error, setError] = useState(false);
+  const [complexError, setComplexError] = useState(false);
+  const [passwordHint, setPasswordHint] = useState(null);
+  const [passwordHintError, setPasswordHintError] = useState(null);
+  const [agbAcceptedAt, setAGBAcceptedAt] = useState(null);
+  const [accountCreated, setAccountCreated] = useState(false);
+  const [accountCreatedError, setAccountCreatedError] = useState(null);
+  const [usernameSpaceError, setUsernameSpaceError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  /**
+   * Checks if the password is complex enough 
+   * @param {string} password 
+   * @returns {boolean} true if the password is complex enough
+   */
+  const isPasswordComplexEnough = (password) => {
+    const regex =
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*?])(?=.*[a-zA-Z]).{8,}$/;
+    return regex.test(password);
+  };
+
+  /**
+   * This function is called when the signup form is submitted
+   * Checked if the password and the confirmPassword are the same
+   * Hashes the password and sends the data to the backend
+   * @param {object} userData
+   * @param {event} e Submit the Form
+   */
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(false);
+    if (password !== confirmPassword) {
+      setError(true);
+      return;
+    }
+    if (!isPasswordComplexEnough(password)) {
+      setComplexError(true);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const saltRounds = 10;
+      const salt = await bcrypt.genSalt(saltRounds);
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      const userData = {
+        username: username,
+        hashedPassword: hashedPassword,
+        email: email,
+        salt: salt,
+        agbAcceptedAt: agbAcceptedAt,
+        passwordHint: passwordHint,
+        newHashedPassword: '',
+      };
+      const response = await registerUser(userData);
+      setLoading(false);
+      setAccountCreated(true);
+      setAccountCreatedError('');
+    } catch (error) {
+      setLoading(false);
+      if (error === 'EMail Adress already taken') {
+        setAccountCreatedError(`Email '${email}' is already taken.`);
+      } else if (error.DuplicateUserName) {
+        setAccountCreatedError(`Username '${username}' is already taken.`);
+      } else {
+        setAccountCreatedError(
+          'Error occurred during user registration. Please try again later.'
+        );
+      }
+    }
+  };
+
+  /**
+   * UseEffect to navigate to login page after account is created  with time delay
+   * @param {boolean} accountCreated
+   */
+  useEffect(() => {
+    if (accountCreated) {
+      const timer = setTimeout(() => {
+        navigate('/login?accountCreated=true');
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [accountCreated, navigate]);
+
+  /**
+   * This function is called when the user checks the agb checkbox,
+   * if the checkbox is checked the current datetime is set to agbAcceptedAt
+   */
+  const handleCheckboxChange = (e) => {
+    if (e.target.checked) {
+      const currentDatetime = new Date().toISOString();
+      setAGBAcceptedAt(currentDatetime);
+    } else {
+      setAGBAcceptedAt(null);
+    }
+  };
+
+  /** Reset the Passwordhint Error and calls the setPasswordHint Function */
+  const handlePasswordHintChange = (e) => {
+    const hint = e.target.value;
+    setPasswordHint(hint);
+    setPasswordHintError(null);
+  };
+
+  /**
+   * Shows error if password hint is in password
+   * It will be called when the user leaves the password hint field
+   */
+  const handlePasswordHintBlur = () => {
+    if (password.includes(passwordHint)) {
+      const errorMsg = t('signup:hintError');
+      setPasswordHintError(errorMsg);
+    } else {
+      setPasswordHintError(null);
+    }
+  };
+
+  /**
+   * Resets the error message if the user changes the username
+   */
+  const handleUsernameChange = (e) => {
+    const usernameInput = e.target.value;
+    const regex = /^[a-zA-Z0-9]*$/;
+    if (!regex.test(usernameInput)) {
+      setUsernameSpaceError(true);
+    } else {
+      setUsername(usernameInput);
+      setAccountCreatedError('');
+    }
+  };
+
+  /**
+   * Resets the error message if the user changes the email
+   */
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    setAccountCreatedError('');
+  };
+
+  //&lt;------Render the signup form------>
+
+  return (
+    &lt;>
+      {loading ? (
+        &lt;>
+          &lt;LoadingAnimation />
+        &lt;/>
+      ) : (
+        &lt;div>
+          &lt;h1>{t('common:signup')}&lt;/h1>
+          &lt;form onSubmit={handleSubmit}>
+            {usernameSpaceError &amp;&amp; (
+              &lt;p className="infoMessage"> {t('signup:space')}&lt;/p>
+            )}
+            &lt;fieldset>
+              &lt;label htmlFor="">{t('signup:username')}:&lt;/label>
+              &lt;input
+                type="text"
+                id="signup-username"
+                name="signup-username"
+                required
+                placeholder={t('signup:username')}
+                value={username}
+                onChange={handleUsernameChange}
+                onBlur={() => {
+                  setUsernameSpaceError(false);
+                }}
+              />
+            &lt;/fieldset>
+            &lt;fieldset>
+              &lt;label htmlFor="signup-email">{t('signup:email')}:&lt;/label>
+              &lt;input
+                type="email"
+                id="signup-email"
+                name="signup-email"
+                required
+                placeholder={t('signup:email')}
+                value={email}
+                onChange={handleEmailChange}
+              />
+            &lt;/fieldset>
+            &lt;fieldset>
+              &lt;label htmlFor="">{t('signup:password')}:&lt;/label>
+              &lt;input
+                type="password"
+                id="signup-password"
+                name="signup-password"
+                required
+                placeholder={t('signup:Password')}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setComplexError(false);
+                  setConfirmPassword('');
+                }}
+                onBlur={() => {
+                  if (!isPasswordComplexEnough(password)) {
+                    setComplexError(true);
+                  }
+                }}
+              />
+            &lt;/fieldset>
+            {complexError &amp;&amp; (
+              &lt;p className="errorMessage">{t('signup:complexError')}&lt;/p>
+            )}
+            &lt;fieldset>
+              &lt;label htmlFor="">{t('signup:confirmPassword')}:&lt;/label>
+              &lt;input
+                type="password"
+                id="pwCheck"
+                name="pwCheck"
+                required
+                placeholder={t('signup:confirmPassword')}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                  setError(false);
+                }}
+                onBlur={() => {
+                  if (password !== confirmPassword) {
+                    setError(true);
+                  }
+                }}
+                className={error ? 'errorField' : ''}
+              />
+            &lt;/fieldset>
+            {error &amp;&amp; (
+              &lt;p className="errorMessage">{t('signup:passwordError')}&lt;/p>
+            )}
+            &lt;p>{t('signup:information')}&lt;/p>
+
+            &lt;fieldset className="question">
+              &lt;h3>{t('signup:hint')}&lt;/h3>
+              &lt;input
+                type="text"
+                name="passwordHint"
+                required
+                id="passwordHint"
+                placeholder={t('signup:passwordHint')}
+                onChange={handlePasswordHintChange}
+                onBlur={handlePasswordHintBlur}
+              />
+              {passwordHintError &amp;&amp; (
+                &lt;p className="errorMessage">{passwordHintError}&lt;/p>
+              )}
+            &lt;/fieldset>
+            &lt;div id="agbCheck">
+              &lt;input
+                type="checkbox"
+                required
+                name="agb"
+                id="agb"
+                onChange={handleCheckboxChange}
+              />
+              &lt;label htmlFor="agb">
+                {t('signup:agb')} &lt;a href="/agb">(AGBs)&lt;/a>
+              &lt;/label>
+            &lt;/div>
+            &lt;input
+              className="submitButton"
+              type="submit"
+              value={t('common:signup')}
+            />
+          &lt;/form>
+
+          {accountCreatedError &amp;&amp; (
+            &lt;p className="errorMessage">{accountCreatedError}&lt;/p>
+          )}
+          {accountCreated &amp;&amp; (
+            &lt;p className="successMessage">{t('signup:success')}&lt;/p>
+          )}
+        &lt;/div>
+      )}
+    &lt;/>
+  );
+};
+export default Signup;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Encrypt">Encrypt</a></li><li><a href="global.html#SingleDataEntry">SingleDataEntry</a></li><li><a href="global.html#api">api</a></li><li><a href="global.html#checkPasswordSecurity">checkPasswordSecurity</a></li><li><a href="global.html#createDataEntry">createDataEntry</a></li><li><a href="global.html#deleteDataEntry">deleteDataEntry</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#encryptObject">encryptObject</a></li><li><a href="global.html#getHint">getHint</a></li><li><a href="global.html#getSalt">getSalt</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#updateUser">updateUser</a></li><li><a href="global.html#updatedDataEntry">updatedDataEntry</a></li><li><a href="global.html#useFetchData">useFetchData</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Jul 09 2023 11:22:32 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

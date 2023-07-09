@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/LegalNotice.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/LegalNotice.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview  Contains the LegalNotice component 
+ */
+import { useTranslation } from 'react-i18next';
+
+const LegalNotice = () => {
+  const { t } = useTranslation(['legalnotice']);
+  return ( 
+    &lt;>
+      &lt;h1>{t('legalnotice')}&lt;/h1>
+      &lt;p>{t('responsible')}&lt;/p>
+      &lt;p>{t('contact')}&lt;/p>
+      &lt;div className='datapolicy'>
+        &lt;h2>{t('yourRights')}&lt;/h2>
+        &lt;p>{t('rightsInfo')}&lt;/p>
+        &lt;ul>
+          &lt;li>{t('rightAccess')}&lt;/li>
+          &lt;li>{t('rightCorrection')}&lt;/li>
+          &lt;li>{t('rightDeletion')}&lt;/li>
+          &lt;li>{t('rightRestriction')}&lt;/li>
+          &lt;li>{t('rightObjection')}&lt;/li>
+          &lt;li>{t('rightDataPortability')}&lt;/li>
+        &lt;/ul>
+        &lt;p>{t('revokeConsent')}&lt;/p>
+        &lt;p>{t('complaintAuthority')}&lt;/p>
+        &lt;p>{t('supervisoryAuthorityList')}&lt;/p>
+      &lt;/div>
+      &lt;div className='datapolicy'>
+        &lt;h2>{t('cookies')}&lt;/h2>
+        &lt;p>{t('cookiesInfo')}&lt;/p>
+        &lt;ul>
+          &lt;li>Mozilla Firefox: &lt;a href="https://support.mozilla.org/de/kb/cookies-loeschen-daten-von-websites-entfernen" target="_blank" rel="nofollow noopener">https://support.mozilla.org/de/kb/cookies-loeschen-daten-von-websites-entfernen&lt;/a>&lt;/li>
+          &lt;li>Internet Explorer: &lt;a href="https://support.microsoft.com/de-de/help/17442/windows-internet-explorer-delete-manage-cookies" target="_blank" rel="nofollow noopener">https://support.microsoft.com/de-de/help/17442/windows-internet-explorer-delete-manage-cookies&lt;/a>&lt;/li>
+          &lt;li>Google Chrome: &lt;a href="https://support.google.com/accounts/answer/61416?hl=de" target="_blank" rel="nofollow noopener">https://support.google.com/accounts/answer/61416?hl=de&lt;/a>&lt;/li>
+          &lt;li>Opera: &lt;a href="http://www.opera.com/de/help" target="_blank" rel="nofollow noopener">http://www.opera.com/de/help&lt;/a>&lt;/li>
+          &lt;li>Safari: &lt;a href="https://support.apple.com/kb/PH17191?locale=de_DE&amp;viewlocale=de_DE" target="_blank" rel="nofollow noopener">https://support.apple.com/kb/PH17191?locale=de_DE&amp;viewlocale=de_DE&lt;/a>&lt;/li>
+        &lt;/ul>
+        &lt;h3 className='subheadline'>{t('storageDuration')}&lt;/h3>
+        &lt;p>{t('cookiesUsed')}&lt;/p>
+        &lt;h2>{t('necessaryCookies')}&lt;/h2>
+        &lt;h3 className='subheadline'>{t('processingPurpose')}&lt;/h3>
+        &lt;p>{t('necessaryCookiesInfo')}&lt;/p>
+        &lt;p>{t('functionalitiesRequireCookies')}&lt;/p>
+        &lt;h3 className='subheadline'>{t('legalBasisAndInterest')}&lt;/h3>
+        &lt;p>{t('legalBasisAndInterestInfo')}&lt;/p>
+        &lt;h3 className='subheadline'>{t('recipients')}&lt;/h3>
+        &lt;p>{t('recipientsInfo')}&lt;/p>
+        &lt;h3>{t('mandatoryOrRequired')}&lt;/h3>
+        &lt;p>{t('mandatoryOrRequiredInfo')}&lt;/p>
+        &lt;h3 className='subheadline'>{t('objection')}&lt;/h3>
+        &lt;p>{t('objectionInfo')}&lt;/p>
+      &lt;/div>
+      &lt;div className='datapolicy'>
+        &lt;h2>{t('registration')}&lt;/h2>
+        &lt;h3 className='subheadline'>{t('processingArtAndPurpose')}&lt;/h3>
+        &lt;p>{t('registrationInfo')}&lt;/p>
+        &lt;p>{t('additionalData')}&lt;/p>
+        &lt;h3 className='subheadline'>{t('legalBasis')}&lt;/h3>
+        &lt;p>{t('legalBasisInfo')}&lt;/p>
+        &lt;h3 className='subheadline'>{t('recipientsRegistration')}&lt;/h3>
+        &lt;p>{t('recipientsRegistrationInfo')}&lt;/p>
+        &lt;h3 className='subheadline'>{t('storageDurationRegistration')}&lt;/h3>
+        &lt;p>{t('storageDurationRegistrationInfo')}&lt;/p>
+        &lt;h3 className='subheadline'>{t('mandatoryOrRequiredRegistration')}&lt;/h3>
+        &lt;p>{t('mandatoryOrRequiredRegistrationInfo')}&lt;/p>
+        &lt;h3 className='subheadline'>{t('rightWithdrawalRegistration')}&lt;/h3>
+        &lt;p>{t('rightWithdrawalRegistrationInfo')}&lt;/p>
+      &lt;/div>
+      &lt;div className='datapolicy'>
+        &lt;h2>{t('sslEncryption')}&lt;/h2>
+        &lt;p>{t('sslEncryptionInfo')}&lt;/p>
+      &lt;/div>
+      &lt;hr />
+      &lt;div className='datapolicy'>
+        &lt;h2>{t('objectionRightInfo')}&lt;/h2>
+        &lt;h3 className='subheadline'>{t('objectionRightIndividual')}&lt;/h3>
+        &lt;p>{t('objectionRightIndividualInfo')}&lt;/p>
+        &lt;h3 className='subheadline'>{t('objectionRecipient')}&lt;/h3>
+        &lt;p>{t('objectionRecipientInfo')}&lt;/p>
+      &lt;/div>
+      &lt;hr />
+      &lt;div className='datapolicy'>
+        &lt;h2>{t('privacyPolicyChanges')}&lt;/h2>
+        &lt;p>{t('privacyPolicyChangesInfo')}&lt;/p>
+      &lt;/div>
+      &lt;div className='datapolicy'>
+        &lt;h2>{t('questionsToDataProtectionOfficer')}&lt;/h2>
+        &lt;p>{t('dataProtectionOfficerEmail')}&lt;/p>
+        &lt;p>&lt;em>{t('privacyPolicyGeneratedBy')}&lt;/em>&lt;/p>
+      &lt;/div>
+    &lt;/>
+  );
+};
+
+export default LegalNotice;
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Encrypt">Encrypt</a></li><li><a href="global.html#SingleDataEntry">SingleDataEntry</a></li><li><a href="global.html#api">api</a></li><li><a href="global.html#checkPasswordSecurity">checkPasswordSecurity</a></li><li><a href="global.html#createDataEntry">createDataEntry</a></li><li><a href="global.html#deleteDataEntry">deleteDataEntry</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#encryptObject">encryptObject</a></li><li><a href="global.html#getHint">getHint</a></li><li><a href="global.html#getSalt">getSalt</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#updateUser">updateUser</a></li><li><a href="global.html#updatedDataEntry">updatedDataEntry</a></li><li><a href="global.html#useFetchData">useFetchData</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Jul 09 2023 11:22:32 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

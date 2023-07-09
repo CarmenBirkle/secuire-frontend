@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/Login.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/Login.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+  * @fileOverview This Page presents the login form with the following fields:
+  * email, password, remember
+  * The user can submit the form and is then navigated to the main page
+  * The password is hashed and send to the backend with the salt. If the password is correct
+  * the user is navigated to the main page.
+  * An error message is shown if the user enters a wrong password and the wrongPassword state is increased by Backend and
+  * will be reset if the user enters the correct password. This information is used to show in a message. 
+  * If the user forgets the password he can click on the link and is navigated to the forgot password page.
+  * The user can choose if he wants to be remembered by the browser. If he is remembered the email is saved in a cookie.
+  * This cookie is deleted if the user unchecks the remember checkbox or during 7 days.
+ */
+import { useTranslation } from 'react-i18next';
+import {useState, useRef, useEffect} from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { getSalt, loginUser } from './../components/helperSites/Axios.jsx'; 
+import { useContext } from 'react';
+import { AppContext } from './../components/helperSites/AppContext';
+import LoadingAnimation from '../components/Loading.jsx';
+import Cookies from 'js-cookie';
+import bcrypt from 'bcryptjs';
+
+
+const Login = ({setUser, user}) => {
+  const { t } = useTranslation(['forgotpassword', 'login']);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [remember, setRemember] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
+  const navigate = useNavigate();
+  const [success, setSuccess] = useState(false);
+  const inputRef = useRef(null);
+  const passwordInputRef = useRef(null);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const accountCreated = searchParams.get('accountCreated');
+  const [wrongPasswortMsg, setWrongPasswortMsg] = useState(false);
+  const [userBlockedMsg, setUserBlockedMsg] = useState(false);
+  const [wrongEmail, setWrongEmail] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { setLogIn } = useContext(AppContext);
+
+
+  /**
+   * If the Site is render, it takes the cookie (if exist)
+   * and use it for userlogin (email-field). Then the focus is set to the password-field.
+   * If the cookie doesn't exist, the focus is set to the email-field.
+   * @returns {void}
+   */
+  useEffect(() => {
+    const emailCookie = Cookies.get('email');
+    if (emailCookie) {
+      setEmail(emailCookie);
+      setRemember(true);
+      if (inputRef.current) {
+        passwordInputRef.current.focus();
+      }
+    } else {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    }
+  }, []);
+
+
+  /**
+   * Clears the error message when the success state changes.
+   */
+  useEffect(() => {
+    setErrMsg('');
+  }, [success]);
+
+  /**
+   * Handles form submission and generates a user-login object.
+   * @param {object} e - The form submit event.
+   * @returns {void}
+   */
+   const handleSubmit = async (e) => {
+     e.preventDefault();
+     if (!email || !password) return;
+     const hashedPassword = await handleLogin(email, password);   
+   };
+
+
+async function handleLogin(email, password) {
+  try {
+    setLoading(true);
+    const salt = await getSalt(email);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const loginResponse = await loginUser(email, hashedPassword);
+    const secretKey = bcrypt.hashSync(process.env.REACT_APP_SECRET, salt);
+    setUser({
+       id: loginResponse.identityUserId,
+       email: email,
+       password: hashedPassword,
+       salt: salt,
+       wrongPassword: loginResponse.failedLogins,
+       username: loginResponse.identityUser.userName,
+       passwordHint: loginResponse.passwordHint,
+       agbAcceptedAt: loginResponse.agbAcceptedAt,
+       secretKey: secretKey,
+     });
+     Cookies.set('token', loginResponse.jwtToken);
+    setLogIn(true);
+    setLoading(false);
+    setWrongPasswortMsg(false);
+    if (loginResponse.failedLogins > 0) {
+      navigate( `/main?type=favourites&amp;failedLogins=${loginResponse.failedLogins}` );
+    } else {
+      navigate('/main?type=favourites');
+    }
+  } catch (error) {
+    setLoading(false);
+     if(error.response &amp;&amp; error.response.status){
+      switch (error.response.status) {
+        case 400:
+          setWrongPasswortMsg(true);
+          break;
+        case 403:
+          setUserBlockedMsg(true);
+          break;
+        case 404:
+          setWrongEmail(true);
+          break;
+        default:
+      }
+    }
+    return false; 
+  }
+}
+
+  /**
+   * Handles the change event of the "Remember" checkbox.
+   * If the checkbox is checked, the email is saved in a cookie.
+   * If the checkbox is unchecked, the cookie is deleted.
+   * @param {object} e - The change event object.
+   * @returns {void}
+   */
+  const handleRememberChange = (e) => {
+    setRemember(e.target.checked);
+    if (e.target.checked) {
+      Cookies.set('email', email, { expires: 7 }); 
+    } else {
+      Cookies.remove('email');
+    }
+  };
+
+  return (
+    &lt;div>
+      {loading ? (
+        &lt;>
+        &lt;LoadingAnimation />
+        &lt;/>
+      ) : (
+        &lt;section>
+          &lt;form onSubmit={handleSubmit}>
+            &lt;h2>{t('login:login')}&lt;/h2>
+            &lt;div>
+              {accountCreated &amp;&amp; (
+                &lt;p className="successMessage">{t('login:success')}&lt;/p>
+              )}
+            &lt;/div>
+            &lt;input
+              type="email"
+              id="email"
+              value={email}
+              ref={inputRef}
+              placeholder={t('login:email')}
+              required
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            &lt;input
+              type="password"
+              id="password"
+              value={password}
+              placeholder={t('login:password')}
+              required
+              ref={passwordInputRef}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {wrongPasswortMsg &amp;&amp; (
+              &lt;p className="errorMessage">{t('login:wrongPWMsg')}&lt;/p>
+            )}
+            {userBlockedMsg &amp;&amp; (
+              &lt;p className="errorMessage">{t('login:blockedMsg')}&lt;/p>
+            )}
+            {wrongEmail &amp;&amp; (
+              &lt;p className="errorMessage">{t('login:wrongEmail')}&lt;/p>
+            )}
+
+            &lt;div className="flexbox row-reverse allignCenter">
+              &lt;input
+                type="checkbox"
+                id="remember"
+                checked={remember}
+                disabled={
+                  !Cookies.get('cookieConsent') ||
+                  Cookies.get('cookieConsent') === 'false'
+                }
+                onChange={handleRememberChange}
+              />
+              &lt;label htmlFor="remember">{t('login:remember')}&lt;/label>
+            &lt;/div>
+            &lt;button className="submitButton" type="submit">
+              {' '}
+              {t('login:loginButton')}
+            &lt;/button>
+          &lt;/form>
+          &lt;br />
+          &lt;Link to="/forgotpassword">{t('forgotpassword:forgotPW')}&lt;/Link>{' '}
+          &lt;br />
+        &lt;/section>
+      )}
+    &lt;/div>
+  );
+};
+
+export default Login;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Encrypt">Encrypt</a></li><li><a href="global.html#SingleDataEntry">SingleDataEntry</a></li><li><a href="global.html#api">api</a></li><li><a href="global.html#checkPasswordSecurity">checkPasswordSecurity</a></li><li><a href="global.html#createDataEntry">createDataEntry</a></li><li><a href="global.html#deleteDataEntry">deleteDataEntry</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#encryptObject">encryptObject</a></li><li><a href="global.html#getHint">getHint</a></li><li><a href="global.html#getSalt">getSalt</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#updateUser">updateUser</a></li><li><a href="global.html#updatedDataEntry">updatedDataEntry</a></li><li><a href="global.html#useFetchData">useFetchData</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Jul 09 2023 11:22:32 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
