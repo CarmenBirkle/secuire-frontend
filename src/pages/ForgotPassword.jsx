@@ -17,7 +17,8 @@ const ForgotPassword = () => {
    * Calls the getHint function and updates the hint state with the returned value.
    * @returns {Promise<void>}
    */
-  const handleGetHint = async () => {
+  const handleGetHint = async (e) => {
+    e.preventDefault();
     try {
       const newHint = await getHint(email);
       setHint(newHint);
@@ -45,11 +46,10 @@ const ForgotPassword = () => {
   return (
     <>
       <h1>{t('forgotPW')}</h1>
-      <h2 className='subheadline'>{t('showPWHint')}</h2>
+      <h2 className="subheadline">{t('showPWHint')}</h2>
       <form>
         <fieldset>
-
-        <input
+          <input
             type="email"
             id="email"
             name="email"
@@ -59,17 +59,24 @@ const ForgotPassword = () => {
           />
         </fieldset>
         <button className="submitButton" onClick={handleGetHint}>
-        {t('showPWHintButton')}
-      </button>
-      {hint && !errMsg && (
-        <>
-          <p>{t('showHint')}</p>
-          <p className="success"> {hint}</p>
-        </>
-      )}
-      {errMsg && <p className="errorMessage">{t('error')}</p>}
+          {t('showPWHintButton')}
+        </button>
+
+        {hint && !errMsg && (
+          <>
+            <p>{t('showHint')}</p>
+            <p className="success"> {hint}</p>
+          </>
+        )}
+        {errMsg && <p className="errorMessage">{t('error')}</p>}
       </form>
-      
+
+      <button
+        className="submitButton"
+        onClick={() => (window.location.href = '/login')}
+      >
+        {t('back')}
+      </button>
     </>
   );
 };

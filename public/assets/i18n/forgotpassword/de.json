@@ -2,6 +2,7 @@
   "forgotPW": "Passwort vergessen?",
   "placeholder": "E-Mail Adresse",
   "showPWHint": "Bitte gib Deine E-Mail-Adresse ein, um Deinen Passwort Hint anzuzeigen",
+  "back": "Zurück zum Login",
   "showPWHintButton": "Zeige meinen Passwort Hinweis",
   "showHint":"Dein hinterlegter Passwort Hinweis lautet:",
   "error":"Es ist ein Fehler aufgetreten, versuche es später noch einmal "

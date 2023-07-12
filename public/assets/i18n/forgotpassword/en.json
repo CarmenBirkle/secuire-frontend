@@ -2,8 +2,8 @@
   "forgotPW": "Forgot my Password",
   "placeholder": "email address",
   "showPWHint": "Please enter your email address to view your password hint",
+  "back": "Back to Login",
   "showPWHintButton": "Show Password Hint",
-  "showHint":"Your stored password hint is:",
-  "error":"An error has occurred, try again later "
-
+  "showHint": "Your stored password hint is:",
+  "error": "An error has occurred, try again later "
 }
